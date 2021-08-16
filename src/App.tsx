@@ -1,44 +1,84 @@
-import React from 'react';
-import { Stack, Text, Link, FontWeights, IStackTokens, IStackStyles, ITextStyles } from '@fluentui/react';
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import {
+  Stack,
+  Text,
+  IStackTokens,
+  IStackStyles,
+  FontIcon,
+  mergeStyles,
+  getTheme,
+} from "@fluentui/react";
+import "./App.css";
+import { Menu } from "./components/Menu";
+import { initializeIcons } from "@fluentui/font-icons-mdl2";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+} from "react-router-dom";
+import { Home } from "./pages/home";
+import { Settings } from "./pages/settings";
+  import { Profile } from "./components/Profile";
 
-const boldStyle: Partial<ITextStyles> = { root: { fontWeight: FontWeights.semibold } };
-const stackTokens: IStackTokens = { childrenGap: 15 };
-const stackStyles: Partial<IStackStyles> = {
-  root: {
-    width: '960px',
-    margin: '0 auto',
-    textAlign: 'center',
-    color: '#605e5c',
-  },
+initializeIcons();
+
+const theme = getTheme();
+
+const stackTokens: IStackTokens = {};
+const stackStyles: IStackStyles = {
+  root: {},
 };
 
-export const App: React.FunctionComponent = () => {
-  return (
-    <Stack horizontalAlign="center" verticalAlign="center" verticalFill styles={stackStyles} tokens={stackTokens}>
-      <img className="App-logo" src={logo} alt="logo" />
-      <Text variant="xxLarge" styles={boldStyle}>
-        Welcome to your Fluent UI app
-      </Text>
-      <Text variant="large">For a guide on how to customize this project, check out the Fluent UI documentation.</Text>
-      <Text variant="large" styles={boldStyle}>
-        Essential links
-      </Text>
-      <Stack horizontal tokens={stackTokens} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fluentui#/get-started/web">Docs</Link>
-        <Link href="https://stackoverflow.com/questions/tagged/office-ui-fabric">Stack Overflow</Link>
-        <Link href="https://github.com/microsoft/fluentui/">Github</Link>
-        <Link href="https://twitter.com/fluentui">Twitter</Link>
+const iconClass = mergeStyles({
+  fontSize: 25,
+  height: 25,
+  width: 25,
+  margin: "20px",
+});
+const headerClass = mergeStyles({
+  backgroundColor: theme.palette.themeDark,
+  color: theme.palette.themeLighterAlt,
+  height: 64,
+});
+const headerTextClass = mergeStyles({
+  color: theme.palette.themeLighterAlt,
+  fontSize: 18,
+  fontWeight: "bold",
+});
+
+class App extends Component {
+  render() {
+    return (
+      <Stack styles={stackStyles} tokens={stackTokens} verticalFill>
+        <Stack
+          styles={stackStyles}
+          tokens={stackTokens}
+          horizontal
+          verticalAlign="center"
+          className={headerClass}
+        >
+          <FontIcon
+            aria-label="Currency"
+            iconName="AllCurrency"
+            className={iconClass}
+          />
+          <Text className={headerTextClass}>Allowance</Text>
+          <div className="profile">
+            <Profile />
+          </div>
+        </Stack>
+        <Stack verticalFill horizontal>
+          <Router>
+            <Menu />
+
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/settings" component={Settings} />
+            </Switch>
+          </Router>
+        </Stack>
       </Stack>
-      <Text variant="large" styles={boldStyle}>
-        Design system
-      </Text>
-      <Stack horizontal tokens={stackTokens} horizontalAlign="center">
-        <Link href="https://developer.microsoft.com/en-us/fluentui#/styles/web/icons">Icons</Link>
-        <Link href="https://developer.microsoft.com/en-us/fluentui#/styles/web">Styles</Link>
-        <Link href="https://aka.ms/themedesigner">Theme designer</Link>
-      </Stack>
-    </Stack>
-  );
-};
+    );
+  }
+}
+export default App;
