@@ -1,4 +1,3 @@
-import { Component } from "react";
 import {
   Stack,
   Text,
@@ -9,18 +8,12 @@ import {
   getTheme,
 } from "@fluentui/react";
 import "./App.css";
-import { Menu } from "./components/Menu";
-import { initializeIcons } from "@fluentui/font-icons-mdl2";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from "react-router-dom";
-import { Home } from "./pages/home";
-import { Settings } from "./pages/settings";
-  import { Profile } from "./components/Profile";
 
-initializeIcons();
+import {  Route, Switch } from "react-router-dom";
+import ProfileComponent from "../features/profile/ProfileComponent";
+import { Menu } from "../features/menu/Menu";
+import { Settings } from "../features/settings/settings";
+import { Home } from "../features/home/home";
 
 const theme = getTheme();
 
@@ -29,25 +22,19 @@ const stackStyles: IStackStyles = {
   root: {},
 };
 
-const iconClass = mergeStyles({
-  fontSize: 25,
-  height: 25,
-  width: 25,
-  margin: "20px",
-});
+
 const headerClass = mergeStyles({
   backgroundColor: theme.palette.themeDark,
   color: theme.palette.themeLighterAlt,
-  height: 64,
+  minHeight: 32
+  
 });
 const headerTextClass = mergeStyles({
-  color: theme.palette.themeLighterAlt,
-  fontSize: 18,
-  fontWeight: "bold",
+  color: theme.palette.themeLighterAlt
+
 });
 
-class App extends Component {
-  render() {
+function App() {  
     return (
       <Stack styles={stackStyles} tokens={stackTokens} verticalFill>
         <Stack
@@ -60,25 +47,25 @@ class App extends Component {
           <FontIcon
             aria-label="Currency"
             iconName="AllCurrency"
-            className={iconClass}
+            className='iconClass'
           />
           <Text className={headerTextClass}>Allowance</Text>
           <div className="profile">
-            <Profile />
+            <ProfileComponent />
           </div>
         </Stack>
         <Stack verticalFill horizontal>
-          <Router>
+         
             <Menu />
 
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/settings" component={Settings} />
             </Switch>
-          </Router>
+          
         </Stack>
       </Stack>
     );
   }
-}
+
 export default App;
