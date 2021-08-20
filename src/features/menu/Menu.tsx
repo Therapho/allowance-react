@@ -1,5 +1,5 @@
 import { Nav, INavStyles } from "@fluentui/react/lib/Nav";
-import { Icon, Link, mergeStyles, Text} from "@fluentui/react";
+import { Icon, Link, mergeStyles} from "@fluentui/react";
 import { getTheme } from "@fluentui/react";
 import { withRouter } from "react-router-dom";
 import { useEffect } from "react";
