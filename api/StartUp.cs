@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Azure.Functions.Authentication.WebAssembly;
 
 
 [assembly: FunctionsStartup(typeof(AllowanceFunctions.StartUp))]
@@ -31,6 +32,8 @@ namespace AllowanceFunctions
 
             builder.Services.AddDbContext<DatabaseContext>(
                 options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, sqlConnectionString));
+            builder.Services.AddStaticWebAppsAuthentication();
+
             builder.Services
                 .AddTransient<TaskWeekService>()
                 .AddTransient<TaskDefinitionService>()
