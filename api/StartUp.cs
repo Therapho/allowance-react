@@ -4,6 +4,7 @@ using AllowanceFunctions.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 //using Microsoft.Extensions.Http;
 using Microsoft.Extensions.Logging;
@@ -14,24 +15,22 @@ namespace AllowanceFunctions
 {
     public class StartUp : FunctionsStartup
     {
+
+
+        
+
         public override void Configure(IFunctionsHostBuilder builder)
         {
-            //builder.Services.AddHttpClient();
-            string connectionString = Environment.GetEnvironmentVariable("ConnectionStrings:SQLConnectionString");
-            //string connectionString = System.Environment.GetEnvironmentVariable($"ConnectionStrings:SQLConnectionString", EnvironmentVariableTarget.Process);
-            if (string.IsNullOrEmpty(connectionString)) throw new NullReferenceException("ConnectionString not found");
-            //var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-            //optionsBuilder.UseSqlServer(connectionString);
-            //var options = optionsBuilder.Options;
-            //var context = new DatabaseContext(options);
+            string aiConnectionString = Environment.GetEnvironmentVariable("APPINSIGHTS_CONNECTIONSTRING");
+            builder.Services.AddApplicationInsightsTelemetry(aiConnectionString);
+            string sqlConnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
 
-            //builder.Services.AddSingleton((s) => {
-            //    return context;
-            //});
+            if (string.IsNullOrEmpty(sqlConnectionString)) throw new NullReferenceException("ConnectionString not found");
+
             var cache = new MemoryCache(new MemoryCacheOptions());
 
             builder.Services.AddDbContext<DatabaseContext>(
-                options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, connectionString));
+                options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, sqlConnectionString));
             builder.Services
                 .AddTransient<TaskWeekService>()
                 .AddTransient<TaskDefinitionService>()
