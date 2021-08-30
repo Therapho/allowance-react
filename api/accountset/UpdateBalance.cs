@@ -18,14 +18,12 @@ namespace AllowanceFunctions.Api.AccountSet
 {
     public class UpdateBalance : Function
     {
-        private AccountService _accountService;
+       
         private TransactionLogService _transactionLogService;
 
-        public UpdateBalance(AuthorizationService authorizationService, AccountService accountService,
-            TransactionLogService transactionLogService)
-            : base(authorizationService)
+        public UpdateBalance( AccountService accountService,
+            TransactionLogService transactionLogService):base(accountService)
         {
-            _accountService = accountService;
             _transactionLogService = transactionLogService;
         }
 
@@ -33,48 +31,46 @@ namespace AllowanceFunctions.Api.AccountSet
         public async Task<IActionResult> Run(
             [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "post", Route = "updatebalance")] HttpRequest req, ILogger log, CancellationToken ct)
         {
-           
+
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var transaction = JsonConvert.DeserializeObject<Transaction>(requestBody);
+            var userPrincipal = req.GetUserPrincipal();
 
-           
-            var userIdentifier = GetCallingUserIdentifier(req);
-            if (!await IsParent(req))
+            if (userPrincipal.IsInRole(Constants.PARENT_ROLE))
             {
-                throw new SecurityException("Invalid attempt to access a record by an invalid user");
-            }
-
-            try
-            {
-                log.LogTrace($"UpdateBalance function processed a request from userIdentifier:{userIdentifier}.");
-                var account = await _accountService.Get(transaction.AccountId);
-                if (transaction.CategoryId == (int)Constants.TransactionCategory.Deposit)
-                    account.Balance += transaction.Amount;
-                else
-                    account.Balance -= transaction.Amount;
-
-                await _accountService.Update(account, false);
-
-                var transactionLog = new TransactionLog()
+                try
                 {
-                    AccountId = transaction.AccountId,
-                    Amount = transaction.Amount,
-                    Date = DateTime.Now,
-                    CategoryId = transaction.CategoryId,
-                    Description = transaction.Description,
-                    UserIdentifier = userIdentifier
-                };
-                await _transactionLogService.Create(transactionLog, false);
+                    log.LogTrace($"UpdateBalance function processed a request from userIdentifier:{userPrincipal.UserDetails}.");
+                    var account = await AccountService.Get(transaction.AccountId);
+                    if (transaction.CategoryId == (int)Constants.TransactionCategory.Deposit)
+                        account.Balance += transaction.Amount;
+                    else
+                        account.Balance -= transaction.Amount;
 
-                await _transactionLogService.SaveChanges();
-            }
-            catch (Exception exception)
-            {
+                    await AccountService.Update(account, false);
 
-                return new BadRequestObjectResult($"Error trying to execute UpdateBalance.  {exception.Message}");
+                    var transactionLog = new TransactionLog()
+                    {
+                        AccountId = transaction.AccountId,
+                        Amount = transaction.Amount,
+                        Date = DateTime.Now,
+                        CategoryId = transaction.CategoryId,
+                        Description = transaction.Description,
+                        UserIdentifier = account.UserIdentifier
+                    };
+                    await _transactionLogService.Create(transactionLog, false);
+
+                    await _transactionLogService.SaveChanges();
+                }
+                catch (Exception exception)
+                {
+
+                    return new BadRequestObjectResult($"Error trying to execute UpdateBalance.  {exception.Message}");
+                }
+                return new OkObjectResult(true);
             }
-            return new OkObjectResult(true);
+            throw new SecurityException("Invalid attempt to access a record by an invalid user");
         }
 
     }

@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AllowanceFunctions.Entities;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
+
 
 namespace AllowanceFunctions.Common
 {
@@ -31,18 +31,16 @@ namespace AllowanceFunctions.Common
             return (T)convertedValue;
         }
 
-        public static JwtSecurityToken GetToken(this HttpRequest req)
+    
+         public static UserPrincipal GetUserPrincipal(this HttpRequest request)
         {
-            var authorizationHeader = req.Headers["Authorization"].ToString().Remove(0, 7);
-            var handler = new JwtSecurityTokenHandler();
-            var token = handler.ReadJwtToken(authorizationHeader);
-
-            return token;
+            var header = request.Headers["x-ms-client-principal"];
+            var valueBytes = System.Convert.FromBase64String(header);
+            var decoded = System.Text.Encoding.UTF8.GetString(valueBytes);
+            var principal = JsonConvert.DeserializeObject<UserPrincipal>(decoded);
+            
+            return principal;
         }
-        public static Guid GetUserIdentifier (this HttpRequest req)
-        {
-
-            return Guid.Parse(req.GetToken().Subject);            
-        }
+       
     }
 }

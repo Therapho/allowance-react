@@ -18,10 +18,8 @@ namespace AllowanceFunctions.Api.AccountSet
 {
     public class PutAccount : Function
     {
-        private AccountService _accountService;
 
-        public PutAccount(AuthorizationService authorizationService, AccountService accountService) 
-            : base(authorizationService) { _accountService = accountService; }
+        public PutAccount(AccountService accountService) : base(accountService){}
 
         [FunctionName("PutAccount")]
         public async Task<IActionResult> Run(
@@ -31,24 +29,22 @@ namespace AllowanceFunctions.Api.AccountSet
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<Account>(requestBody);
+            var userPrincipal = req.GetUserPrincipal();
 
-            //if (id.HasValue) Ensure.That(data.Id = id.Value);
-            var userIdentifier = GetCallingUserIdentifier(req);
-            if(! await IsParent(req))
+            if (userPrincipal.IsInRole(Constants.PARENT_ROLE))
             {
-                throw new SecurityException("Invalid attempt to access a record by an invalid user");
-            }
+                try
+                {
+                    await AccountService.Update(data);
+                }
+                catch (Exception exception)
+                {
 
-            try
-            {
-                await _accountService.Update(data);
+                    return new BadRequestObjectResult($"Error trying to execute PutAccount.  {exception.Message}");
+                }
+                return new OkObjectResult(data.Id);
             }
-            catch (Exception exception)
-            {
-
-                return new BadRequestObjectResult($"Error trying to execute PutAccount.  {exception.Message}");
-            }
-            return new OkObjectResult( data.Id.Value);
+            throw new SecurityException("Invalid attempt to access a record by an invalid user");
         }
 
     }

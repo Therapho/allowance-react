@@ -17,9 +17,9 @@ namespace AllowanceFunctions.Api.TransactionLogSet
     {
         private TransactionLogService _transactionLogService;
 
-        public GetTransactionLogList(AuthorizationService authorizationService, 
+        public GetTransactionLogList(AccountService accountService, 
             TransactionLogService transactionLogService)
-            : base(authorizationService) { _transactionLogService = transactionLogService; }
+            : base(accountService) { _transactionLogService = transactionLogService; }
 
         [FunctionName("GetTransactionLogList")]
         public async Task<IActionResult> Run(
@@ -28,22 +28,24 @@ namespace AllowanceFunctions.Api.TransactionLogSet
             List<TransactionLog> result = null;
             try
             {
-                var userIdentifier = await GetTargetUserIdentifier(req);
-                int accountId = req.Query.GetValue<int>("accountid");
+                var userId = req.Query.GetValue<string>("userId");
+                var userPrincipal = req.GetUserPrincipal();
+                var account = await AccountService.GetByUser(userId);
 
-                log.LogTrace($"GetTransactionLogList triggered for accountId:{accountId} by {userIdentifier}.");
-                var callingAccount = await _authorizationService.GetAccount(userIdentifier);
+                log.LogTrace($"GetTransactionLogList triggered for account:{account.Name} by {userPrincipal.UserDetails}.");
+                
 
-                if (callingAccount.Id.Value != accountId && !await IsParent(req))
+                if (userPrincipal.IsAuthorizedToAccess(userId))
                 {
-
-                    throw new SecurityException($"Unauthorized attempt to retrieve transaction log by {callingAccount.Name}");
+                    
+                    result = await _transactionLogService.GetByAccountId(account.Id);
                 }
                 else
-
                 {
-                    result = await _transactionLogService.GetByAccountId(accountId);
-                }
+
+                   throw new SecurityException($"Unauthorized attempt to retrieve transaction log by {userPrincipal.UserDetails}");
+                }   
+                
             }            
             catch (Exception exception)
             {

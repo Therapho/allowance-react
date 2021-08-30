@@ -11,6 +11,9 @@ namespace AllowanceFunctions.Common
         public enum Status { Open = 1, Submitted = 2, Accepted = 3, Rejected = 4 };
         public enum ActivityStatus { Incomplete = 1, Complete = 2, Blocked = 3};
         public enum Role { Parent = 1, Child = 2};
+        public const string PARENT_ROLE = "Parent";
+        public const string ADMIN_ROLE = "Admin";
+
         public enum TransactionCategory { Deposit=1, Withdraw=2};
 
     }

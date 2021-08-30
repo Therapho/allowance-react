@@ -11,22 +11,25 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace AllowanceFunctions.Api.TaskDefinitionSet
 {
+   
     public class GetTaskDefinitionList : Function
     {
         private TaskDefinitionService _taskDefinitionService;
 
-        public GetTaskDefinitionList(TaskDefinitionService taskDefinitionService) : base() { _taskDefinitionService = taskDefinitionService; }
+        public GetTaskDefinitionList(AccountService accountService, TaskDefinitionService taskDefinitionService) : 
+            base(accountService) { _taskDefinitionService = taskDefinitionService; }
 
         [FunctionName("GetTaskDefinitionList")]
         public async Task<IActionResult> Run(
             [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "taskdefinitionset"), ] HttpRequest req, ILogger log)
         {
             log.LogTrace("GetTaskList function processed a request.");
-            
-
+           
             List<TaskDefinition> result = null;
             try
             {

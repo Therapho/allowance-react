@@ -22,5 +22,6 @@ namespace AllowanceFunctions.Entities
         public int SundayStatusId { get; set; }
         public int TaskDefinitionId { get; set; }
         public Guid UserIdentifier { get; set; }
+        public int AccountId { get; set; }
     }
 }
