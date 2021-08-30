@@ -12,6 +12,9 @@ namespace AllowanceFunctions.Entities
         public DateTime WeekStartDate { get; set; }
         public int StatusId { get; set; }
         public decimal Value { get; set; }
-        public Guid UserIdentifier { get; set; }
+    
+        public int AccountId { get; set; }
+
+
     }
 }

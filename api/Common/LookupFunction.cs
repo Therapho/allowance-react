@@ -1,10 +1,5 @@
-﻿using AllowanceFunctions.Common;
-using AllowanceFunctions.Entities;
-using AllowanceFunctions.Services;
-using Microsoft.AspNetCore.Http;
+﻿using AllowanceFunctions.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -15,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AllowanceFunctions.Common
 {
-    internal abstract class LookupFunction<TEntity> : Function where TEntity : Lookup
+    internal abstract class LookupFunction<TEntity>  where TEntity : Lookup
     {
         private DatabaseContext _databaseContext;
 

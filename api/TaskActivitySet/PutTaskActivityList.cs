@@ -21,8 +21,8 @@ namespace AllowanceFunctions.Api.TaskActivitySet
     {
         private TaskActivityService _taskActivityService;
 
-        public PutTaskActivityList(AuthorizationService authorizationService, TaskActivityService taskActivityService)
-            : base(authorizationService) { _taskActivityService = taskActivityService; }
+        public PutTaskActivityList(AccountService accountService, TaskActivityService taskActivityService)
+            : base(accountService) { _taskActivityService = taskActivityService; }
 
         [FunctionName("PutTaskActivitySet")]
         public async Task Run(
@@ -34,8 +34,10 @@ namespace AllowanceFunctions.Api.TaskActivitySet
             if (!requestBody.Contains("[")) requestBody = $"[{requestBody}]";
 
             var data = JsonConvert.DeserializeObject<List<TaskActivity>>(requestBody);
-            var userIdentifier = await GetTargetUserIdentifier(req);
-            if (data[0].UserIdentifier != userIdentifier && ! await IsParent(req))
+            var userPrincipal = req.GetUserPrincipal();
+            var account = await AccountService.GetByUser(userPrincipal.UserId);
+            
+            if (!userPrincipal.IsAuthorizedToAccess( account.Id, data[0].AccountId))
             {
                 throw new SecurityException("Invalid attempt to access a record by an invalid user");
             }

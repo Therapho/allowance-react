@@ -2,12 +2,9 @@
 using AllowanceFunctions.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using AllowanceFunctions.Common;
 using Microsoft.AspNetCore.Mvc;
@@ -18,49 +15,52 @@ namespace AllowanceFunctions.Api.TaskWeekSet
     {
         private TaskWeekService _taskWeekService;
 
-        public GetTaskWeekList(AuthorizationService authorizationService, TaskWeekService taskWeekService)
-            : base(authorizationService) { _taskWeekService = taskWeekService; }
+        public GetTaskWeekList(AccountService accountService, TaskWeekService taskWeekService)
+            : base(accountService) { _taskWeekService = taskWeekService; }
 
         [FunctionName("GetTaskWeekList")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "taskweekset")] HttpRequest req, ILogger log)
+            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "taskweekset")] HttpRequest request, ILogger log)
         {
             List<TaskWeek> result = null;
             try
             {
-                var userIdentifier = await GetTargetUserIdentifier(req);
+             
+                var context = await CreateContext(request);
+
                 int taskWeekId;
 
-                if (req.Query.ContainsKey("taskweekid"))
+            
+                if (request.Query.ContainsKey("taskweekid"))
                 {
-                    taskWeekId = req.Query.GetValue<int>("taskweekid");
+                    taskWeekId = request.Query.GetValue<int>("taskweekid");
                     var taskWeek = await _taskWeekService.Get(taskWeekId);
                     result = new List<TaskWeek>() { taskWeek };
                 }
                 else
                 {
-                    var dateStart = req.Query.GetValueOrDefault<DateTime>("startdate");
+                    var dateStart = request.Query.GetValueOrDefault<DateTime>("startdate");
                     //Ensure.That<bool>(dateStart.HasValue).IsTrue();
                     dateStart = dateStart.Value.FirstDayOfWeek();
 
 
-                    var dateEnd = req.Query.GetValueOrDefault<DateTime>("enddate");
+                    var dateEnd = request.Query.GetValueOrDefault<DateTime>("enddate");
                     if (!dateEnd.HasValue) dateEnd = dateStart;
                     dateEnd = dateEnd.Value.LastDayOfWeek();
 
                     log.LogTrace($"GetTaskWeek triggered with Date from {dateStart} to {dateEnd}");
 
-                    if (userIdentifier == GetCallingUserIdentifier(req) && await IsParent(req))
+                    if (context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, context.TargetAccount.Id))
                     {
                         result = await _taskWeekService.GetListByRange(dateStart, dateEnd);
                     }
                     else
 
                     {
-                        result = await _taskWeekService.GetListByRange(dateStart, dateEnd, userIdentifier);
+                        result = await _taskWeekService.GetListByRange(dateStart, dateEnd, context.TargetAccount.Id);
                     }
                 }
-                
+
             }
             catch (Exception exception)
             {

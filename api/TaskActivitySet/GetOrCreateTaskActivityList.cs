@@ -21,12 +21,13 @@ namespace AllowanceFunctions.Api.TaskActivitySet
 {
     public class GetOrCreateTaskActivityList :Function
     {
+        public GetOrCreateTaskActivityList(AccountService accountService) : base (accountService) {}
         private TaskWeekService _taskWeekService;
         private TaskDefinitionService _taskDefinitonService;
         private TaskActivityService _taskActivityService;
 
-        public GetOrCreateTaskActivityList(AuthorizationService authorizationService, 
-            TaskWeekService taskWeekService, TaskDefinitionService taskDefinitionService,  TaskActivityService taskActivityService):base(authorizationService)
+        public GetOrCreateTaskActivityList(AccountService accountService, TaskWeekService taskWeekService, 
+        TaskDefinitionService taskDefinitionService,  TaskActivityService taskActivityService):base(accountService)
         {
             _taskWeekService = taskWeekService;
             _taskDefinitonService = taskDefinitionService;
@@ -35,18 +36,17 @@ namespace AllowanceFunctions.Api.TaskActivitySet
 
         [FunctionName("GetOrCreateTaskActivityList")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "getorcreatetaskactivitylist"),] HttpRequest req, ILogger log)
+            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "getorcreatetaskactivitylist"),] HttpRequest request, ILogger log)
         {
-            var startDate = req.Query.GetValue<DateTime>("weekstartdate").StartOfDay();
+            var context = await CreateContext(request);
+            var startDate = request.Query.GetValue<DateTime>("weekstartdate").StartOfDay();
 
-            var taskWeekId = req.Query.GetValue<int>("taskweekid");
-
+            var taskWeekId = request.Query.GetValue<int>("taskweekid");
             
-            var callingUserIdentifier = req.GetUserIdentifier();
             
-            log.LogTrace($"GetTaskActivityListByDay function processed a request by userIdentifier={callingUserIdentifier}, startDate={startDate}.");
-
             List<TaskActivity> taskActivityList = null;
+            
+            log.LogTrace($"GetTaskActivityListByDay function processed a request by userIdentifier={context.UserPrincipal.UserDetails}, startDate={startDate}.");
 
             try
 
@@ -55,22 +55,24 @@ namespace AllowanceFunctions.Api.TaskActivitySet
 
                 if (taskWeekId > 0)
                 {
+
                     taskWeek = await _taskWeekService.Get(taskWeekId);
-                    if (taskWeek.UserIdentifier != callingUserIdentifier &&
-                    !await _authorizationService.IsInRole(callingUserIdentifier, Constants.Role.Parent))
+                    if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
                     {
-                        var targetAccount = await _authorizationService.GetAccount(taskWeek.UserIdentifier);
-                        var callingAccount = await _authorizationService.GetAccount(callingUserIdentifier);
-                        throw new SecurityException($"Unauthorized access of taskweek for  {targetAccount.Name} by {callingAccount.Name}");
+                        
+                        var targetAccount = await AccountService.Get(taskWeekId);
+                        throw new SecurityException($"Unauthorized access of taskweek for  {targetAccount.Name} by {context.CallingAccount.Name}");
                     }
                 }
                 else
                 {
-                    if (await _authorizationService.IsInRole(callingUserIdentifier, Constants.Role.Parent))
+                    if (!context.IsParent())
+                    { taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate); }
+                    else
                     {
                         throw new SecurityException("Invalid attempt by parent to retrieve or create a taskweek by date");
                     }
-                    taskWeek = await _taskWeekService.Get(callingUserIdentifier, startDate);
+
 
                 }
                     

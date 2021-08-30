@@ -21,10 +21,9 @@ namespace AllowanceFunctions.Api.AccountSet
     {
         private AccountService _accountService;
 
-        public GetAccount(AuthorizationService authorizationService, AccountService accountService)
-            : base(authorizationService)
+        public GetAccount(AccountService accountService) : base( accountService)
         {
-            _accountService = accountService;
+            
         }
 
         [FunctionName("GetAccount")]
@@ -32,16 +31,16 @@ namespace AllowanceFunctions.Api.AccountSet
             [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "accountset"),] HttpRequest req, 
             ILogger log, CancellationToken ct)
         {
-            Guid userIdentifier;
+            string userId;
             List<Account> accountList = null;
 
             try
             {
                 if (req.Query.ContainsKey("useridentifier"))
                 {
-                    userIdentifier = req.Query.GetValue<Guid>("useridentifier");
-                    log.LogTrace($"GetAccount function processed a request with userIdentifier: '{userIdentifier}'.");
-                    accountList = await _accountService.GetList(userIdentifier);
+                    userId = req.Query.GetValue<string>("userId");
+                    log.LogTrace($"GetAccount function processed a request with userIdentifier: '{userId}'.");
+                    accountList = await _accountService.GetList(userId);
                 }
                 else if (req.Query.ContainsKey("role"))
                 {

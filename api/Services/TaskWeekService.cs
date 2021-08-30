@@ -14,32 +14,32 @@ namespace AllowanceFunctions.Services
     {
         public TaskWeekService(DatabaseContext context) : base(context) { }
 
-        public async Task<TaskWeek> Get(Guid userIdentifier, DateTime dateStart)
+        public async Task<TaskWeek> Get(int accountId, DateTime dateStart)
         {
             TaskWeek result = null;
 
             try
             {
                 var query = from taskWeek in _context.TaskWeekSet
-                            where taskWeek.WeekStartDate == dateStart && taskWeek.UserIdentifier == userIdentifier
+                            where taskWeek.WeekStartDate == dateStart && taskWeek.AccountId == accountId
                             select taskWeek;
                 result = await query.FirstOrDefaultAsync();
             }
             catch (Exception exception)
             {
                 throw new DataException(
-                    $"Error trying to retrieve a taskweek with userIdentifier: {userIdentifier}, dateStart: {dateStart}.  {exception.Message}", 
+                    $"Error trying to retrieve a taskweek with accountId: {accountId}, dateStart: {dateStart}.  {exception.Message}", 
                     exception);
             }
             return result;
            
         }
 
-        public async Task<TaskWeek> Create(Guid userIdentifier, DateTime dateStart)
+        public async Task<TaskWeek> Create(int accountId, DateTime dateStart)
         {
             var taskWeek = new TaskWeek()
             {
-                UserIdentifier = userIdentifier,
+                AccountId = accountId,
                 WeekStartDate = dateStart,
                 StatusId = (int)Constants.Status.Open
             };
@@ -55,11 +55,11 @@ namespace AllowanceFunctions.Services
                         select taskWeek;
             return await query.Take(10).ToListAsync();
         }
-        public async Task<List<TaskWeek>> GetListByRange(DateTime? dateStart, DateTime? dateEnd, Guid userIdentifier)
+        public async Task<List<TaskWeek>> GetListByRange(DateTime? dateStart, DateTime? dateEnd, int accountId)
         {
             var query = from taskWeek in _context.TaskWeekSet
                         where taskWeek.WeekStartDate >= dateStart && taskWeek.WeekStartDate <= dateEnd
-                        && taskWeek.UserIdentifier == userIdentifier
+                        && taskWeek.AccountId == accountId
                         select taskWeek;
             return await query.ToListAsync();
         }

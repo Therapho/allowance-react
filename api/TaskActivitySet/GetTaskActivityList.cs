@@ -20,31 +20,28 @@ namespace AllowanceFunctions.Api.TaskActivitySet
     {
         private TaskActivityService _taskActivityService;
 
-        public GetTaskActivityListByDay(AuthorizationService authorizationService, TaskActivityService taskActivityService)
-            : base(authorizationService) { _taskActivityService = taskActivityService; }
+        public GetTaskActivityListByDay(AccountService accountService, TaskActivityService taskActivityService)
+            : base(accountService) { _taskActivityService = taskActivityService; }
 
         [FunctionName("GetTaskActivityList")]
         public async Task<IActionResult> Run(
             [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "taskactivityset"),] HttpRequest req, ILogger log)
         {
             var taskWeekId = req.Query.GetValue<int>("taskweekid");
-            var userIdentifier = req.GetUserIdentifier();
-
-            //Ensure.That(taskWeekId).IsGt(0);
+            var userPrincipal = req.GetUserPrincipal();
+            var account = await AccountService.GetByUser(userPrincipal.UserId);
 
             log.LogTrace($"GetTaskActivityListByDay function processed a request for taskWeekId={taskWeekId}.");
-
             
-
             List<TaskActivity> result = null;
             try
             {
-                result = await _taskActivityService.GetList(userIdentifier, taskWeekId);
+                result = await _taskActivityService.GetList(account.Id, taskWeekId);
             }
             catch (Exception exception)
             {
                
-                return new BadRequestObjectResult($"Error trying to execute GetActivityList with TaskWeekId:{taskWeekId} and userIdentifier:{userIdentifier}.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetActivityList with TaskWeekId:{taskWeekId} and user:{userPrincipal.UserDetails}.  {exception.Message}");
             }
             
             return new OkObjectResult( result);

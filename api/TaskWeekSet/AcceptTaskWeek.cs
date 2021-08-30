@@ -17,15 +17,13 @@ namespace AllowanceFunctions.Api.TaskWeekSet
     public class AcceptTaskWeek : Function
     {
         private TaskWeekService _taskWeekService;
-        private AccountService _accountService;
         private TransactionLogService _transactionLogService;
 
-        public AcceptTaskWeek(DatabaseContext context, AuthorizationService authorizationService, 
-            TaskWeekService taskWeekService, AccountService accountService, TransactionLogService transactionLogService)
-            : base(authorizationService)
+        public AcceptTaskWeek(AccountService accountService, 
+            TaskWeekService taskWeekService, TransactionLogService transactionLogService)
+            : base(accountService)
         {
             _taskWeekService = taskWeekService;
-            _accountService = accountService;
             _transactionLogService = transactionLogService;
         }
 
@@ -42,21 +40,21 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
                 data = JsonConvert.DeserializeObject<TaskWeek>(requestBody);
                 log.LogTrace($"AcceptTaskWeek function processed a request for taskWeekId:{data.Id}.");
-
-                var userIdentifier = await GetTargetUserIdentifier(req);
-                if (!await IsParent(req))
+                
+                var userPrincipal = req.GetUserPrincipal();
+                 
+                if (userPrincipal.IsInRole(Constants.PARENT_ROLE))
                 {
                     throw new SecurityException("Invalid attempt to accept a taskweek by an invalid user");
                 }
                 await _taskWeekService.Update(data, false);
-                var account = await _accountService.GetByUser(data.UserIdentifier);
+                var account = await AccountService.Get(data.AccountId);
                 account.Balance += data.Value;
-                await _accountService.Update(account, false);
+                await AccountService.Update(account, false);
 
                 var transaction = new TransactionLog()
                 {
-                    AccountId = account.Id.Value,
-                    UserIdentifier = req.GetUserIdentifier(),
+                    AccountId = account.Id,
                     Amount = data.Value,
                     CategoryId = (int)Constants.TransactionCategory.Deposit,
                     Date = DateTime.Now,
@@ -73,7 +71,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
 
                 return new BadRequestObjectResult($"Error trying to execute PutTaskWeek.  {exception.Message}");
             }
-            return new OkObjectResult(data.Id.Value);
+            return new OkObjectResult(data.Id);
         }
 
     }

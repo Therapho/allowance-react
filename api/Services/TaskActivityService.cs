@@ -20,7 +20,7 @@ namespace AllowanceFunctions.Services
             _taskDefinitonService = taskDefinitonService;
         }
 
-        public async Task<List<TaskActivity>> GetList(Guid userIdentifier, int taskWeekId)
+        public async Task<List<TaskActivity>> GetList(int accountId, int taskWeekId)
         {
           
 
@@ -28,7 +28,7 @@ namespace AllowanceFunctions.Services
             try
             {
                 var query = from TaskActivity in _context.TaskActivitySet
-                            where TaskActivity.UserIdentifier == userIdentifier && TaskActivity.TaskWeekId == taskWeekId
+                            where TaskActivity.AccountId == accountId && TaskActivity.TaskWeekId == taskWeekId
                             orderby TaskActivity.Sequence
                             select TaskActivity;
                 result = await query.ToListAsync();
@@ -36,7 +36,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
                 throw new DataException(
-                    $"Error trying to retrieve a list of TaskActivitys with userIdentifier: {userIdentifier}, taskWeekId: {taskWeekId}.  {exception.Message}", 
+                    $"Error trying to retrieve a list of TaskActivitys with accountId: {accountId}, taskWeekId: {taskWeekId}.  {exception.Message}", 
                     exception);
             }
             return result;
@@ -51,8 +51,8 @@ namespace AllowanceFunctions.Services
             {
                 var taskActivity = new TaskActivity()
                 {
-                    UserIdentifier = taskWeek.UserIdentifier,
-                    TaskWeekId = taskWeek.Id.Value,
+                    AccountId = taskWeek.AccountId,
+                    TaskWeekId = taskWeek.Id,
                     TaskGroupId = taskDefinition.TaskGroupId,
                     Sequence = taskDefinition.Sequence,
                     MondayStatusId = (int)Constants.ActivityStatus.Incomplete,
@@ -62,7 +62,7 @@ namespace AllowanceFunctions.Services
                     FridayStatusId = (int)Constants.ActivityStatus.Incomplete,
                     SaturdayStatusId = (int)Constants.ActivityStatus.Incomplete,
                     SundayStatusId = (int)Constants.ActivityStatus.Incomplete,
-                    TaskDefinitionId = taskDefinition.Id.Value
+                    TaskDefinitionId = taskDefinition.Id
 
                 };
                 taskActivityList.Add(taskActivity);
@@ -74,7 +74,7 @@ namespace AllowanceFunctions.Services
 
         public async Task<List<TaskActivity>> GetOrCreate(TaskWeek taskWeek)
         {
-            var taskActivityList = await GetList(taskWeek.UserIdentifier, taskWeek.Id.Value);
+            var taskActivityList = await GetList(taskWeek.AccountId, taskWeek.Id);
 
             if (taskActivityList == null) taskActivityList = new List<TaskActivity>();
 

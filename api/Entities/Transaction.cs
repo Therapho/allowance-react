@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace AllowanceFunctions.Api.AccountSet
+namespace AllowanceFunctions.Entities
 {
-    public class Transaction
+
+   public class Transaction
     {
         public string Description { get; set; }
         public int CategoryId { get; set; }

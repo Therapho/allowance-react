@@ -18,26 +18,33 @@ namespace AllowanceFunctions.Api.TaskWeekSet
     {
         private TaskWeekService _taskWeekService;
 
-        public PutTaskWeek(DatabaseContext context, AuthorizationService authorizationService, TaskWeekService taskWeekService)
-            : base(authorizationService) { _taskWeekService = taskWeekService; }
+        public PutTaskWeek(DatabaseContext context, AccountService accountService, TaskWeekService taskWeekService)
+            : base(accountService) { _taskWeekService = taskWeekService; }
         [FunctionName("PutTaskWeek")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "put", Route = "taskweekset/{id?}")] HttpRequest req, ILogger log, CancellationToken ct, int? id )
+            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "put", Route = "taskweekset/{id?}")] HttpRequest request, ILogger log, CancellationToken ct, int? id )
         {
             log.LogTrace($"PutTaskWeek function processed a request for id:{id}.");
 
             TaskWeek data = null;
+            var context = await CreateContext(request);
 
             try
             {
-                string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
+                string requestBody = await new StreamReader(request.Body).ReadToEndAsync();
                 data = JsonConvert.DeserializeObject<TaskWeek>(requestBody);
-                var userIdentifier = await GetTargetUserIdentifier(req);
-                if (data.UserIdentifier != userIdentifier && ! await IsInRole(userIdentifier, Constants.Role.Parent))
+                
+                
+
+                if (context.IsAuthorizedToAccess())
+                {
+                    await _taskWeekService.Update(data);
+                }
+                else
                 {
                     throw new SecurityException("Invalid attempt to access a record by an invalid user");
                 }
-                await _taskWeekService.Update(data);
+                
 
             }
             catch (Exception exception)
@@ -45,7 +52,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
 
                 return new BadRequestObjectResult($"Error trying to execute PutTaskWeek.  {exception.Message}");
             }
-            return new OkObjectResult( data.Id.Value);
+            return new OkObjectResult( data.Id);
         }
 
     }

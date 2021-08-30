@@ -1,25 +1,17 @@
 ﻿using System;
-using System.Configuration;
+using System.Reflection;
 using AllowanceFunctions.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-//using Microsoft.Extensions.Http;
-using Microsoft.Extensions.Logging;
-using Microsoft.Azure.Functions.Authentication.WebAssembly;
-
+using AzureFunctions.Extensions.Swashbuckle;
 
 [assembly: FunctionsStartup(typeof(AllowanceFunctions.StartUp))]
 namespace AllowanceFunctions
 {
     public class StartUp : FunctionsStartup
     {
-
-
-        
-
         public override void Configure(IFunctionsHostBuilder builder)
         {
             string aiConnectionString = Environment.GetEnvironmentVariable("APPINSIGHTS_CONNECTIONSTRING");
@@ -32,16 +24,17 @@ namespace AllowanceFunctions
 
             builder.Services.AddDbContext<DatabaseContext>(
                 options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, sqlConnectionString));
-            builder.Services.AddStaticWebAppsAuthentication();
 
+
+           
             builder.Services
                 .AddTransient<TaskWeekService>()
                 .AddTransient<TaskDefinitionService>()
                 .AddTransient<TaskActivityService>()
                 .AddTransient<AccountService>()
-                .AddTransient<AuthorizationService>()
                 .AddTransient<TransactionLogService>()
                 .AddSingleton(cache);
+
         }
     }
 }

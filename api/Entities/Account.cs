@@ -14,6 +14,8 @@ namespace AllowanceFunctions.Entities
         public string Name { get; set; }
         public int? ActiveTaskWeekId { get; set; }
 
+        public string? UserId {get;set;}
+
     }
     
     

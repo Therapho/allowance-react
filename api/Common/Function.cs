@@ -1,57 +1,21 @@
 ﻿using AllowanceFunctions.Services;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Security;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AllowanceFunctions.Common
 {
     public abstract class Function
     {
-        //protected readonly DatabaseContext _context;
-        protected readonly AuthorizationService _authorizationService;
+        private AccountService _accountService;
 
-        public Function(AuthorizationService authorizationService)
-        {
+        public Function(AccountService accountService) { _accountService = accountService; }
 
-            _authorizationService = authorizationService;
-        }
-        public Function() { }
+        public AccountService AccountService { get => _accountService; }
 
-        public Guid GetCallingUserIdentifier(HttpRequest request)
+        public async Task<RequestContext> CreateContext(HttpRequest request)
         {
-            return request.GetUserIdentifier();
-        }
-        public async Task<Guid> GetTargetUserIdentifier(HttpRequest request)
-        {
-            Guid identifier;
-            Guid currentUserIdentifier = request.GetUserIdentifier();
-
-            if (request.Query.ContainsKey("useridentifier"))
-            {
-                identifier = request.Query.GetValue<Guid>("useridentifier");
-                if(!await _authorizationService.IsInRole(currentUserIdentifier, Constants.Role.Parent))
-                {
-                    throw new SecurityException("Invalid attempt to access a record by an invalid user");
-                }
-            }
-            else
-            {
-                identifier = currentUserIdentifier;
-            }
-            return identifier;
-        }
-        public async Task< bool> IsParent(HttpRequest request)
-        {
-            var userIdentifier = GetCallingUserIdentifier(request);
-            return await IsInRole(userIdentifier, Constants.Role.Parent);
-        }
-        public async Task<bool> IsInRole(Guid userIdentifier, Constants.Role role)
-        {
-            return await _authorizationService.IsInRole(userIdentifier, role);
+            return await RequestContext.CreateContext(AccountService, request);
         }
 
     }

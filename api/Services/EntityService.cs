@@ -17,7 +17,7 @@ namespace AllowanceFunctions.Services
         {
             _context = context;
         }
-        public async Task<TEntity> Get(int id)
+        public virtual async Task<TEntity> Get(int id)
         {
             TEntity result = default(TEntity);
 

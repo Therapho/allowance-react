@@ -5,16 +5,21 @@ using System.Text;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace AllowanceFunctions.Services
 {
     public class AccountService : EntityService<Account>
     {
-        public AccountService(DatabaseContext context) : base(context) { }
+        private MemoryCache _cache;
 
-        public async Task<List<Account>> GetList(Guid userIdentifier)
+        public AccountService(DatabaseContext context, MemoryCache cache) : base(context) { 
+            _cache = cache;
+        }
+
+        public async Task<List<Account>> GetList(string userId)
         {
-            var query = from account in _context.AccountSet where account.UserIdentifier == userIdentifier select account;
+            var query = from account in _context.AccountSet where account.UserId == userId select account;
             var accountList = await query.ToListAsync();
             return accountList;
         }
@@ -25,13 +30,29 @@ namespace AllowanceFunctions.Services
             var accountList = await query.ToListAsync();
             return accountList;
         }
-
-        public async Task<Account> GetByUser(Guid userIdentifier)
+        public override async Task<Account> Get(int id){
+            var cacheKey = $"Account_{id}";
+            Account result = _cache.Get<Account>(cacheKey);
+            if (result == null)
+            {
+                result = await base.Get(id);
+                _cache.Set(cacheKey, result);
+            }
+            return result;
+        }
+        public async Task<Account> GetByUser(string userId)
         {
-            var query = from account in _context.AccountSet
-                        where account.UserIdentifier == userIdentifier
+            Account result = _cache.Get<Account>(userId);
+            if (result == null)
+            {
+                var query = from account in _context.AccountSet
+                        where account.UserId == userId
                         select account;
-            return await query.FirstOrDefaultAsync();
+                result = await query.FirstOrDefaultAsync();
+                _cache.Set(userId, result);
+            }
+            return result;
+           
         }
 
         public async Task<List<Account>> GetAllAccounts()
