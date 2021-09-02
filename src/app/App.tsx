@@ -1,71 +1,70 @@
-import {
-  Stack,
-  Text,
-  IStackTokens,
-  IStackStyles,
-  FontIcon,
-  mergeStyles,
-  getTheme,
-} from "@fluentui/react";
-import "./App.css";
-
-import {  Route, Switch } from "react-router-dom";
-import ProfileComponent from "../features/profile/ProfileComponent";
+import { Stack } from "@fluentui/react";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { Menu } from "../features/menu/Menu";
 import { Settings } from "../features/settings/settings";
 import { Home } from "../features/home/home";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../store/hooks";
+import { getProfile } from "../store/slices/profileSlice";
+import { Header } from "../features/header/header";
+import "./App.scss";
+import { getAccount } from "../store/slices/accountSlice";
+import { Tasks } from "../features/tasks/tasks";
 
-const theme = getTheme();
+function App() {
+  const redirect = window.location.pathname;
+  const dispatch = useAppDispatch();
+  const selector = useAppSelector((state) => state.profile);
+  const history = useHistory();
+  const status = selector.status;
+  const profile = selector.data;
 
-const stackTokens: IStackTokens = {};
-const stackStyles: IStackStyles = {
-  root: {},
-};
+  useEffect(() => {
+    if (status === "idle") {
+      dispatch(getProfile());
+    }
+  }, [status, dispatch]);
 
+  useEffect(()=>{
+    if(profile){
+      dispatch(getAccount(profile.userId));
+    }
+  }, [profile, dispatch])
+  const handleLogin = (event: MouseEvent) => {
+    event.preventDefault();
 
-const headerClass = mergeStyles({
-  backgroundColor: theme.palette.themeDark,
-  color: theme.palette.themeLighterAlt,
-  minHeight: 32
-  
-});
-const headerTextClass = mergeStyles({
-  color: theme.palette.themeLighterAlt
+    window.location.href =
+      "/.auth/login/aad?post_login_redirect_uri=" + redirect;
+  };
+  const handleLogout = (event: MouseEvent) => {
+    event.preventDefault();
+    window.location.href = "/.auth/logout?post_logout_redirect_uri=" + redirect;
+  };
+  const handleNavigate = (url: string) => {
+    history.push(url);
+  };
 
-});
+  return (
+    <Stack className='stackFill'>
+      <Header/>
+      <Stack verticalFill horizontal className='stackFill'>
+        <Menu
+          onLogin={handleLogin}
+          onLogout={handleLogout}
+          onNavigate={handleNavigate}
+        />
 
-function App() {  
-    return (
-      <Stack styles={stackStyles} tokens={stackTokens} verticalFill>
-        <Stack
-          styles={stackStyles}
-          tokens={stackTokens}
-          horizontal
-          verticalAlign="center"
-          className={headerClass}
-        >
-          <FontIcon
-            aria-label="Currency"
-            iconName="AllCurrency"
-            className='iconClass'
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => <Home onLogin={handleLogin}></Home>}
           />
-          <Text className={headerTextClass}>Allowance</Text>
-          <div className="profile">
-            <ProfileComponent />
-          </div>
-        </Stack>
-        <Stack verticalFill horizontal>
-         
-            <Menu />
-
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/settings" component={Settings} />
-            </Switch>
-          
-        </Stack>
+          <Route path="/tasks" component={Tasks}/>
+          <Route path="/settings" component={Settings} />
+        </Switch>
       </Stack>
-    );
-  }
-
+    </Stack>
+  );
+}
 export default App;

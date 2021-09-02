@@ -10,17 +10,18 @@ const menuLinks: INavLinkGroup[] = [
           icon: "Home",
         },
         {
-          name: "Summary",
-          url: "/summary",
-          key: "summary",
-          icon: "PreviewLink",
-        },
-        {
           name: "Tasks",
           url: "/tasks",
           key: "tasks",
           icon: "TaskLogo",
         },
+        {
+          name: "Transactions",
+          url: "/transactions",
+          key: "transactions",
+          icon: "PreviewLink",
+        },
+       
         {
           name: "Settings",
           url: "/settings",

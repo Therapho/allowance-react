@@ -1,12 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { initializeIcons, mergeStyles } from "@fluentui/react";
+import { getTheme, initializeIcons, mergeStyles } from "@fluentui/react";
 import reportWebVitals from "./reportWebVitals";
 import App from "./app/App";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import store from "./store/store";
+import './index.scss'
 
+//'~@fluentui/react/dist/sass/References.scss';
+
+const theme = getTheme();
 initializeIcons();
 // Inject some global styles
 mergeStyles({
@@ -15,11 +19,18 @@ mergeStyles({
     padding: 0,
     height: "100vh",
   },
+  ":root":{
+    "--background": theme.palette.themeLighterAlt,
+    "--border": theme.palette.themeLighter,
+    "--color": theme.palette.themePrimary,
+
+  }
 });
 
 //store.dispatch(getProfile);
 
 ReactDOM.render(
+  
   <React.StrictMode>
     
       <BrowserRouter>

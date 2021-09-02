@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { serviceState } from "../../store/serviceState";
-import { RootState } from "../../store/store";
+import { serviceState } from "../serviceState";
+import { RootState } from "../store";
 
 
 export class Profile {
