@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -36,7 +37,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
            
             var context = await CreateContext(request);
 
-            var startDate = request.Query.GetValue<DateTime>("startdate").StartOfDay();
+            var startDate = request.Query.GetRequiredValue<DateTime>("weekstartdate").StartOfDay();
             log.LogTrace($"GetTaskActivityListByDay function processed a request for user={context.UserPrincipal.UserDetails}, startDate={startDate}.");
 
             TaskWeek taskWeek = null;
@@ -44,8 +45,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             try
 
             {
-                //Ensure.That(req.Query.ContainsKey("startdate")).IsTrue();
-                
+               
                 taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate);
                 if(taskWeek == null)
                 {
@@ -59,11 +59,14 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                     context.CallingAccount.ActiveTaskWeekId = taskWeek.Id;
                     await AccountService.Update(context.CallingAccount);
                 }
-
-                if (context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
+                else
                 {
-                    throw new SecurityException("Invalid attempt to access a record by an invalid user");
+                    if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
+                    {
+                        throw new SecurityException("Invalid attempt to access a record by an invalid user");
+                    }
                 }
+              
 
             }
 

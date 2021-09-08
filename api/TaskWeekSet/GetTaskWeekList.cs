@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AllowanceFunctions.Common;
 using Microsoft.AspNetCore.Mvc;
+using api.Common;
 
 namespace AllowanceFunctions.Api.TaskWeekSet
 {
@@ -40,7 +41,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                 else
                 {
                     var dateStart = request.Query.GetValueOrDefault<DateTime>("startdate");
-                    //Ensure.That<bool>(dateStart.HasValue).IsTrue();
+                    Ensure.That(dateStart.HasValue).IsTrue();
                     dateStart = dateStart.Value.FirstDayOfWeek();
 
 

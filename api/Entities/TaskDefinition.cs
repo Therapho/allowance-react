@@ -10,7 +10,7 @@ namespace AllowanceFunctions.Entities
         public string Description { get; set; }
         public decimal Value { get; set; }
         public int Sequence { get; set; }
-        public int AccountId { get; set; }
+        public int? AccountId { get; set; }
 
     }
 

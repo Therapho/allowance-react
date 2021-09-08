@@ -13,16 +13,16 @@
     animation: App-logo-spin infinite 20s linear;
   }
 }
-.left, .right {
+.left {
   float: left;
-  width: 20%; /* The width is 20%, by default */
+  text-align: left;
+  width: 50%; /* The width is 20%, by default */
 }
-
-.main {
-  float: left;
-  width: 60%; /* The width is 60%, by default */
+.right{
+  float: right;
+  text-align: right;
+  width: 50%; 
 }
-
 
 .iconClass{
   margin-left: 5px;
@@ -35,6 +35,7 @@
 }
 .bodyClass{
   padding:10px;
+  width:100%;
 }
 .profile{
   float:right;
