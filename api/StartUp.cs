@@ -5,7 +5,6 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-using AzureFunctions.Extensions.Swashbuckle;
 
 [assembly: FunctionsStartup(typeof(AllowanceFunctions.StartUp))]
 namespace AllowanceFunctions

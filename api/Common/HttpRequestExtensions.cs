@@ -14,6 +14,13 @@ namespace AllowanceFunctions.Common
             return query.GetValue<T>(parameterName);
         }
 
+        public static T GetRequiredValue<T>(this IQueryCollection query, string parameterName)
+        {
+            if (!query.ContainsKey(parameterName)) throw new ArgumentException($"{parameterName} missing from request.");
+
+            return query.GetValue<T>(parameterName);
+           
+        }
         public static T GetValue<T>(this IQueryCollection query, string parameterName) 
         {
             object convertedValue = default(T);
@@ -30,7 +37,10 @@ namespace AllowanceFunctions.Common
             }
             return (T)convertedValue;
         }
-
+        public static bool HasValue(this IQueryCollection query, string parameterName)
+        {
+            return query.ContainsKey(parameterName);
+        }
     
          public static UserPrincipal GetUserPrincipal(this HttpRequest request)
         {

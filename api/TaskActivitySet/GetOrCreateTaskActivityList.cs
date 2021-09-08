@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -21,7 +22,6 @@ namespace AllowanceFunctions.Api.TaskActivitySet
 {
     public class GetOrCreateTaskActivityList :Function
     {
-        public GetOrCreateTaskActivityList(AccountService accountService) : base (accountService) {}
         private TaskWeekService _taskWeekService;
         private TaskDefinitionService _taskDefinitonService;
         private TaskActivityService _taskActivityService;
@@ -39,14 +39,15 @@ namespace AllowanceFunctions.Api.TaskActivitySet
             [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "getorcreatetaskactivitylist"),] HttpRequest request, ILogger log)
         {
             var context = await CreateContext(request);
-            var startDate = request.Query.GetValue<DateTime>("weekstartdate").StartOfDay();
 
-            var taskWeekId = request.Query.GetValue<int>("taskweekid");
+            
+           var taskWeekId = request.Query.GetValue<int>("taskweekid");
+            
             
             
             List<TaskActivity> taskActivityList = null;
             
-            log.LogTrace($"GetTaskActivityListByDay function processed a request by userIdentifier={context.UserPrincipal.UserDetails}, startDate={startDate}.");
+            log.LogTrace($"GetTaskActivityListByDay function processed a request by userIdentifier={context.UserPrincipal.UserDetails}.");
 
             try
 
@@ -66,6 +67,7 @@ namespace AllowanceFunctions.Api.TaskActivitySet
                 }
                 else
                 {
+                    var startDate = request.Query.GetRequiredValue<DateTime>("weekstartdate").StartOfDay();
                     if (!context.IsParent())
                     { taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate); }
                     else
