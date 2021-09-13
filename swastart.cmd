@@ -1,0 +1,1 @@
+swa start http://localhost:3000 --api http://localhost:7071

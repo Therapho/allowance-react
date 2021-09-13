@@ -1,27 +1,11 @@
-import { Link } from "@fluentui/react";
-import { Fragment } from "react";
-import { useProfileData } from "../profile/profileProvider";
-export const Login = () => {
-  const redirect = window.location.pathname;
-  const handleLogin = (event: any) => {
-    event.preventDefault();
+import { Stack } from "@fluentui/react";
+import { Login } from "./loginLink";
 
-    window.location.href =
-      "/.auth/login/aad?post_login_redirect_uri=" + redirect;
-  };
-  const handleLogout = (event: any) => {
-    event.preventDefault();
-    window.location.href = "/.auth/logout?post_logout_redirect_uri=" + redirect;
-  };
-  const { profile } = useProfileData();
-
+export const LoginPage = () => {
   return (
-    <Fragment>
-      {!profile ? (
-        <Link onClick={handleLogin}>Login</Link>
-      ) : (
-        <Link onClick={handleLogout}>Logout</Link>
-      )}
-    </Fragment>
+    <Stack>
+      <h1>Welcome</h1> <p> Please login to access your information.</p>
+      <Login />
+    </Stack>
   );
 };

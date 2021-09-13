@@ -8,6 +8,7 @@ import App from "./app/app";
 const theme = getTheme();
 initializeIcons();
 // Inject some global styles
+
 mergeStyles({
   ":global(body,html,#root)": {
     margin: 0,
