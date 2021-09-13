@@ -1,26 +1,25 @@
-
-import { Button, CommandButton, DefaultButton, IStackStyles, Layer, Link, PrimaryButton, Text } from "@fluentui/react";
+import { DefaultButton, Link, PrimaryButton } from "@fluentui/react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
-import { useAppState } from "../../app/appStateProvider";
-import Card from "../../common/components/card";
+import { useAppState } from "../../app/providers/appStateProvider";
 import Tray from "../../common/components/tray";
-import dateUtilities from "../../common/dateUtilities";
-import { Task } from "../components/taskCheckBox";
-import TaskGroup from "../components/taskGroup";
+import dateUtilities from "../../common/utilities/dateUtilities";
+import { Task } from "../components/taskCheckbox.props";
 import TaskGroupList from "../components/taskGroupList";
-import { useTaskActivityList, useTaskActivityListKey } from "../queries/useTaskActivityList";
-import { useTaskWeek } from "../queries/useTaskWeek";
-import { TaskActivityList } from "../types/taskActivity";
+import { useTaskActivityList, useTaskActivityListKey } from "../services/queries/useTaskActivityList";
+import { useTaskWeek } from "../services/queries/useTaskWeek";
+import { TaskActivityList } from "../services/types/taskActivity";
+import { taskListStyles } from "./taskList.styles";
 
 
 export const TaskPage = () => {
+  const {left, right} = taskListStyles;
   const queryClient = useQueryClient();
 
   const selectedDate = dateUtilities.getMonday(new Date());
   const { data: taskWeek } = useTaskWeek(selectedDate);
-  const {busy,setBusy} = useAppState();
+  const {setBusy} = useAppState();
 
   const taskWeekId = taskWeek?.id!;
 
@@ -73,13 +72,13 @@ export const TaskPage = () => {
     mutate(taskActivityList!);
   }
   useEffect(()=>{
-    if(mutateStatus == "success") setBusy(false);
-  }, [mutateStatus])
+    if(mutateStatus === "success") setBusy(false);
+  }, [mutateStatus, setBusy])
   
   return (
-    <article className="bodyClass">
-      <Link className="left"> Previous</Link>
-      <Link className="right"> Next</Link>
+    <main>
+      <Link className={left}> Previous</Link>
+      <Link className={right}> Next</Link>
       <h3>Tasks for {selectedDate.toLocaleDateString()}</h3>
       {taskActivityList&&<TaskGroupList
         taskActivityList={taskActivityList!}
@@ -88,6 +87,6 @@ export const TaskPage = () => {
         <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
         <DefaultButton>Cancel</DefaultButton>
      </Tray>
-    </article>
+    </main>
   );
 };

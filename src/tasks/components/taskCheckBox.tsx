@@ -1,15 +1,11 @@
-import "./taskCheckBox.scss";
 import { Icon } from "@fluentui/react";
-import { DayOfTheWeek } from "../../common/types/dayOfTheWeek";
 import { useState } from "react";
+import { Task } from "./taskCheckbox.props";
+import { getClassNames} from "./taskCheckBox.styles";
 
-export type Task = {
-  taskActivityId: number;
-  taskStatusId: number;
-  day: DayOfTheWeek;
-  onStatusChange: (task: Task) => void;
-};
 export const TaskCheckBox = (task: Task) => {
+  const classNames = getClassNames();
+
   const [touchStartTime, setTouchStartTime] = useState(performance.now());
 
   const handleClick = (e: any) => {
@@ -40,16 +36,16 @@ export const TaskCheckBox = (task: Task) => {
   const renderBox = (statusId: number) => {
     switch (statusId) {
       case 1:
-        return <Icon className="taskIcon" iconName="SquareShapeSolid" />;
+        return <Icon className={classNames.clear} iconName="SquareShapeSolid" />;
       case 2:
-        return <Icon className="taskIconChecked" iconName="Accept" />;
+        return <Icon className={classNames.accepted} iconName="Accept" />;
       case 3:
-        return <Icon className="taskIconExed" iconName="Cancel" />;
+        return <Icon className={classNames.blocked} iconName="Cancel" />;
     }
   };
   return (
     <div
-      className="checkBox"
+      className={classNames.checkBox}
       onClick={handleClick}
       onContextMenu={handleRightClick}
       onTouchStart={handleTouchStart}

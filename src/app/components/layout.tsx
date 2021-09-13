@@ -1,15 +1,16 @@
 import { IStackStyles, Stack } from "@fluentui/react";
 import { Fragment } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import { useAppState } from "../app/appStateProvider";
-import { Header } from "../header/header";
-import { Home } from "../home/home";
-import { LeftPanel } from "../leftPanel/leftPanel";
-import { LoginPage } from "../login/loginPage";
-import { useProfile } from "../profile/queries/useProfile";
-import { Settings } from "../settings/settings";
-import { TaskPage } from "../tasks/containers/taskList";
+import { useAppState } from "../providers/appStateProvider";
+
+import { Home } from "../../home/home";
+import { LeftPanel } from "./leftPanel";
+import { LoginPage } from "../../login/login";
+import { useProfile } from "../../common/services/profile/queries/useProfile";
+import { Settings } from "../../settings/settings";
+import { TaskPage } from "../../tasks/pages/taskList";
 import BusyOverlay from "./busyOverlay";
+import { Header } from "./header";
 
 export const Layout = () => {
 

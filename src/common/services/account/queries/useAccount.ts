@@ -1,13 +1,7 @@
-import axios from "axios";
 import { useQuery } from "react-query"
 import { useProfile } from "../../profile/queries/useProfile";
-import { Account } from "../types/accountType";
+import { getAccountById } from "../api/getAccountById";
 
-const getAccountById = async (userId: string|undefined) =>{
-    const params = { params: { userid: userId } };
-    const {data} = await axios.get<Account[]>("/api/accountset", params);
-    return data[0];
-}
  export const useAccount=()=>{
      const {data:profile} = useProfile();
      const userId = profile?.userId;

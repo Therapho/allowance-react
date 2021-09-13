@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import { Text } from "@fluentui/react";
 import { Dashboard } from "../dashboard/dashboard";
-import { useProfile } from "../profile/queries/useProfile";
+import { useProfile } from "../common/services/profile/queries/useProfile";
 
 
 
@@ -9,7 +9,7 @@ export const Home = () => {
   const {data:profile} = useProfile();
 
   return (
-    <div className="bodyClass">
+    <main>
       {profile? 
       <Text><Dashboard></Dashboard></Text> :
       <Fragment>
@@ -17,6 +17,6 @@ export const Home = () => {
         {/* <DefaultButton onClick={props.onLogin}>Login</DefaultButton>*/}
         </Fragment>
       }
-    </div>
+    </main>
   );
 };

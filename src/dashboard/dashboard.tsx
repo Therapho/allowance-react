@@ -1,5 +1,5 @@
 import { Label, Stack, Text } from "@fluentui/react";
-import { useAccount } from "../account/queries/useAccount";
+import { useAccount } from "../common/services/account/queries/useAccount";
 
 
 export const Dashboard = ()=>{

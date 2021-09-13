@@ -1,7 +1,11 @@
-import React from "react";
 import { Text } from "@fluentui/react";
-export const Settings = () => (
-  <article className="bodyClass">
-    <Text>Settings</Text>
-  </article>
-);
+import { cardStyles } from "./settings.styles";
+export const Settings = () => {
+ 
+
+  return(
+  <main>
+    <Text className={cardStyles.text}>Settings</Text>
+    </main>
+  )
+  };

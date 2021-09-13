@@ -1,16 +1,14 @@
-import "./taskGroupList.scss"
 import { Fragment } from "react";
-import { Lookup } from "../../lookup/types/lookupType";
-import { useTaskGroupList } from "../queries/useTaskGroupList";
-import { TaskActivityList } from "../types/taskActivity";
-import { Task } from "./taskCheckBox";
+import { TaskGroupListProps } from "./taskGroupList.props";
+import { useTaskGroupList } from "../services/queries/useTaskGroupList";
 import TaskGroup from "./taskGroup";
+import { Lookup } from "../../common/services/lookup/types/lookupType";
+import { getClassNames } from "./taskGroupList.styles";
 
-type TaskGroupListProps = {
-    taskActivityList: TaskActivityList,
-    onStatusChange: (task:Task) => void
-}
+
 const TaskGroupList = ({taskActivityList, onStatusChange}: TaskGroupListProps)=>{
+    const classNames = getClassNames();
+
     const {data: taskGroupList} = useTaskGroupList();
     const groupTasks = (groupId: number) => {
         return taskActivityList.filter(item=>item.taskGroupId === groupId);
@@ -19,7 +17,7 @@ const TaskGroupList = ({taskActivityList, onStatusChange}: TaskGroupListProps)=>
         <Fragment>
         {(taskGroupList?.map((group:Lookup, index:number)=>(
             
-            <div className="groupBox">
+            <div className={classNames.groupBox}>
                 <TaskGroup taskActivityList={groupTasks(group.id)} onStatusChange={onStatusChange}/>
             </div>
         )))}

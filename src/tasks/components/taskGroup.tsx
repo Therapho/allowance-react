@@ -1,16 +1,15 @@
-import "./taskGroup.scss";
-import { useTaskDefinitionList } from "../queries/useTaskDefinitionList";
-import { TaskActivity, TaskActivityList } from "../types/taskActivity";
-import { findTaskDescription } from "../types/taskDefinitionType";
-import { Task, TaskCheckBox } from "./taskCheckBox";
-import { Overlay, ProgressIndicator, Shimmer } from "@fluentui/react";
+import { TaskGroupProps } from "./taskGroup.props";
+import { useTaskDefinitionList } from "../services/queries/useTaskDefinitionList";
+import { TaskActivity } from "../services/types/taskActivity";
+import { findTaskDescription } from "../services/types/taskDefinitionType";
+import { TaskCheckBox } from "./taskCheckBox";
+import { Task } from "./taskCheckbox.props";
+import { getClassNames } from "./taskGroup.styles";
 
-type TaskGroupProps = {
-  taskActivityList: TaskActivityList;
-  onStatusChange: (task: Task) => void;
-};
+
 const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
-  const { data: taskDefinitionList, isSuccess } = useTaskDefinitionList();
+  const classNames = getClassNames();
+  const { data: taskDefinitionList } = useTaskDefinitionList();
   
   const handleStatusChange = (task: Task) => {
     onStatusChange(task);
@@ -18,11 +17,11 @@ const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
   if(true)
   return (
     
-    <div className="gridTable">
+
       <table>
         <thead>
           <tr>
-            <th className="descriptionColumn">&nbsp;</th>
+            <th className={classNames.descriptionColumn}>&nbsp;</th>
             <th>M</th>
             <th>T</th>
             <th>W</th>
@@ -102,8 +101,7 @@ const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
             ))
           )}
         </tbody>
-      </table>      
-    </div>
+      </table>     
 
 
   )
