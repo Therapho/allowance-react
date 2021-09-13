@@ -19,5 +19,5 @@ function App() {
       </Suspense>
     </QueryClientProvider>
   );
-}
+};
 export default App;
