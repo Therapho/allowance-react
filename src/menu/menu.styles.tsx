@@ -1,5 +1,4 @@
-import { mergeStyles, mergeStyleSets } from "@fluentui/merge-styles";
-import { INavStyles } from "@fluentui/react";
+import { mergeStyleSets } from "@fluentui/merge-styles";
 
 export const getClassNames = () => {
   return mergeStyleSets({
