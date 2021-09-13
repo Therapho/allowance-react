@@ -1,4 +1,4 @@
-import { LookupProvider } from "../lookupProvider";
+
 
 export type Lookup ={
     id: number;

@@ -17,4 +17,5 @@ export type TaskActivity = {
     userIdentifier: string;
     
  }
+ export type TaskActivityList = TaskActivity[];
  

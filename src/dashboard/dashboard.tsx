@@ -1,11 +1,12 @@
 import { Label, Stack, Text } from "@fluentui/react";
-import { useProfileData } from "../profile/profileProvider";
+import { useAccount } from "../account/queries/useAccount";
 
 
 export const Dashboard = ()=>{
 
     
-    const {account} = useProfileData();
+    const {data:account} = useAccount();
+    
     return(
         <Stack horizontalAlign='center' wrap horizontal >
             <Stack.Item className='card'>

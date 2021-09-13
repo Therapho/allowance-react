@@ -1,22 +1,24 @@
+import "./app.scss";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-
-import "./app.scss";
 import { Layout } from "../layout/layout";
-import { ProfileProvider } from "../profile/profileProvider";
+import { Suspense } from "react";
+import { AppStateProvider, useAppState } from "./appStateProvider";
+import { styled } from "@fluentui/utilities";
 
 function App() {
   const queryClient = new QueryClient();
-
   return (
     <QueryClientProvider client={queryClient}>
-      <ProfileProvider>
+      <Suspense fallback={<h3>Loading...</h3>}>
         <BrowserRouter>
+          <AppStateProvider>
           <Layout />
+          </AppStateProvider>
         </BrowserRouter>
-      </ProfileProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+        <ReactQueryDevtools initialIsOpen={false} />
+      </Suspense>
     </QueryClientProvider>
   );
 }

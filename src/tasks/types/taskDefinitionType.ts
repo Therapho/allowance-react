@@ -15,7 +15,8 @@ export type TaskDefinition ={
   export type TaskDefinitionListData = TaskDefinitionList | undefined;
   
   export const findTaskDescription = (taskDefinitionList: TaskDefinitionList, id=0) => {
-    return taskDefinitionList.find(item => item.id === id)?.description;
+    
+    return taskDefinitionList?.find(item => item.id === id)?.description;
    }
   
    export const findTaskId = (taskDefinitionList: TaskDefinitionList, description:string) => {

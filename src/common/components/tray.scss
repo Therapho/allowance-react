@@ -1,0 +1,10 @@
+@import '~@fluentui/react/dist/sass/References.scss';
+.tray {
+  box-shadow: $ms-depth-shadow-16;
+  // background-color: $ms-bgColor-themePrimary;
+  padding: 10px;
+  margin: 10px;
+  width: 100%;
+  position:fixed;
+  bottom:0;
+}

@@ -1,0 +1,22 @@
+.checkBox{
+
+    text-align: center;
+    vertical-align: middle;
+    width:2vw;
+    height:2vw;
+    border: gray thin solid;
+    margin:1px;
+    padding: 3px;
+}
+.taskIconChecked, .taskIconExed, .taskIcon{
+    font-size: 2vw!important;
+}
+.taskIconChecked{
+    color:green;
+}
+.taskIconExed{
+    color: red;
+}
+.taskIcon{
+    color: lightgray;
+}

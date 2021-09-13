@@ -1,12 +1,12 @@
 import { Fragment } from "react";
 import { Text } from "@fluentui/react";
 import { Dashboard } from "../dashboard/dashboard";
-import { useProfileData } from "../profile/profileProvider";
+import { useProfile } from "../profile/queries/useProfile";
 
 
 
 export const Home = () => {
-  const {profile} = useProfileData();
+  const {data:profile} = useProfile();
 
   return (
     <div className="bodyClass">

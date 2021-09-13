@@ -1,36 +1,51 @@
-import { Stack } from "@fluentui/react";
+import { IStackStyles, Stack } from "@fluentui/react";
+import { Fragment } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
+import { useAppState } from "../app/appStateProvider";
 import { Header } from "../header/header";
 import { Home } from "../home/home";
 import { LeftPanel } from "../leftPanel/leftPanel";
 import { LoginPage } from "../login/loginPage";
-import { LookupProvider } from "../lookup/lookupProvider";
-import { useProfileData } from "../profile/profileProvider";
+import { useProfile } from "../profile/queries/useProfile";
 import { Settings } from "../settings/settings";
-import { Tasks } from "../tasks/tasks";
+import { TaskPage } from "../tasks/containers/taskList";
+import BusyOverlay from "./busyOverlay";
 
 export const Layout = () => {
+
+  const stackFillStyles:IStackStyles = {
+    root: {
+      height:"100%",
+      width:"100%"
+    }
+  }
   const history = useHistory();
-  const {profile} = useProfileData();
- 
+  const { busy } = useAppState();
+
+  const { data: profile } = useProfile();
+
   const handleNavigate = (url: string) => {
     history.push(url);
   };
   return (
-    <Stack className="stackFill">
-      <Header />
-      {profile?
-      <Stack verticalFill horizontal className="stackFill">
-        <LeftPanel handleNavigate={handleNavigate} />
-        <LookupProvider>
-        <Switch>
-          <Route path="/" exact render={() => <Home/>} />
-          <Route path="/tasks" component={Tasks} />
-          <Route path="/settings" component={Settings} />
-        </Switch>
-        </LookupProvider>
+    <Fragment>
+      <Stack styles={stackFillStyles}>
+        <Header />
+        {profile ? (
+          <Stack verticalFill horizontal styles={stackFillStyles}>
+            <LeftPanel handleNavigate={handleNavigate} />
+
+            <Switch>
+              <Route path="/" exact render={() => <Home />} />
+              <Route path="/tasks" component={TaskPage} />
+              <Route path="/settings" component={Settings} />
+            </Switch>
+          </Stack>
+        ) : (
+          <LoginPage />
+        )}
       </Stack>
-      : <LoginPage/>}
-    </Stack>
+      <BusyOverlay busy={busy}/>
+    </Fragment>
   );
 };

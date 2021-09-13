@@ -1,6 +1,6 @@
 import { Link } from "@fluentui/react";
 import { Fragment } from "react";
-import { useProfileData } from "../profile/profileProvider";
+import { useProfile } from "../profile/queries/useProfile";
 export const Login = () => {
   const redirect = window.location.pathname;
   const handleLogin = (event: any) => {
@@ -13,7 +13,7 @@ export const Login = () => {
     event.preventDefault();
     window.location.href = "/.auth/logout?post_logout_redirect_uri=" + redirect;
   };
-  const { profile } = useProfileData();
+  const { data:profile } = useProfile();
 
   return (
     <Fragment>
