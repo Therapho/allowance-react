@@ -1,18 +1,20 @@
-import { Icon } from "@fluentui/react";
-import { Login } from "../../login/loginLink";
-import { Menu } from "../../menu/menu";
-import { getClassNames } from "./leftPanel.styles";
+import { Panel, PanelType } from "@fluentui/react";
+import { LeftPanelProps } from "./leftPanel.props";
+import { leftPanelStyles } from "./leftPanel.styles";
 
-export const LeftPanel = (props: { handleNavigate: (url: string) => void }) => {
-  const { handleNavigate } = props;
+export const LeftPanel = ({isOpen, onMenuDismiss, children} :  LeftPanelProps) => {
 
-  const classNames = getClassNames();
+
 
   return (
-    <div className={classNames.panel}>
-      <Icon iconName="GlobalNavButton" className={classNames.icon} />
-      <Menu onNavigate={handleNavigate} />
-      <Login />
-    </div>
+    <Panel
+    isOpen={isOpen}        
+    onDismiss={onMenuDismiss}
+    isLightDismiss
+    styles={leftPanelStyles}
+    type={PanelType.customNear}
+    customWidth="210px"
+    hasCloseButton={false}
+  >{children}</Panel>
   );
 };

@@ -6,8 +6,15 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  
 }
+@media only screen and (max-width: 768px) {
+  body{font-size: $ms-font-size-12 };
+  main{padding:5px}
+}
+
+
 main{
   padding:10px;
-  width:100%;
+  
 }

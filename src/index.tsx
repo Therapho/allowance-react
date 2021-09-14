@@ -14,6 +14,11 @@ mergeStyles({
     margin: 0,
     padding: 0,
     height: "100vh",
+    webkitUserSelect: "none",
+    webKitTouchCallout: "none",
+    mozUserSelect: "none",
+    msUserSelect: "none",
+    userSelect: "none"
   },
   ":root":{
     "--background": theme.palette.themeLighterAlt,

@@ -1,4 +1,5 @@
 import { Label, Stack, Text } from "@fluentui/react";
+import Card from "../common/components/card";
 import { useAccount } from "../common/services/account/queries/useAccount";
 
 
@@ -9,14 +10,14 @@ export const Dashboard = ()=>{
     
     return(
         <Stack horizontalAlign='center' wrap horizontal >
-            <Stack.Item className='card'>
+            <Card>
                 <Label>Name</Label>
                 <Text>{account?.name}</Text>
-            </Stack.Item>
-            <Stack.Item className='card'>
+            </Card>
+            <Card>
                 <Label>Balance</Label>
                 <Text>{account?.balance}</Text>
-            </Stack.Item>
+            </Card>
             
         </Stack>
     );

@@ -1,7 +1,8 @@
-import { DefaultButton, Link, PrimaryButton } from "@fluentui/react";
+import { DefaultButton, Link, mergeStyleSets, PrimaryButton } from "@fluentui/react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useMutation, useQueryClient } from "react-query";
+import { appButton, appElementLeft, appElementRight } from "../../app/app.styles";
 import { useAppState } from "../../app/providers/appStateProvider";
 import Tray from "../../common/components/tray";
 import dateUtilities from "../../common/utilities/dateUtilities";
@@ -14,7 +15,7 @@ import { taskListStyles } from "./taskList.styles";
 
 
 export const TaskPage = () => {
-  const {left, right} = taskListStyles;
+ 
   const queryClient = useQueryClient();
 
   const selectedDate = dateUtilities.getMonday(new Date());
@@ -77,15 +78,15 @@ export const TaskPage = () => {
   
   return (
     <main>
-      <Link className={left}> Previous</Link>
-      <Link className={right}> Next</Link>
+      <Link className={appElementLeft}> Previous</Link>
+      <Link className={appElementRight}> Next</Link>
       <h3>Tasks for {selectedDate.toLocaleDateString()}</h3>
       {taskActivityList&&<TaskGroupList
         taskActivityList={taskActivityList!}
         onStatusChange={handleStatusChange}/>}
       <Tray>
-        <PrimaryButton onClick={handleSave}>Save</PrimaryButton>
-        <DefaultButton>Cancel</DefaultButton>
+        <PrimaryButton onClick={handleSave} styles={appButton}>Save</PrimaryButton>
+        <DefaultButton styles={appButton}>Cancel</DefaultButton>
      </Tray>
     </main>
   );

@@ -1,10 +1,11 @@
-import { mergeStyleSets } from "@fluentui/merge-styles";
-import { appIcon, appPanel } from "../app.styles";
+import { IPanelStyles } from "@fluentui/react";
 
-export const getClassNames = () => {
-  return mergeStyleSets({
-    icon: appIcon,
-    panel: appPanel
 
-  });
-};
+export const leftPanelStyles: Partial<IPanelStyles> = {
+  root:{
+      paddingLeft:0
+  },
+  content:{
+      padding:0
+  }
+}

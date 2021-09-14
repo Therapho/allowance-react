@@ -10,7 +10,7 @@ export const TaskCheckBox = (task: Task) => {
 
   const handleClick = (e: any) => {
     e.preventDefault();
-    const newValue = task.taskStatusId === 2 ? 1 : 2;
+    const newValue = task.taskStatusId === 2 ? 3 : 2;
     const newTask = { ...task, taskStatusId: newValue };
     console.log(newTask.taskActivityId);
     task.onStatusChange(newTask);
@@ -18,7 +18,7 @@ export const TaskCheckBox = (task: Task) => {
 
   const handleRightClick = (e: any) => {
     e.preventDefault();
-    const newValue = task.taskStatusId === 3 ? 1 : 3;
+    const newValue = 1;
     const newTask = { ...task, taskStatusId: newValue };
     task.onStatusChange(newTask);
   };

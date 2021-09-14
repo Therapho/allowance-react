@@ -1,10 +1,10 @@
 import { trayStyles } from "./tray.styles";
 export const Tray = ({ children }:{ children: React.ReactNode }) => {
 
-    const {tray} = trayStyles;
+
 
     return(
-        <aside role="toolbar" className={tray}>{children}</aside>
+        <aside role="toolbar" className={trayStyles.shelf} ><div className={trayStyles.tray}>{children}</div></aside>
     )
 }
 

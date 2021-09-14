@@ -9,12 +9,13 @@ export const Menu = (props: MenuProps) => {
   const classNames = getClassNames()
   return (
     <Nav
+    
       onLinkClick={(event: any, element: any) => {
         event.preventDefault();
         props.onNavigate(element.url);
       }}
       ariaLabel="Navigation"
-      styles={classNames.nav}
+      styles={classNames}
       groups={menuLinks}
     />
   );

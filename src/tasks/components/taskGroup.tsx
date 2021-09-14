@@ -4,11 +4,11 @@ import { TaskActivity } from "../services/types/taskActivity";
 import { findTaskDescription } from "../services/types/taskDefinitionType";
 import { TaskCheckBox } from "./taskCheckBox";
 import { Task } from "./taskCheckbox.props";
-import { getClassNames } from "./taskGroup.styles";
+import TaskGroupStyles  from "./taskGroup.styles";
 
 
 const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
-  const classNames = getClassNames();
+
   const { data: taskDefinitionList } = useTaskDefinitionList();
   
   const handleStatusChange = (task: Task) => {
@@ -21,7 +21,7 @@ const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
       <table>
         <thead>
           <tr>
-            <th className={classNames.descriptionColumn}>&nbsp;</th>
+            <th className={TaskGroupStyles.descriptionColumn}>&nbsp;</th>
             <th>M</th>
             <th>T</th>
             <th>W</th>
@@ -35,7 +35,7 @@ const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
           {(
             taskActivityList?.map((row: TaskActivity, index: number) => (
               <tr key={index}>
-                <td>
+                <td >
                   {findTaskDescription(
                     taskDefinitionList!,
                     row.taskDefinitionId
