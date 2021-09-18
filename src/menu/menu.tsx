@@ -1,12 +1,12 @@
 import { Nav } from "@fluentui/react/lib/Nav";
+import { menuStyles } from "./menu.styles";
 import menuLinks from "./menuLinks";
-import { getClassNames } from "./menu.styles";
 
 type MenuProps = {
   onNavigate: (url: string) => any;
 };
 export const Menu = (props: MenuProps) => {
-  const classNames = getClassNames()
+
   return (
     <Nav
     
@@ -15,7 +15,7 @@ export const Menu = (props: MenuProps) => {
         props.onNavigate(element.url);
       }}
       ariaLabel="Navigation"
-      styles={classNames}
+      styles={menuStyles}
       groups={menuLinks}
     />
   );

@@ -5,7 +5,7 @@ const Card = ({ children }: CardProp) =>{
 
     const {card} = cardStyles;
     return(
-        <section role="card" className={card}>{children}</section>
+        <section role="group" className={card}>{children}</section>
     )
 }
 

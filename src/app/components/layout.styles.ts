@@ -1,13 +1,8 @@
-import { IPanelStyles, IStackStyles } from "@fluentui/react";
-import { LeftPanel } from "./leftPanel";
+import { IStackStyles } from "@fluentui/react";
 
-
-  export const stackFillStyles: IStackStyles = {
-    root: {
-      height: "100%",
-      width: "100%",
-    }
-  };
-
-
-
+export const stackFillStyles: IStackStyles = {
+  root: {
+    height: "100%",
+    width: "100%",
+  },
+};

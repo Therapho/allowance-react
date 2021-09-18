@@ -12,12 +12,12 @@ function App() {
       <Suspense fallback={<h3>Loading...</h3>}>
         <BrowserRouter>
           <AppStateProvider>
-          <Layout />
+            <Layout />
           </AppStateProvider>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </Suspense>
     </QueryClientProvider>
   );
-};
+}
 export default App;

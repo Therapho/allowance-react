@@ -1,6 +1,5 @@
-
 export type LeftPanelProps = {
   children: React.ReactNode;
-  isOpen: boolean,
-  onMenuDismiss: ()=>void;
+  isOpen: boolean;
+  onMenuDismiss: () => void;
 };

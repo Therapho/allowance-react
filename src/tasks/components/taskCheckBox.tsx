@@ -1,10 +1,9 @@
 import { Icon } from "@fluentui/react";
 import { useState } from "react";
 import { Task } from "./taskCheckbox.props";
-import { getClassNames} from "./taskCheckBox.styles";
+import { taskCheckboxStyles } from "./taskCheckBox.styles";
 
 export const TaskCheckBox = (task: Task) => {
-  const classNames = getClassNames();
 
   const [touchStartTime, setTouchStartTime] = useState(performance.now());
 
@@ -36,16 +35,16 @@ export const TaskCheckBox = (task: Task) => {
   const renderBox = (statusId: number) => {
     switch (statusId) {
       case 1:
-        return <Icon className={classNames.clear} iconName="SquareShapeSolid" />;
+        return <Icon className={taskCheckboxStyles.clear} iconName="SquareShapeSolid" />;
       case 2:
-        return <Icon className={classNames.accepted} iconName="Accept" />;
+        return <Icon className={taskCheckboxStyles.accepted} iconName="Accept" />;
       case 3:
-        return <Icon className={classNames.blocked} iconName="Cancel" />;
+        return <Icon className={taskCheckboxStyles.blocked} iconName="Cancel" />;
     }
   };
   return (
     <div
-      className={classNames.checkBox}
+      className={taskCheckboxStyles.checkBox}
       onClick={handleClick}
       onContextMenu={handleRightClick}
       onTouchStart={handleTouchStart}

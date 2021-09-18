@@ -1,11 +1,7 @@
-import { mergeStyles, mergeStyleSets } from "@fluentui/react";
+import { mergeStyleSets } from "@fluentui/react";
 
- const TaskGroupStyles = {
-  descriptionColumn: mergeStyles({
-    width: "30vw",
-  }),
-  descriptionLabel: mergeStyles({
-    fontSize: "2vw",
-  }),
-};
+const TaskGroupStyles = mergeStyleSets({
+  descriptionColumn: { width: "30vw" },
+  descriptionLabel: { fontSize: "2vw" },
+});
 export default TaskGroupStyles;

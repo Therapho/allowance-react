@@ -12,8 +12,8 @@ export const appElementLeft = mergeStyles({
 });
 
 export const appElementRight = mergeStyles({
-  float: "left",
-  textAlign: "left",
+  float: "right",
+  textAlign: "right",
   width: "50%",
 });
 
@@ -30,12 +30,11 @@ export const appPanel = mergeStyles({
 
 export const appButton = mergeStyleSets({
   root: {
-    margin:5,
-    "@media only screen and (max-width: 768px)":{
+    margin: 5,
+    "@media only screen and (max-width: 768px)": {
       fontSize: FontSizes.size10,
-      height:20,
-      width:40
-    }
-    
+      height: 20,
+      width: 40,
+    },
   },
 });

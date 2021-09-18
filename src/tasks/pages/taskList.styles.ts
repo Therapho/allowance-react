@@ -1,7 +1,18 @@
 import { mergeStyleSets } from "@fluentui/merge-styles";
-import { appElementLeft, appElementRight } from "../../app/app.styles";
+import { FontSizes, FontWeights } from "@fluentui/style-utilities";
 
 export const taskListStyles = mergeStyleSets({
-    left: appElementLeft,
-    right: appElementRight
+    leftItem:{
+        width:"33%"
+    },
+    centerItem:{
+        width:"33%",
+        textAlign: "center",
+        fontWeight: FontWeights.bold,
+        fontSize: FontSizes.medium
+    },
+    rightItem:{
+        width:"33%",
+        textAlign: "right"
+    },
 });

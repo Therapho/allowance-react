@@ -1,10 +1,9 @@
-﻿using System;
-using System.Reflection;
-using AllowanceFunctions.Services;
+﻿using AllowanceFunctions.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 [assembly: FunctionsStartup(typeof(AllowanceFunctions.StartUp))]
 namespace AllowanceFunctions
@@ -13,20 +12,21 @@ namespace AllowanceFunctions
     {
         public override void Configure(IFunctionsHostBuilder builder)
         {
+            var services = builder.Services;
+
+            // application insights
             string aiConnectionString = Environment.GetEnvironmentVariable("APPINSIGHTS_CONNECTIONSTRING");
-            builder.Services.AddApplicationInsightsTelemetry(aiConnectionString);
+            services.AddApplicationInsightsTelemetry(aiConnectionString);
+
+            // sql connection
             string sqlConnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
-
             if (string.IsNullOrEmpty(sqlConnectionString)) throw new NullReferenceException("ConnectionString not found");
-
-            var cache = new MemoryCache(new MemoryCacheOptions());
-
-            builder.Services.AddDbContext<DatabaseContext>(
+            services.AddDbContext<DatabaseContext>(
                 options => SqlServerDbContextOptionsExtensions.UseSqlServer(options, sqlConnectionString));
 
-
-           
-            builder.Services
+            // services
+            var cache = new MemoryCache(new MemoryCacheOptions());
+            services
                 .AddTransient<TaskWeekService>()
                 .AddTransient<TaskDefinitionService>()
                 .AddTransient<TaskActivityService>()

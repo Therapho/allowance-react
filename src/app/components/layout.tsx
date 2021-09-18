@@ -2,7 +2,6 @@ import { Stack } from "@fluentui/react";
 import { useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useAppState } from "../providers/appStateProvider";
-import { Panel, PanelType } from "@fluentui/react/lib/Panel";
 import { Home } from "../../home/home";
 import { LoginPage } from "../../login/login";
 import { useProfile } from "../../common/services/profile/queries/useProfile";
@@ -33,7 +32,7 @@ export const Layout = () => {
   };
 
   return (
-    <div >
+    <div>
       <LeftPanel onMenuDismiss={handleMenuDismiss} isOpen={isMenuOpen}>
         <Menu onNavigate={handleNavigate} />
         <Login />

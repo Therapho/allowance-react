@@ -1,15 +1,12 @@
 import { Overlay, ProgressIndicator } from "@fluentui/react";
 import { Fragment } from "react";
-import { getClassNames } from "./busyOverlay.styles";
+import { busyOverlayStyles } from "./busyOverlay.styles";
 
 const BusyOverlay = ({ busy }: { busy: boolean }) => {
-  
-  const classNames = getClassNames();
-
   return (
     <Fragment>
       {busy && (
-        <Overlay  styles={classNames}>
+        <Overlay styles={busyOverlayStyles}>
           <ProgressIndicator />
         </Overlay>
       )}
