@@ -1,23 +1,46 @@
-import { IconButton, Stack, Text } from "@fluentui/react";
-import { headerStyles, stackStyles } from "./header.styles";
+import {
+  IconButton,
+  MessageBar,
+  MessageBarType,
+  Stack,
+  Text,
+} from "@fluentui/react";
+import headerStyles from "./header.styles";
 
 type HeaderProps = {
-  oneMenuOpen: () => void;
+  onMenuOpen: () => void;
+  onCloseError: () => void;
+  error: string | undefined;
 };
-export const Header = ({ oneMenuOpen }: HeaderProps) => {
+export const Header = ({ error, onMenuOpen, onCloseError }: HeaderProps) => {
   return (
     <Stack
       horizontal
-      horizontalAlign="start"
+      horizontalAlign="space-between"
       verticalAlign="center"
-      styles={stackStyles}
+      styles={headerStyles.stackStyles}
     >
-      <IconButton
-        iconProps={{ iconName: "GlobalNavButton" }}
-        className={headerStyles.icon}
-        onClick={oneMenuOpen}
-      />
-      <Text className={headerStyles.headerText}>Allowance</Text>
+      <Stack.Item align="start">
+        <IconButton
+          iconProps={{ iconName: "GlobalNavButton" }}
+          className={headerStyles.headerStyles.icon}
+          onClick={onMenuOpen}
+        />
+
+        <Text className={headerStyles.headerStyles.headerText}>Allowance</Text>
+      </Stack.Item>
+      <Stack.Item align="end" styles={headerStyles.stackItemStyles} >
+        {error && (
+          <MessageBar
+            messageBarType={MessageBarType.error}
+            isMultiline={false}
+            onDismiss={onCloseError}
+            dismissButtonAriaLabel="Close"
+          >
+            {error}
+          </MessageBar>
+        )}
+      </Stack.Item>
     </Stack>
   );
 };

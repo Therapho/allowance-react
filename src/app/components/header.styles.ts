@@ -2,16 +2,15 @@ import { mergeStyleSets } from "@fluentui/merge-styles";
 import { IStackStyles } from "@fluentui/react";
 import { DefaultPalette } from "@fluentui/style-utilities";
 
-export const stackStyles: IStackStyles = {
+const stackStyles: IStackStyles = {
   root: {
     backgroundColor: DefaultPalette.themeDark,
     height: 32,
-    alignItems: "center",
     color: DefaultPalette.themeLighterAlt,
   },
 };
 
-export const headerStyles = mergeStyleSets({
+const headerStyles = mergeStyleSets({
   headerText: {
     color: DefaultPalette.themeLighterAlt,
   },
@@ -23,3 +22,15 @@ export const headerStyles = mergeStyleSets({
     color: DefaultPalette.themeLighterAlt,
   },
 });
+const stackItemStyles = mergeStyleSets({
+  root:{
+    width:"30%"
+  }
+})
+const messageBarStyles =  mergeStyleSets({
+  root: {
+    width: "30%",
+  },
+});
+
+export default {stackStyles, headerStyles, messageBarStyles, stackItemStyles}

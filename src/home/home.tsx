@@ -1,22 +1,13 @@
-import { Fragment } from "react";
 import { Text } from "@fluentui/react";
-import { Dashboard } from "../dashboard/dashboard";
-import { useProfile } from "../common/services/profile/queries/useProfile";
+import { Dashboard } from "./components/dashboard";
 
-export const Home = () => {
-  const { data: profile } = useProfile();
+export const Home = () => { 
 
   return (
-    <main>
-      {profile ? (
+    <main>      
         <Text>
           <Dashboard></Dashboard>
-        </Text>
-      ) : (
-        <Fragment>
-          {/* <DefaultButton onClick={props.onLogin}>Login</DefaultButton>*/}
-        </Fragment>
-      )}
+        </Text>      
     </main>
   );
 };
