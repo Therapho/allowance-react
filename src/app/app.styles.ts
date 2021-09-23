@@ -17,6 +17,7 @@ export const appElementRight = mergeStyles({
   width: "50%",
 });
 
+
 export const appIcon = mergeStyles({
   marginLeft: 5,
   marginRight: 5,

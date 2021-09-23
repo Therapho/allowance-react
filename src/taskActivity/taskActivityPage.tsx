@@ -8,6 +8,7 @@ export const TaskPage = () => {
   const [selectedDate, setSelectedDate] = useState(
     dateUtilities.getMonday(new Date())
   );
+  
   return (
     <main>
       <DateRange selectedDate={selectedDate} onSelectDate={setSelectedDate} />

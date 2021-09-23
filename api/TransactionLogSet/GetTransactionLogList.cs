@@ -28,17 +28,26 @@ namespace AllowanceFunctions.Api.TransactionLogSet
             List<TransactionLog> result = null;
             try
             {
-                var userId = req.Query.GetValue<string>("userId");
+                var targetAccountId = 0;
                 var userPrincipal = req.GetUserPrincipal();
-                var account = await AccountService.GetByUser(userId);
+                var callingAccount = await AccountService.GetByUser(userPrincipal.UserId);
 
-                log.LogTrace($"GetTransactionLogList triggered for account:{account.Name} by {userPrincipal.UserDetails}.");
+                if (req.Query.HasValue("accountid"))
+
+                    targetAccountId = req.Query.GetValue<int>("accountid");
+                else
+                    targetAccountId = callingAccount.Id;
+
+               
+                //var account = await AccountService.Get(accountId);
+
+                log.LogTrace($"GetTransactionLogList triggered for accountId:{targetAccountId} by {userPrincipal.UserDetails}.");
                 
 
-                if (userPrincipal.IsAuthorizedToAccess(userId))
+                if (userPrincipal.IsAuthorizedToAccess(targetAccountId, callingAccount.Id))
                 {
                     
-                    result = await _transactionLogService.GetByAccountId(account.Id);
+                    result = await _transactionLogService.GetByAccountId(targetAccountId);
                 }
                 else
                 {

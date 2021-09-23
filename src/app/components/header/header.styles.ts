@@ -5,6 +5,7 @@ import { DefaultPalette } from "@fluentui/style-utilities";
 const headerStyles = {
   headerText: mergeStyles({
     color: DefaultPalette.themeLighterAlt,
+    fontSize:16
   }),
   headerIcon: mergeStyles({
     color: DefaultPalette.themeLighterAlt,

@@ -1,12 +1,12 @@
 import { Text } from "@fluentui/react";
-import { Dashboard } from "./components/dashboard";
+import { Dashboard } from "./components/dashboard/dashboard";
 
 export const Home = () => { 
 
   return (
     <main>      
         <Text>
-          <Dashboard></Dashboard>
+          <Dashboard/>
         </Text>      
     </main>
   );

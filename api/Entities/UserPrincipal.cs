@@ -22,9 +22,9 @@ namespace AllowanceFunctions.Entities
         {
             return this.UserRoles.Contains(userRole);
         }
-        public bool IsAuthorizedToAccess(int callingUserId, int targetAccountId)
+        public bool IsAuthorizedToAccess(int callingAccountId, int targetAccountId)
         {
-            return targetAccountId == callingUserId || IsInRole(Constants.PARENT_ROLE);
+            return targetAccountId == callingAccountId || IsInRole(Constants.PARENT_ROLE);
         }
         public bool IsAuthorizedToAccess(string targetUserId)
         {

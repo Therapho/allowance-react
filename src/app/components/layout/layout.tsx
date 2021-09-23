@@ -6,7 +6,6 @@ import { Home } from "../../../home/home";
 import { Login } from "../../../login/components/login";
 import { LoginCompletePage } from "../../../login/loginCompletePage";
 import { LoginLink } from "../../../login/loginLink";
-import { Menu } from "../../../menu/menu";
 import { Settings } from "../../../settings/settings";
 import { TaskPage } from "../../../taskActivity/taskActivityPage";
 import { useAppState } from "../../context/appStateProvider";
@@ -15,6 +14,8 @@ import { Header } from "../header/header";
 import { LeftPanel } from "../leftPanel/leftPanel";
 
 import * as layoutStyles from "./layout.styles"
+import TransactionPage from "../../../transactions/transactionPage";
+import { Menu } from "../menu/menu";
 export const Layout = () => {
   const history = useHistory();
   const { busy, error, clearError } = useAppState();
@@ -50,6 +51,7 @@ export const Layout = () => {
             <Route path="/tasks" component={TaskPage} />
             <Route path="/settings" component={Settings} />
             <Route path="/logincomplete" component={LoginCompletePage} />
+            <Route path="/transactions" component={TransactionPage}/>
           </Switch>
         ) : (
           <Login />
