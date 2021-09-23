@@ -1,7 +1,7 @@
 import { MutationFunction, useMutation } from "react-query";
 import { useAppState } from "../../app/providers/appStateProvider";
 
-export default <TData, TVariables>(
+const useUpdate= <TData, TVariables>(
     mutationFn: MutationFunction<TData, TVariables>,
   onSuccess?: () => void,
   onSettled?: () => void,  
@@ -22,3 +22,5 @@ export default <TData, TVariables>(
     }
   );
 };
+
+export default useUpdate;

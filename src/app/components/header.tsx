@@ -23,11 +23,11 @@ export const Header = ({ error, onMenuOpen, onCloseError }: HeaderProps) => {
       <Stack.Item align="start">
         <IconButton
           iconProps={{ iconName: "GlobalNavButton" }}
-          className={headerStyles.headerStyles.icon}
+          className={headerStyles.icon}
           onClick={onMenuOpen}
         />
 
-        <Text className={headerStyles.headerStyles.headerText}>Allowance</Text>
+        <Text className={headerStyles.headerText}>Allowance</Text>
       </Stack.Item>
       <Stack.Item align="end" styles={headerStyles.stackItemStyles} >
         {error && (

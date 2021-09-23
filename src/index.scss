@@ -8,13 +8,13 @@ body {
   -moz-osx-font-smoothing: grayscale;
   
 }
-@media only screen and (max-width: 768px) {
-  body{font-size: $ms-font-size-12 };
-  main{padding:5px}
-}
-
-
 main{
-  padding:10px;
+  padding:15px;
   
 }
+@media only screen and (max-width: 768px) {
+  body{font-size: $ms-font-size-12; margin:0px; padding:0px};
+  main{padding:0px; margin:0px}
+}
+
+

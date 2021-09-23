@@ -13,7 +13,7 @@ export const makeProfile = (principal: any) :Profile => {
     userDetails: principal.userDetails,
   };
 };
-export const isParent = (profile: Profile) => {
-  if(profile.userRoles.find(r=>r==="Parent")) return true;
+export const checkIfParent = (profile: Profile | undefined) => {
+  if(profile && profile.userRoles.find(r=>r==="Parent")) return true;
   else return false;  
 }

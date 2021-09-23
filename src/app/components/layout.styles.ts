@@ -1,9 +1,5 @@
-import {
-  IMessageBarStyles,
-  IStackItemStyles,
-  IStackStyles,
-} from "@fluentui/react";
-import { mergeStyles, mergeStyleSets } from "@fluentui/merge-styles";
+import { IStackStyles } from "@fluentui/react";
+import { mergeStyleSets } from "@fluentui/merge-styles";
 
 const stackFillStyles = mergeStyleSets<IStackStyles>({
   root: {
@@ -12,5 +8,4 @@ const stackFillStyles = mergeStyleSets<IStackStyles>({
   },
 });
 
-
-export default {stackFillStyles};
+export { stackFillStyles };

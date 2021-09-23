@@ -6,15 +6,14 @@ import { Home } from "../../home/home";
 import { Login } from "../../login/components/login";
 import { useProfile } from "../../common/stores/profile/queries/useProfile";
 import { Settings } from "../../settings/settings";
-import { TaskPage } from "../../taskList/taskList";
+import { TaskPage } from "../../taskActivity/taskActivityPage";
 import BusyOverlay from "./busyOverlay";
 import { Header } from "./header";
 import { Menu } from "../../menu/menu";
 import { LeftPanel } from "./leftPanel";
 import { LoginLink } from "../../login/loginLink";
 import { LoginCompletePage } from "../../login/loginCompletePage";
-import layoutStyles from "./layout.styles";
-
+import * as layoutStyles from "./layout.styles"
 export const Layout = () => {
   const history = useHistory();
   const { busy, error, clearError } = useAppState();
