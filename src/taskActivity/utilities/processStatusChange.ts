@@ -1,8 +1,8 @@
 import { Constants } from "../../common/utilities/constants";
 import { Task } from "../components/taskCheckBox/taskCheckbox.props";
-import { TaskActivitySet } from "../stores/types/taskActivity";
-import { TaskDefinitionSet } from "../stores/types/taskDefinition";
-import { TaskWeek } from "../stores/types/taskWeekType";
+import { TaskActivitySet } from "../../common/stores/task/types/taskActivity";
+import { TaskDefinitionSet } from "../../common/stores/task/types/taskDefinition";
+import { TaskWeek } from "../../common/stores/task/types/taskWeekType";
 
 export const processStatusChange = (
   taskActivityList: TaskActivitySet,

@@ -1,6 +1,6 @@
-import { useTaskDefinitionSet } from "../../stores/queries";
-import { TaskActivity } from "../../stores/types/taskActivity";
-import { findTaskDescription } from "../../stores/types/taskDefinition";
+import { useTaskDefinitionSet } from "../../../common/stores/task/queries";
+import { TaskActivity } from "../../../common/stores/task/types/taskActivity";
+import { findTaskDescription } from "../../../common/stores/task/types/taskDefinition";
 import { TaskCheckBox } from "../taskCheckBox/taskCheckBox";
 import { TaskGroupProps } from "./taskGroup.props";
 import TaskGroupStyles from "./taskGroup.styles";
