@@ -1,9 +1,9 @@
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { Layout } from "./components/layout";
 import { Suspense } from "react";
-import { AppStateProvider } from "./providers/appStateProvider";
+import { AppStateProvider } from "./context/appStateProvider";
+import { Layout } from "./components/layout/layout";
 
 function App() {
   const queryClient = new QueryClient();
