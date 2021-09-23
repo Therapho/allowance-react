@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import { taskButtonTrayStyles } from "./taskButtonTray.styles";
 import { TaskButtonTrayProps } from "./taskButtonTray.props";
 import { appButton } from "../../../app/app.styles";
-import Tray from "../../../common/components/tray";
+import Tray from "../../../common/components/tray/tray";
 export const TaskButtonTray = ({
   canEdit,
   onSave,

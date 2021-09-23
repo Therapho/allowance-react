@@ -1,18 +1,19 @@
 import { Stack } from "@fluentui/react";
 import { useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
-import { useAppState } from "../providers/appStateProvider";
-import { Home } from "../../home/home";
-import { Login } from "../../login/components/login";
-import { useProfile } from "../../common/stores/profile/queries/useProfile";
-import { Settings } from "../../settings/settings";
-import { TaskPage } from "../../taskActivity/taskActivityPage";
-import BusyOverlay from "./busyOverlay";
-import { Header } from "./header";
-import { Menu } from "../../menu/menu";
-import { LeftPanel } from "./leftPanel";
-import { LoginLink } from "../../login/loginLink";
-import { LoginCompletePage } from "../../login/loginCompletePage";
+import { useProfile } from "../../../common/stores/profile/queries/useProfile";
+import { Home } from "../../../home/home";
+import { Login } from "../../../login/components/login";
+import { LoginCompletePage } from "../../../login/loginCompletePage";
+import { LoginLink } from "../../../login/loginLink";
+import { Menu } from "../../../menu/menu";
+import { Settings } from "../../../settings/settings";
+import { TaskPage } from "../../../taskActivity/taskActivityPage";
+import { useAppState } from "../../context/appStateProvider";
+import BusyOverlay from "../busyOverlay/busyOverlay";
+import { Header } from "../header/header";
+import { LeftPanel } from "../leftPanel/leftPanel";
+
 import * as layoutStyles from "./layout.styles"
 export const Layout = () => {
   const history = useHistory();

@@ -1,5 +1,5 @@
 import { Label, Stack, Text } from "@fluentui/react";
-import Card from "../../common/components/card";
+import Card from "../../common/components/card/card";
 import { useAccount } from "../../common/stores/account/queries/useAccount";
 import { dashboardStackTokens } from "./dashboard.styles";
 
