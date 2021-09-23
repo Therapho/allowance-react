@@ -19,7 +19,7 @@ const TransactionCard = () => {
         ? row.description.substr(0, 100) + "..."
         : row.description;
     const category =
-      row.categoryId == Constants.TransactionCategory.Deposit
+      row.categoryId === Constants.TransactionCategory.Deposit
         ? "Deposited"
         : "Withdrawn";
 

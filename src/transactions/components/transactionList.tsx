@@ -49,7 +49,7 @@ const TransactionList = () => {
       minWidth: 80,
       maxWidth: 100,
       onRender: (item: Transaction) => {
-        return item.categoryId == Constants.TransactionCategory.Deposit
+        return item.categoryId === Constants.TransactionCategory.Deposit
           ? "Deposit"
           : "Withdrawal";
       },

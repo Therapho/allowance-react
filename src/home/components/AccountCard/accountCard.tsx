@@ -1,5 +1,4 @@
 import { Label } from "@fluentui/react";
-import { profile } from "console";
 import Card from "../../../common/components/card/card";
 import { useAccount } from "../../../common/stores/account/queries/useAccount";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";

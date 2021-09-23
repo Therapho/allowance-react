@@ -1,6 +1,5 @@
 import { useQuery } from "react-query";
 import { minutes } from "../../../utilities/constants";
-import { useAppQuery } from "../../../utilities/useAppQuery";
 import { getTransactionSet } from "../api/getTransactionSet";
 import transactionKeys from "./transactionKeys";
 

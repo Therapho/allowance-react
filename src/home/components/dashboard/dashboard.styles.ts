@@ -1,10 +1,11 @@
 import { IStackStyles, IStackTokens } from "@fluentui/react";
 
+
 export const dashBoardStyles = {
-  stackTokens: <IStackTokens>{
+  stackTokens:{
     childrenGap: 55,
-  },
-  stackStyles: <IStackStyles>{
+  } as IStackTokens,
+  stackStyles:{
     root: {
         margin: 100,
         "@media only screen and (max-width: 768px)":{
@@ -12,5 +13,5 @@ export const dashBoardStyles = {
         }
       
     },
-  },
+  } as IStackStyles,
 };
