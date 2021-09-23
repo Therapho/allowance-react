@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AllowanceFunctions.Common;
 using Microsoft.AspNetCore.Mvc;
 using api.Common;
+using System.Security;
 
 namespace AllowanceFunctions.Api.TaskWeekSet
 {
@@ -50,14 +51,16 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                     dateEnd = dateEnd.Value.LastDayOfWeek();
 
                     log.LogTrace($"GetTaskWeek triggered with Date from {dateStart} to {dateEnd}");
-
-                    if (context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, context.TargetAccount.Id))
+                    if (!request.Query.ContainsKey("accountid"))
                     {
-                        result = await _taskWeekService.GetListByRange(dateStart, dateEnd);
+                        if (context.UserPrincipal.IsInRole(Constants.PARENT_ROLE))
+                        {
+                            result = await _taskWeekService.GetListByRange(dateStart, dateEnd);
+                        }
+                        else throw new SecurityException("Invalid attempt to access all task week's by an invalid user");
                     }
                     else
-
-                    {
+                    { 
                         result = await _taskWeekService.GetListByRange(dateStart, dateEnd, context.TargetAccount.Id);
                     }
                 }

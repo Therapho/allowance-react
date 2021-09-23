@@ -4,6 +4,9 @@ export type TaskWeek ={
     statusId: number;
     value: number;
     userIdentifier: string;
+    accountId: number;
     
   }
+  
+  export type TaskWeekSet=TaskWeek[];
   

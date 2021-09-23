@@ -16,6 +16,7 @@ import { LeftPanel } from "../leftPanel/leftPanel";
 import * as layoutStyles from "./layout.styles"
 import TransactionPage from "../../../transactions/transactionPage";
 import { Menu } from "../menu/menu";
+import TaskWeekListPage from "../../../taskWeekList/taskWeekListPage";
 export const Layout = () => {
   const history = useHistory();
   const { busy, error, clearError } = useAppState();
@@ -52,6 +53,7 @@ export const Layout = () => {
             <Route path="/settings" component={Settings} />
             <Route path="/logincomplete" component={LoginCompletePage} />
             <Route path="/transactions" component={TransactionPage}/>
+            <Route path="/taskweeklist" component={TaskWeekListPage}/>
           </Switch>
         ) : (
           <Login />

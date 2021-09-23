@@ -60,6 +60,7 @@ namespace AllowanceFunctions.Services
             var query = from taskWeek in _context.TaskWeekSet
                         where taskWeek.WeekStartDate >= dateStart && taskWeek.WeekStartDate <= dateEnd
                         && taskWeek.AccountId == accountId
+                        orderby taskWeek.WeekStartDate descending
                         select taskWeek;
             return await query.ToListAsync();
         }
