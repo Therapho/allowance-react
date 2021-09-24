@@ -1,22 +1,21 @@
 import { Label } from "@fluentui/react";
 import { Link } from "react-router-dom";
-import { useHistory } from "react-router";
 import Card from "../../../common/components/card/card";
 import { cardStyles } from "../../../common/components/card/card.styles";
+import { Account } from "../../../common/stores/account/types/accountType";
 import { useTaskWeekSet } from "../../../common/stores/task/queries/useTaskWeekSet";
 import { findStatusName } from "../../../common/stores/task/utilities/findStatusName";
 import dateUtilities from "../../../common/utilities/dateUtilities";
 import { formatCurrency } from "../../../common/utilities/formatCurrency";
 
-const TaskCard = () => {
-  const history = useHistory();
-
+type taskCardProps = {account:Account}
+const TaskCard = ({account}:taskCardProps) => {
   const thisWeek = dateUtilities.getMonday(new Date());
   const startDate = dateUtilities.addDays(thisWeek, -56);
   const endDate = dateUtilities.addDays(thisWeek, 7);
-  const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate);
+  const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate, account.id);
   return (
-    <Card>
+    <Card width="33%">
       <Label>Tasks</Label>
       {taskWeekSet && (
         <table>

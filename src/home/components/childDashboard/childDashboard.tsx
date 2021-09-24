@@ -3,22 +3,22 @@ import AccountCard from "../AccountCard/accountCard";
 import BalanceCard from "../BalanceCard/balanceCard";
 import TaskCard from "../TaskCard/taskCard";
 import TransactionCard from "../TransactionCard/transactionCard";
-import { dashBoardStyles } from "./dashboard.styles";
+import { childDashBoardStyles } from "./childDashboard.styles";
 
-export const Dashboard = () => {
+export const ChildDashboard = () => {
   return (
     <section>
       <Stack
         horizontalAlign="center"
         wrap
         horizontal
-        tokens={dashBoardStyles.stackTokens}
-        styles={dashBoardStyles.stackStyles}
+        tokens={childDashBoardStyles.stackTokens}
+        styles={childDashBoardStyles.stackStyles}
       >
         <AccountCard />
-        <BalanceCard />
-        <TaskCard />
-        <TransactionCard />
+        {/* <BalanceCard /> */}
+        {/* <TaskCard />
+        <TransactionCard /> */}
       </Stack>
     </section>
   );

@@ -5,6 +5,9 @@ export class Constants {
     public static get Role() {
       return {Parent: 1, Child: 2};
     }
+    public static get RoleNames()  {
+      return {Parent:"Parent", Child:"Child"}
+    }
     public static get Status() {
       return {Open: 1, Submitted: 2, Approved: 3, Rejected: 4};
     }

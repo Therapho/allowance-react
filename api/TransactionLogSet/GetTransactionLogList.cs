@@ -17,45 +17,39 @@ namespace AllowanceFunctions.Api.TransactionLogSet
     {
         private TransactionLogService _transactionLogService;
 
-        public GetTransactionLogList(AccountService accountService, 
+        public GetTransactionLogList(AccountService accountService,
             TransactionLogService transactionLogService)
             : base(accountService) { _transactionLogService = transactionLogService; }
 
         [FunctionName("GetTransactionLogList")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "transactionlogset")] HttpRequest req, ILogger log)
+            [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "transactionlogset")] HttpRequest request, ILogger log)
         {
             List<TransactionLog> result = null;
             try
             {
+                var context = await CreateContext(request);
                 var targetAccountId = 0;
-                var userPrincipal = req.GetUserPrincipal();
-                var callingAccount = await AccountService.GetByUser(userPrincipal.UserId);
 
-                if (req.Query.HasValue("accountid"))
 
-                    targetAccountId = req.Query.GetValue<int>("accountid");
-                else
-                    targetAccountId = callingAccount.Id;
-
-               
-                //var account = await AccountService.Get(accountId);
-
-                log.LogTrace($"GetTransactionLogList triggered for accountId:{targetAccountId} by {userPrincipal.UserDetails}.");
-                
-
-                if (userPrincipal.IsAuthorizedToAccess(targetAccountId, callingAccount.Id))
+                if (request.Query.HasValue("accountid"))
                 {
-                    
-                    result = await _transactionLogService.GetByAccountId(targetAccountId);
+                    targetAccountId = request.Query.GetValue<int>("accountid");
+                    if (!context.UserPrincipal.IsAuthorizedToAccess(targetAccountId, context.CallingAccount.Id))
+                        throw new SecurityException($"Unauthorized attempt to retrieve transaction log by {context.UserPrincipal.UserDetails}");
+
                 }
-                else
-                {
+                else if (!context.IsParent())
+                    targetAccountId = context.CallingAccount.Id;
 
-                   throw new SecurityException($"Unauthorized attempt to retrieve transaction log by {userPrincipal.UserDetails}");
-                }   
-                
-            }            
+                log.LogTrace($"GetTransactionLogList triggered for accountId:{targetAccountId} by {context.UserPrincipal.UserDetails}.");
+
+                if (targetAccountId > 0)
+                    result = await _transactionLogService.GetByAccountId(targetAccountId);
+                else
+                    result = await _transactionLogService.GetAll();
+                    
+            }
             catch (Exception exception)
             {
 

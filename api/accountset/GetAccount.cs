@@ -37,11 +37,11 @@ namespace AllowanceFunctions.Api.AccountSet
                     log.LogTrace($"GetAccount function processed a request with userIdentifier: '{userId}'.");
                     accountList = await AccountService.GetList(userId);
                 }
-                else if (req.Query.ContainsKey("role"))
+                else if (req.Query.ContainsKey("roleid"))
                 {
-                    var role = req.Query.GetValue<int>("role");
-                    log.LogTrace($"GetAccount function processed a request with role: '{role}'.");
-                    accountList = await AccountService.GetListByRole(role);
+                    var roleid = req.Query.GetValue<int>("roleid");
+                    log.LogTrace($"GetAccount function processed a request with role: '{roleid}'.");
+                    accountList = await AccountService.GetListByRole(roleid);
                 }
                 else
                 {

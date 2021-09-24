@@ -6,7 +6,7 @@ const taskKeys={
     definitionSet: [rootKey, 'definitionSet'],
     groupSet: [rootKey, 'groupSet'],
     week:(startDate: Date)=>[rootKey, 'week', startDate],
-    weekSet: (startDate: Date, endDate:Date, accountId?:number)=>[rootKey, 'weekset', startDate, endDate]
+    weekSet: (startDate: Date, endDate:Date, accountId?:number)=>[rootKey, 'weekset', startDate, endDate, accountId]
 
 }
 export default taskKeys;

@@ -42,5 +42,6 @@ export const Header = ({ error, onMenuOpen, onCloseError }: HeaderProps) => {
         )}
       </Stack.Item>
     </Stack>
+    
   );
 };

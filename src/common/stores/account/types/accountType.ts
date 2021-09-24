@@ -8,3 +8,4 @@ export type Account = {
     activeTaskWeekId?: number; 
     
 }
+export type AccountSet = Account[];
