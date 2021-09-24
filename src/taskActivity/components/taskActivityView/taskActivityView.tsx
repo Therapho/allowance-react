@@ -18,6 +18,7 @@ import { taskActivityViewProps } from "./taskActivityView.props";
 
 const TaskActivityView = ({ selectedDate }: taskActivityViewProps) => {
   const { data: taskWeek } = useTaskWeek(selectedDate);
+  
   const taskWeekId = taskWeek?.id!;
   const canEdit = taskWeek?.statusId === Constants.Status.Open;
 

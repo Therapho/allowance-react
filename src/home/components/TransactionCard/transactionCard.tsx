@@ -34,7 +34,7 @@ const TransactionCard = () => {
         transactionSet
           .slice(0, 3)
           .map((row: Transaction, index: number) => (
-            <div> {rowSummary(row)}</div>
+            <div key={index}> {rowSummary(row)}</div>
           ))}
       <Link className={cardStyles.contentBottomRight} onClick={()=>history.push('/transactions')}>More...</Link>
     </Card>

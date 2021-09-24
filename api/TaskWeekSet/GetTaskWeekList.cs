@@ -51,18 +51,25 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                     dateEnd = dateEnd.Value.LastDayOfWeek();
 
                     log.LogTrace($"GetTaskWeek triggered with Date from {dateStart} to {dateEnd}");
-                    if (!request.Query.ContainsKey("accountid"))
+
+                    var targetAccountId = 0;
+
+                    if (request.Query.ContainsKey("accountId"))
                     {
-                        if (context.UserPrincipal.IsInRole(Constants.PARENT_ROLE))
-                        {
-                            result = await _taskWeekService.GetListByRange(dateStart, dateEnd);
-                        }
-                        else throw new SecurityException("Invalid attempt to access all task week's by an invalid user");
+                        targetAccountId = request.Query.GetValue<int>("accountid");
+                        if (!context.IsAuthorizedToAccess(targetAccountId)) 
+                            throw new SecurityException($"Invalid attempt to access taskweek set for accountid {targetAccountId} by accountid {context.CallingAccount.Name} "); 
+
                     }
-                    else
-                    { 
+                    else if(!context.IsParent()){
+                        targetAccountId = context.CallingAccount.Id;
+                    }
+
+                    if (targetAccountId > 0)
                         result = await _taskWeekService.GetListByRange(dateStart, dateEnd, context.TargetAccount.Id);
-                    }
+                    else
+                        result = await _taskWeekService.GetListByRange(dateStart, dateEnd);
+
                 }
 
             }

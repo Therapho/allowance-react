@@ -38,6 +38,9 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             var context = await CreateContext(request);
 
             var startDate = request.Query.GetRequiredValue<DateTime>("weekstartdate").StartOfDay();
+            
+            
+
             log.LogTrace($"GetTaskActivityListByDay function processed a request for user={context.UserPrincipal.UserDetails}, startDate={startDate}.");
 
             TaskWeek taskWeek = null;
@@ -45,25 +48,36 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             try
 
             {
-               
-                taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate);
-                if(taskWeek == null)
+                if (request.Query.ContainsKey("taskWeekID"))
                 {
-                    
-                    if(context.UserPrincipal.IsInRole(Constants.PARENT_ROLE))
-                    {
-                        throw new SecurityException($"Invalid attempt by {context.CallingAccount.Name} to create a new task week.");
-
-                    }
-                    taskWeek = await _taskWeekService.Create(context.CallingAccount.Id, startDate);
-                    context.CallingAccount.ActiveTaskWeekId = taskWeek.Id;
-                    await AccountService.Update(context.CallingAccount);
-                }
-                else
-                {
+                    var taskWeekId = request.Query.GetValue<int>("taskweekid");
+                    taskWeek = await _taskWeekService.Get(taskWeekId);
                     if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
                     {
                         throw new SecurityException("Invalid attempt to access a record by an invalid user");
+                    }
+                }
+                else
+                {
+                    taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate);
+                    if (taskWeek == null)
+                    {
+
+                        if (context.UserPrincipal.IsInRole(Constants.PARENT_ROLE))
+                        {
+                            throw new SecurityException($"Invalid attempt by {context.CallingAccount.Name} to create a new task week.");
+
+                        }
+                        taskWeek = await _taskWeekService.Create(context.CallingAccount.Id, startDate);
+                        context.CallingAccount.ActiveTaskWeekId = taskWeek.Id;
+                        await AccountService.Update(context.CallingAccount);
+                    }
+                    else
+                    {
+                        if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
+                        {
+                            throw new SecurityException("Invalid attempt to access a record by an invalid user");
+                        }
                     }
                 }
               

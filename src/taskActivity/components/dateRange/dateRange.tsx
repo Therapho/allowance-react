@@ -1,11 +1,13 @@
 import { addDays } from "@fluentui/date-time-utilities";
-import { Stack, StackItem, IconButton } from "@fluentui/react";
+import { Stack, StackItem, IconButton, Link } from "@fluentui/react";
+import { useHistory } from "react-router-dom";
 import { dateRangeStyles } from "./dateRange.styles";
 import { DateRangeProps } from "./dateRangeProps";
 
 export const DateRange = ({ selectedDate, onSelectDate }: DateRangeProps) => {
   const today = new Date();
-
+  const history = useHistory();
+ 
   const handlePreviousWeek = () => {
     onSelectDate(addDays(selectedDate, -7));
   };
@@ -21,7 +23,7 @@ export const DateRange = ({ selectedDate, onSelectDate }: DateRangeProps) => {
         />
       </StackItem>
       <StackItem className={dateRangeStyles.centerItem}>
-        Tasks for {selectedDate.toLocaleDateString()}
+        <Link onClick={()=>history.push('/taskweeklist')}>Tasks for {selectedDate.toLocaleDateString()}</Link>
       </StackItem>
       <StackItem className={dateRangeStyles.rightItem}>
         {addDays(selectedDate, 7) < today && (

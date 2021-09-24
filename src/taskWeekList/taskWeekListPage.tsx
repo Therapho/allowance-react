@@ -1,15 +1,11 @@
-import { DetailsList, DetailsListLayoutMode, IColumn, SelectionMode } from "@fluentui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAccount } from "../common/stores/account/queries/useAccount";
-import { useTaskWeekSet } from "../common/stores/task/queries/useTaskWeekSet";
-import { TaskWeek } from "../common/stores/task/types/taskWeekType";
-import { Constants } from "../common/utilities/constants";
 import dateUtilities from "../common/utilities/dateUtilities";
 import TaskWeekList from "./components/taskWeekList";
 
 const TaskWeekListPage = ()=>{
     
-    const [selectedDate, setSelectedDate] = useState(
+    const [selectedDate] = useState(
         dateUtilities.getMonday(new Date())
       );
     const startDate = dateUtilities.addDays(selectedDate, -56 );
