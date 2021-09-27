@@ -5,12 +5,15 @@ import {
   SelectionMode,
 } from "@fluentui/react";
 import { Fragment } from "react";
+import { useChildAccountSet } from "../../common/stores/account/queries/useChildAccountSet";
+import { Account, AccountSet, findAccountName } from "../../common/stores/account/types/accountType";
 import { useTransactionSet } from "../../common/stores/transaction/queries/useTransactionSet";
 import { Transaction } from "../../common/stores/transaction/types/transaction";
 import { Constants } from "../../common/utilities/constants";
 
-const TransactionList = () => {
-  const { data: transactionSet } = useTransactionSet();
+type TransactionListProps = { account:Account|undefined, childAccountSet:AccountSet}
+const TransactionList = ({account, childAccountSet}: TransactionListProps) => {
+  const { data: transactionSet } = useTransactionSet(account?.id);
   const columns: IColumn[] = [
     {
       key: "column1",
@@ -52,6 +55,17 @@ const TransactionList = () => {
         return item.categoryId === Constants.TransactionCategory.Deposit
           ? "Deposit"
           : "Withdrawal";
+      },
+    },
+    {
+      key: "column5",
+      name: "Account",
+      fieldName: "accountid",
+      minWidth: 80,
+      maxWidth: 100,
+          
+      onRender: (item: Transaction) => {
+        return findAccountName(childAccountSet, item.accountId);
       },
     },
   ];
