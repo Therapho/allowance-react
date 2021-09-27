@@ -1,5 +1,4 @@
 import { Label } from "@fluentui/react";
-import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import Card from "../../../common/components/card/card";
 import { cardStyles } from "../../../common/components/card/card.styles";
@@ -14,7 +13,6 @@ type transactionCardProps = {
   account: Account;
 };
 const TransactionCard = ({ account }: transactionCardProps) => {
-  const history = useHistory();
   const isMobile = useMediaQuery("@media only screen and (max-width: 768px)");
   const rowSummary = (row: Transaction) => {
     const amount = formatCurrency(row.amount);

@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { useLocation } from "react-router";
-import { useAccount } from "../common/stores/account/queries/useAccount";
-import { Account } from "../common/stores/account/types/accountType";
 import dateUtilities from "../common/utilities/dateUtilities";
 import { useTargetAccount } from "../common/utilities/useTargetAccount";
 import TaskWeekList from "./components/taskWeekList";
