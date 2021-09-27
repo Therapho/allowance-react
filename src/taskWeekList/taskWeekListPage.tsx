@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useLocation } from "react-router";
 import { useAccount } from "../common/stores/account/queries/useAccount";
+import { Account } from "../common/stores/account/types/accountType";
 import dateUtilities from "../common/utilities/dateUtilities";
+import { useTargetAccount } from "../common/utilities/useTargetAccount";
 import TaskWeekList from "./components/taskWeekList";
 
 const TaskWeekListPage = ()=>{
@@ -10,8 +13,9 @@ const TaskWeekListPage = ()=>{
       );
     const startDate = dateUtilities.addDays(selectedDate, -56 );
     const endDate = dateUtilities.addDays(selectedDate, 7 );
+    
+    const account = useTargetAccount();
 
-    const {data: account} = useAccount();
     return(
         <main>
             <h1>Task Weeks</h1>

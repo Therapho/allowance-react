@@ -9,3 +9,7 @@ export type Account = {
     
 }
 export type AccountSet = Account[];
+export const findAccountName = (accountSet: AccountSet, id:number) => {
+    return accountSet.find(item => item.id === id)?.name;
+   }
+  

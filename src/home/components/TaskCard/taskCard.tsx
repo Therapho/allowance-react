@@ -32,7 +32,7 @@ const TaskCard = ({account}:taskCardProps) => {
           ))}
         </table>
       )}
-      <Link to="/taskweeklist"
+      <Link to={{pathname:"/taskweeklist", state: account}}
         className={cardStyles.contentBottomRight}
         
       >
