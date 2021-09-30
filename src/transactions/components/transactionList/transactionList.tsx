@@ -5,14 +5,17 @@ import {
   SelectionMode,
 } from "@fluentui/react";
 import { Fragment } from "react";
-import { Account, AccountSet, findAccountName } from "../../common/stores/account/types/accountType";
-import { useTransactionSet } from "../../common/stores/transaction/queries/useTransactionSet";
-import { Transaction } from "../../common/stores/transaction/types/transaction";
-import { Constants } from "../../common/utilities/constants";
+import { useChildAccountSet } from "../../../common/stores/account/queries/useChildAccountSet";
+import { Account, findAccountName } from "../../../common/stores/account/types/accountType";
+import { useTransactionSet } from "../../../common/stores/transaction/queries/useTransactionSet";
+import { TransactionLog } from "../../../common/stores/transaction/types/transactionLog";
+import { Constants } from "../../../common/utilities/constants";
 
-type TransactionListProps = { account:Account|undefined, childAccountSet:AccountSet}
-const TransactionList = ({account, childAccountSet}: TransactionListProps) => {
+type TransactionListProps = { account:Account|undefined}
+const TransactionList = ({account}: TransactionListProps) => {
   const { data: transactionSet } = useTransactionSet(account?.id);
+  const { data: childAccountSet } = useChildAccountSet();
+ 
   const columns: IColumn[] = [
     {
       key: "column1",
@@ -20,8 +23,8 @@ const TransactionList = ({account, childAccountSet}: TransactionListProps) => {
       fieldName: "date",
       minWidth: 80,
       maxWidth: 100,
-      onRender: (item: Transaction) => {
-        return new Date(item.date).toLocaleDateString();
+      onRender: (item: TransactionLog) => {
+        return item.date.toLocaleDateString();
       },
     },
     {
@@ -37,7 +40,7 @@ const TransactionList = ({account, childAccountSet}: TransactionListProps) => {
       fieldName: "amount",
       minWidth: 80,
       maxWidth: 100,
-      onRender: (item: Transaction) => {
+      onRender: (item: TransactionLog) => {
         return item.amount.toLocaleString("en-US", {
           style: "currency",
           currency: "USD",
@@ -50,7 +53,7 @@ const TransactionList = ({account, childAccountSet}: TransactionListProps) => {
       fieldName: "category",
       minWidth: 80,
       maxWidth: 100,
-      onRender: (item: Transaction) => {
+      onRender: (item: TransactionLog) => {
         return item.categoryId === Constants.TransactionCategory.Deposit
           ? "Deposit"
           : "Withdrawal";
@@ -63,8 +66,8 @@ const TransactionList = ({account, childAccountSet}: TransactionListProps) => {
       minWidth: 80,
       maxWidth: 100,
           
-      onRender: (item: Transaction) => {
-        return findAccountName(childAccountSet, item.accountId);
+      onRender: (item: TransactionLog) => {
+        return childAccountSet && findAccountName(childAccountSet, item.accountId);
       },
     },
   ];

@@ -10,7 +10,7 @@ export const ParentDashBoard = () => {
 
 
   return (
-    <Stack horizontal>
+    <Stack horizontal wrap>
       {childSet&&(
         childSet.map((childAccount)=>(
           <div>

@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { MutationFunction, useMutation } from "react-query";
 import { useAppState } from "../../app/context/appStateProvider";
 
@@ -17,7 +18,8 @@ const useUpdate= <TData, TVariables>(
         onSettled && onSettled()},
       
       onError: (error) => {
-        setError(error as string);
+        const axiosError = error as AxiosError;
+        setError(axiosError.message);
         onError && onError()},
     }
   );

@@ -1,8 +1,8 @@
-const rootKey = "transaction";
+const rootKey = "transactionLog";
 
 const transactionKeys = {
   all: [rootKey] as const,
-  transactionSet:(accountId?:number)=> [rootKey, "transactionSet", accountId]
+  transactionLogSet:(accountId?:number)=> [rootKey, "set", accountId]
 };
 
 export default transactionKeys;
