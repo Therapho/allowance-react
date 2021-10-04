@@ -9,8 +9,7 @@ export const LoginCompletePage = () => {
     if( !checkIfParent(profile)) 
         history.push("/tasks");
     else
-        history.push("/");
-    
+        history.push("/");    
 
   return <main>Logged in</main>;
 };
