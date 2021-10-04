@@ -1,3 +1,5 @@
+import { Constants } from "../../../utilities/constants";
+
 export type Profile = {
   userId: string;
   userRoles: string[];
@@ -14,6 +16,6 @@ export const makeProfile = (principal: any) :Profile => {
   };
 };
 export const checkIfParent = (profile: Profile | undefined) => {
-  if(profile && profile.userRoles.find(r=>r==="Parent")) return true;
+  if(profile && profile.userRoles.find(r=>r===Constants.RoleNames.Parent)) return true;
   else return false;  
 }
