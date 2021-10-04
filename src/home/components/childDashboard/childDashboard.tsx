@@ -1,6 +1,5 @@
 import { Stack } from "@fluentui/react";
 import { useAccount } from "../../../common/stores/account/queries/useAccount";
-import AccountCard from "../AccountCard/accountCard";
 import BalanceCard from "../BalanceCard/balanceCard";
 import TaskCard from "../TaskCard/taskCard";
 import TransactionCard from "../TransactionCard/transactionCard";
@@ -18,7 +17,7 @@ export const ChildDashboard = () => {
           tokens={childDashBoardStyles.stackTokens}
           styles={childDashBoardStyles.stackStyles}
         >
-          <AccountCard />
+          
           <BalanceCard account={account} />
           <TaskCard account={account} />
           <TransactionCard account={account} />

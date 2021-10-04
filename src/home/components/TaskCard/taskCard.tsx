@@ -8,33 +8,35 @@ import { findStatusName } from "../../../common/stores/task/utilities/findStatus
 import dateUtilities from "../../../common/utilities/dateUtilities";
 import { formatCurrency } from "../../../common/utilities/formatCurrency";
 
-type taskCardProps = {account:Account}
-const TaskCard = ({account}:taskCardProps) => {
+type taskCardProps = { account: Account };
+const TaskCard = ({ account }: taskCardProps) => {
   const thisWeek = dateUtilities.getMonday(new Date());
   const startDate = dateUtilities.addDays(thisWeek, -56);
   const endDate = dateUtilities.addDays(thisWeek, 7);
   const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate, account.id);
   return (
-    <Card width="33%">
+    <Card width="100%">
       <Label>Tasks</Label>
       {taskWeekSet && (
         <table>
-          {taskWeekSet.slice(0, 5).map((taskWeek) => (
-            <tr key={taskWeek.id}>
-              <td>
-                <Link to={{ pathname: "/tasks", state: taskWeek }}>
-                  {taskWeek.weekStartDate.toLocaleDateString()}
-                </Link>
-              </td>
-              <td>{formatCurrency(taskWeek.value)}</td>
-              <td>{findStatusName(taskWeek.statusId)}</td>
-            </tr>
-          ))}
+          <tbody>
+            {taskWeekSet.slice(0, 5).map((taskWeek) => (
+              <tr key={taskWeek.id}>
+                <td>
+                  <Link to={{ pathname: "/tasks", state: taskWeek }}>
+                    {taskWeek.weekStartDate.toLocaleDateString()}
+                  </Link>
+                </td>
+                <td>{formatCurrency(taskWeek.value)}</td>
+                <td>{findStatusName(taskWeek.statusId)}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       )}
-      <Link to={{pathname:"/taskweeklist", state: account}}
+      <Link
+        to={{ pathname: "/taskweeklist", state: account }}
         className={cardStyles.contentBottomRight}
-        
       >
         More...
       </Link>

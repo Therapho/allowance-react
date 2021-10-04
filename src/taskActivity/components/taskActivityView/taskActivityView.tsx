@@ -13,22 +13,27 @@ import processStatusChange from "../../utilities/processStatusChange";
 import { TaskButtonTray } from "../taskButtonTray/taskButtonTray";
 import { Task } from "../taskCheckBox/taskCheckbox.props";
 import TaskGroupList from "../taskGroupList/taskGroupList";
-import { taskActivityViewProps } from "./taskActivityView.props";
 
+export type taskActivityViewProps = {
+  selectedDate: Date;
+  accountId: number
+};
 
-const TaskActivityView = ({ selectedDate }: taskActivityViewProps) => {
-  const { data: taskWeek } = useTaskWeek(selectedDate);
-  
-  const taskWeekId = taskWeek?.id!;
-  const canEdit = taskWeek?.statusId === Constants.Status.Open;
+const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) => {
 
   ///////////////////////////// initialize utilities
   const history = useHistory();
   const goHome = () => history.push("/");
   const { data: profile } = useProfile();
   const isParent = checkIfParent(profile);
+  
+  const { data: taskWeek } = useTaskWeek(selectedDate, accountId);  
 
-  ///////////////////////////// Load Date
+  const taskWeekId = taskWeek?.id!;
+  const canEdit = taskWeek?.statusId === Constants.Status.Open;
+
+
+  ///////////////////////////// Load Data
   const { data: taskActivitySet } = useTaskActivitySet(
     selectedDate,
     taskWeekId,
@@ -60,7 +65,9 @@ const TaskActivityView = ({ selectedDate }: taskActivityViewProps) => {
   };
 
   //////////////////////////// Save Data
-  const { mutate: saveTaskActivityList } = useTaskActivityListMutation();
+  const { mutate: saveTaskActivityList } = useTaskActivityListMutation(()=>{
+    queryClient.invalidateQueries(taskKeys.all)
+  });
   const { mutate: putTaskWeek } = usePutTaskWeek(goHome);
   const handleSave = () => {
     saveTaskActivityList(taskActivitySet!);

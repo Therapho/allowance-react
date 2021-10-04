@@ -1,17 +1,18 @@
 import { IColumn, DetailsList, DetailsListLayoutMode } from "@fluentui/react";
 import { SelectionMode } from "@fluentui/utilities";
 import { Link } from "react-router-dom";
-import { useTaskWeekSet } from "../../common/stores/task/queries/useTaskWeekSet";
-import { TaskWeek } from "../../common/stores/task/types/taskWeekType";
-import { Constants } from "../../common/utilities/constants";
+import { Account } from "../../../common/stores/account/types/accountType";
+import { useTaskWeekSet } from "../../../common/stores/task/queries/useTaskWeekSet";
+import { TaskWeek } from "../../../common/stores/task/types/taskWeekType";
+import { Constants } from "../../../common/utilities/constants";
 
 type TaskWeekListProps = {
   startDate: Date;
   endDate: Date;
-  accountId: number;
+  account: Account;
 };
-const TaskWeekList = ({ startDate, endDate, accountId }: TaskWeekListProps) => {
-  const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate, accountId);
+const TaskWeekList = ({ startDate, endDate, account }: TaskWeekListProps) => {
+  const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate, account.id);
 
   const columns: IColumn[] = [
     {
@@ -20,9 +21,9 @@ const TaskWeekList = ({ startDate, endDate, accountId }: TaskWeekListProps) => {
       fieldName: "weekstartdate",
       minWidth: 80,
       maxWidth: 100,
-      onRender: (item: TaskWeek) => {
-        const dateValue = new Date(item.weekStartDate).toLocaleDateString();
-        return <Link to={{ pathname: "/tasks", state: item }}>{dateValue}</Link>;
+      onRender: (taskWeek: TaskWeek) => {
+        const dateValue = new Date(taskWeek.weekStartDate).toLocaleDateString();
+        return <Link to={{ pathname: "/tasks", state: taskWeek }}>{dateValue}</Link>;
       },
     },
 
@@ -60,7 +61,8 @@ const TaskWeekList = ({ startDate, endDate, accountId }: TaskWeekListProps) => {
     },
   ];
   return (
-    <main>
+    <section>
+      <h2>{account.name}</h2>
       {taskWeekSet && (
         <DetailsList
           items={taskWeekSet!}
@@ -71,7 +73,7 @@ const TaskWeekList = ({ startDate, endDate, accountId }: TaskWeekListProps) => {
           isHeaderVisible={true}
         ></DetailsList>
       )}
-    </main>
+    </section>
   );
 };
 export default TaskWeekList;

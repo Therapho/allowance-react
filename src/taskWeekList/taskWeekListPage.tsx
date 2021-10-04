@@ -1,23 +1,27 @@
 import { useState } from "react";
+import AppTitle from "../common/components/appTitle/appTitle";
+import { useProfile } from "../common/stores/profile/queries/useProfile";
+import { checkIfParent } from "../common/stores/profile/types/profileType";
 import dateUtilities from "../common/utilities/dateUtilities";
-import { useTargetAccount } from "../common/utilities/useTargetAccount";
-import TaskWeekList from "./components/taskWeekList";
+import ChildTaskWeekListLayout from "./components/childTaskWeekListLayout/childTaskWeekListLayout";
+import ParentTaskWeekListPage from "./components/parentTaskWeekListLayout/parentTaskWeekListLayout";
 
-const TaskWeekListPage = ()=>{
-    
-    const [selectedDate] = useState(
-        dateUtilities.getMonday(new Date())
-      );
-    const startDate = dateUtilities.addDays(selectedDate, -56 );
-    const endDate = dateUtilities.addDays(selectedDate, 7 );
-    
-    const account = useTargetAccount();
+const TaskWeekListPage = () => {
+  const [selectedDate] = useState(dateUtilities.getMonday(new Date()));
+  const startDate = dateUtilities.addDays(selectedDate, -56);
+  const endDate = dateUtilities.addDays(selectedDate, 7);
+  const {data: profile} = useProfile();
+  const isParent = checkIfParent(profile);
 
-    return(
-        <main>
-            <h1>Task Weeks</h1>
-            {account && <TaskWeekList startDate={startDate} endDate={endDate} accountId={account!.id}/>}
-        </main>
-    )
-}
+  return (
+    <main>
+      <AppTitle>Task Weeks</AppTitle>
+      {isParent ? (
+        <ParentTaskWeekListPage  startDate={startDate} endDate={endDate}/>
+      ) : (
+        <ChildTaskWeekListLayout startDate={startDate} endDate={endDate} />
+      )}
+    </main>
+  );
+};
 export default TaskWeekListPage;

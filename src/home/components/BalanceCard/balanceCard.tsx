@@ -1,6 +1,5 @@
-import { Label, Link } from "@fluentui/react"
+import { Label } from "@fluentui/react"
 import Card from "../../../common/components/card/card"
-import { cardStyles } from "../../../common/components/card/card.styles";
 import { Account } from "../../../common/stores/account/types/accountType";
 import { useTaskWeek } from "../../../common/stores/task/queries";
 import dateUtilities from "../../../common/utilities/dateUtilities";
@@ -10,10 +9,10 @@ type balanceCardProps = {account:Account};
 const BalanceCard = ({account}:balanceCardProps) =>{
 
     const thisWeek = dateUtilities.getMonday(new Date());
-    const { data: taskWeek } = useTaskWeek(thisWeek);
+    const { data: taskWeek } = useTaskWeek(thisWeek, account.id);
 
     return(
-      <Card>
+      <Card width="100%">
         <Label>Balance</Label>
         <p>Current: {account?.balance?.toLocaleString("en-US", {
             style: "currency",
@@ -23,7 +22,7 @@ const BalanceCard = ({account}:balanceCardProps) =>{
             style: "currency",
             currency: "USD",
           })}</p>
-          <Link className={cardStyles.contentBottomRight}>More...</Link>
+          
       </Card>
     )
 }

@@ -43,7 +43,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                 
                 var userPrincipal = req.GetUserPrincipal();
                  
-                if (userPrincipal.IsInRole(Constants.PARENT_ROLE))
+                if (!userPrincipal.IsInRole(Constants.PARENT_ROLE))
                 {
                     throw new SecurityException("Invalid attempt to accept a taskweek by an invalid user");
                 }

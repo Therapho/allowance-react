@@ -7,6 +7,7 @@ import { useTargetAccount } from "../common/utilities/useTargetAccount";
 
 import TransactionPanel from "./components/transactionPanel/transactionPanel";
 import TransactionList from "./components/transactionList/transactionList";
+import AppTitle from "../common/components/appTitle/appTitle";
 
 const TransactionPage = () => {
   const account = useTargetAccount();
@@ -30,7 +31,7 @@ const TransactionPage = () => {
 
   return (
     <main>
-      <h1>Transactions</h1>
+      <AppTitle>Transactions</AppTitle>
       {checkIfParent(profile) && (
         <Fragment>
           <DefaultButton text="Deposit" onClick={nandleDeposit} />

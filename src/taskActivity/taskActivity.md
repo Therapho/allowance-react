@@ -1,15 +1,13 @@
-# Task Feature
-
-## Component Structure
-- ### TaskActivityPage
+# Task Activity Feature
+- ## TaskActivityPage
     > **State**: selectedDate    
-    - ### TaskActivityView     
+    - ## TaskActivityView     
         **Queries**: 
         > useTaskWeek, useTaskDefinitionList, useTaskActivityList
-        - ### DateRange
+        - ## DateRange
             **Props**: 
             > selectedDate, onSelectedDate
-        - ### TaskGroupList
+        - ## TaskGroupList
             **Props**: 
             > *taskActivityList, onStatusChange*, **isOpen**
             - ### TaskGroup
@@ -18,7 +16,7 @@
                 - ### taskCheckBox
                 **Props**:  
                 > taskActivityId, taskStatusId, day,DayOfTheWeek, onStatusChange
-        - ### TaskButtonTray
+        - ## TaskButtonTray
             **Props**: 
             > canEdit,  onSave,  onApprove,  onCancel,  canApprove,  taskWeekValue
             - ### Tray

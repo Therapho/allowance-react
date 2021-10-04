@@ -12,3 +12,11 @@ export const useTargetAccount = ()=>{
         return undefined;
     return selectedAccount?selectedAccount: authenticatedAccount;
 }
+export const useTargetAccountId = ()=>{
+    const selectedAccountId = useLocation<number>().state;
+    const {data: authenticatedAccount} = useAccount();
+    const {data:profile} = useProfile();
+    if(!selectedAccountId && checkIfParent(profile))
+        return undefined;
+    return selectedAccountId?selectedAccountId: authenticatedAccount?.id;
+}

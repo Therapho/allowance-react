@@ -1,8 +1,8 @@
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { cardStyles } from "./card.styles";
 
 type CardProp = {
-  children: React.ReactNode;
+  children: ReactNode;
   width?: number | string | undefined;
 };
 const Card = ({ children, width = undefined }: CardProp) => {

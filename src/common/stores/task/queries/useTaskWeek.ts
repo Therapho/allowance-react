@@ -2,8 +2,8 @@ import { useQuery } from "react-query";
 import { getOrCreateTaskWeek } from "../api/getOrCreateTaskWeek";
 import taskKeys from "./taskKeys";
 
-export const useTaskWeek = (weekStartDate: Date, taskWeekId?: number) => {
+export const useTaskWeek = (weekStartDate: Date, accountId: number, taskWeekId?: number) => {
   return useQuery(taskKeys.week(weekStartDate), () =>
-    getOrCreateTaskWeek(weekStartDate, taskWeekId)
+    getOrCreateTaskWeek(weekStartDate, accountId, taskWeekId)
   );
 };

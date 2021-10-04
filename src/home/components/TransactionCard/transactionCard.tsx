@@ -7,13 +7,14 @@ import { useTransactionSet } from "../../../common/stores/transaction/queries/us
 import { TransactionLog } from "../../../common/stores/transaction/types/transactionLog";
 import { Constants } from "../../../common/utilities/constants";
 import { formatCurrency } from "../../../common/utilities/formatCurrency";
+import { transactionCardStyles } from "./transactionCard.styles";
 
 type transactionCardProps = {
   account: Account;
 };
 const TransactionCard = ({ account }: transactionCardProps) => {
   //const isMobile = useMediaQuery("@media only screen and (max-width: 768px)");
-  const rowSummary = (row: TransactionLog) => {
+  const rowSummary = (row: TransactionLog, key: number) => {
     const amount = formatCurrency(row.amount);
     const date = new Date(row.date).toLocaleDateString();
     const description =
@@ -25,20 +26,30 @@ const TransactionCard = ({ account }: transactionCardProps) => {
         ? "Deposited"
         : "Withdrawn";
 
-    return `${amount} ${category} on ${date} for ${description}`;
+    return (
+      <tr key={key}>
+        <td className={transactionCardStyles.td}>{amount}</td>
+        <td>{category}</td>
+        <td>{date}</td>
+        <td>{description}</td>
+      </tr>
+    );
   };
   const { data: transactionSet } = useTransactionSet(account.id);
 
   return (
-    <Card width={"100%"}>
+    <Card width="100%">
       <Label>Recent Transactions</Label>
-
-      {transactionSet &&
-        transactionSet
-          .slice(0, 5)
-          .map((row: TransactionLog, index: number) => (
-            <div key={index}> {rowSummary(row)}</div>
-          ))}
+      <table>
+        <tbody>
+          {transactionSet &&
+            transactionSet
+              .slice(0, 5)
+              .map((row: TransactionLog, index: number) =>
+                rowSummary(row, index)
+              )}
+        </tbody>
+      </table>
       <Link
         className={cardStyles.contentBottomRight}
         to={{ pathname: "/transactions", state: account }}

@@ -59,7 +59,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                 }
                 else
                 {
-                    taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate);
+                    taskWeek = await _taskWeekService.Get(context.TargetAccount.Id, startDate);
                     if (taskWeek == null)
                     {
 
