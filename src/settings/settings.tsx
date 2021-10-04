@@ -1,4 +1,4 @@
-import { Label, Text } from "@fluentui/react";
+import { Label } from "@fluentui/react";
 import Card from "../common/components/card/card";
 import { useProfile } from "../common/stores/profile/queries/useProfile";
 export const Settings = () => {
