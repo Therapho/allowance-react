@@ -17,7 +17,7 @@ const ParentTaskWeekListLayout = ({startDate, endDate} : ParentTaskWeekListLayou
     <main>
 
       {accountSet && (
-        <Stack horizontal>
+        <Stack horizontal wrap>
           {accountSet.map((account: Account) => (
             <TaskWeekList
               startDate={startDate}

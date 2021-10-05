@@ -81,7 +81,7 @@ const AddTransactionForm = ({
         errorMessage={shouldValidate ? accountSelectionError() : undefined}
         required={true}
       />
-      )
+      
       <TextField
         required
         label="Amount"

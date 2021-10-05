@@ -37,7 +37,7 @@ export const TaskButtonTray = ({
           </DefaultButton>
         </Stack.Item>
         <Stack.Item align="center">
-          Total for the week:{" "}
+          Total:{" "}
           {taskWeekValue?.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",

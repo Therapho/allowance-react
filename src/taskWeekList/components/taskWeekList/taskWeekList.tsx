@@ -1,4 +1,4 @@
-import { IColumn, DetailsList, DetailsListLayoutMode } from "@fluentui/react";
+import { IColumn, DetailsListLayoutMode, ShimmeredDetailsList } from "@fluentui/react";
 import { SelectionMode } from "@fluentui/utilities";
 import { Link } from "react-router-dom";
 import { Account } from "../../../common/stores/account/types/accountType";
@@ -63,16 +63,17 @@ const TaskWeekList = ({ startDate, endDate, account }: TaskWeekListProps) => {
   return (
     <section>
       <h2>{account.name}</h2>
-      {taskWeekSet && (
-        <DetailsList
-          items={taskWeekSet!}
+      {
+        <ShimmeredDetailsList
+          items={taskWeekSet ||[]}
           columns={columns}
           compact
+          enableShimmer={!taskWeekSet}
           selectionMode={SelectionMode.none}
           layoutMode={DetailsListLayoutMode.justified}
           isHeaderVisible={true}
-        ></DetailsList>
-      )}
+        ></ShimmeredDetailsList>
+      }
     </section>
   );
 };

@@ -4,7 +4,7 @@ import { useProfile } from "../common/stores/profile/queries/useProfile";
 import { checkIfParent } from "../common/stores/profile/types/profileType";
 import dateUtilities from "../common/utilities/dateUtilities";
 import ChildTaskWeekListLayout from "./components/childTaskWeekListLayout/childTaskWeekListLayout";
-import ParentTaskWeekListPage from "./components/parentTaskWeekListLayout/parentTaskWeekListLayout";
+import ParentTaskWeekListLayout from "./components/parentTaskWeekListLayout/parentTaskWeekListLayout";
 
 const TaskWeekListPage = () => {
   const [selectedDate] = useState(dateUtilities.getMonday(new Date()));
@@ -17,7 +17,7 @@ const TaskWeekListPage = () => {
     <main>
       <AppTitle>Task Weeks</AppTitle>
       {isParent ? (
-        <ParentTaskWeekListPage  startDate={startDate} endDate={endDate}/>
+        <ParentTaskWeekListLayout  startDate={startDate} endDate={endDate}/>
       ) : (
         <ChildTaskWeekListLayout startDate={startDate} endDate={endDate} />
       )}

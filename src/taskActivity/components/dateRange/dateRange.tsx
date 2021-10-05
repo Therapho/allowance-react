@@ -1,6 +1,7 @@
 import { addDays } from "@fluentui/date-time-utilities";
 import { Stack, IconButton } from "@fluentui/react";
 import { Link } from "react-router-dom";
+import { dateRangeStyles } from "./dateRange.styles";
 
 export type DateRangeProps = {
   selectedDate: Date;
@@ -19,14 +20,14 @@ export const DateRange = ({ selectedDate, onSelectDate, accountId }: DateRangePr
   return (
     <Stack horizontal horizontalAlign="center">
    
-      <IconButton
-          iconProps={{ iconName: "TriangleLeft12" }}
+      <IconButton className={dateRangeStyles.arrowButton}
+          iconProps={{ iconName: "TriangleLeft12", className:dateRangeStyles.arrowIcon}}
           onClick={handlePreviousWeek}
         />
         <Link to={{pathname:"/taskweeklist", state:accountId}}>Tasks for {selectedDate.toLocaleDateString()}</Link>
         {addDays(selectedDate, 7) < today && (
-          <IconButton
-            iconProps={{ iconName: "TriangleRight12" }}
+          <IconButton className={dateRangeStyles.arrowButton}
+            iconProps={{ iconName: "TriangleRight12",  className:dateRangeStyles.arrowIcon}}
             onClick={handleNextWeek}
           />
         )}

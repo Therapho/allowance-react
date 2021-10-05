@@ -1,18 +1,17 @@
-import { mergeStyleSets } from "@fluentui/merge-styles";
-import { FontSizes, FontWeights } from "@fluentui/style-utilities";
+import { mergeStyles } from "@fluentui/merge-styles";
+import {
+  DefaultPalette,
+} from "@fluentui/style-utilities";
 
-export const dateRangeStyles = mergeStyleSets({
-    leftItem:{
-        width:"33%"
-    },
-    centerItem:{
-        width:"33%",
-        textAlign: "center",
-        fontWeight: FontWeights.bold,
-        fontSize: FontSizes.medium
-    },
-    rightItem:{
-        width:"33%",
-        textAlign: "right"
-    },
-})
+export const dateRangeStyles = {
+  arrowButton: mergeStyles({
+    textAlign: "center",
+    height: 12,
+    padding:0,
+    paddingTop:6,
+    color: DefaultPalette.black,
+  }),
+  arrowIcon: mergeStyles({
+     
+      fontSize:12})
+};

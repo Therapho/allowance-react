@@ -1,6 +1,7 @@
 # Task Activity Feature
 - ## TaskActivityPage
-    > **State**: selectedDate    
+    > **State**: selectedDate
+    > **Link Prop**: selectedTaskWeek (TaskWeekList, TaskCard)    
     - ## TaskActivityView     
         **Queries**: 
         > useTaskWeek, useTaskDefinitionList, useTaskActivityList

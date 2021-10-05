@@ -1,4 +1,4 @@
-import { LoginLink } from "../loginLink";
+import { LoginLink } from "../loginLink/loginLink";
 
 export const Login = () => {
   return (

@@ -1,4 +1,4 @@
-import { Label } from "@fluentui/react"
+import { Label, Shimmer } from "@fluentui/react"
 import Card from "../../../common/components/card/card"
 import { Account } from "../../../common/stores/account/types/accountType";
 import { useTaskWeek } from "../../../common/stores/task/queries";
@@ -14,6 +14,7 @@ const BalanceCard = ({account}:balanceCardProps) =>{
     return(
       <Card width="100%">
         <Label>Balance</Label>
+        <Shimmer isDataLoaded={(account && !!taskWeek)}>
         <p>Current: {account?.balance?.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
@@ -22,7 +23,7 @@ const BalanceCard = ({account}:balanceCardProps) =>{
             style: "currency",
             currency: "USD",
           })}</p>
-          
+          </Shimmer>
       </Card>
     )
 }

@@ -21,7 +21,7 @@ const TransactionList = ({account}: TransactionListProps) => {
       key: "column1",
       name: "Date",
       fieldName: "date",
-      minWidth: 80,
+      minWidth: 30,
       maxWidth: 100,
       onRender: (item: TransactionLog) => {
         return item.date.toLocaleDateString();
@@ -31,14 +31,14 @@ const TransactionList = ({account}: TransactionListProps) => {
       key: "column2",
       name: "Description",
       fieldName: "description",
-      minWidth: 200,
+      minWidth: 100,
       maxWidth: 300,
     },
     {
       key: "column3",
       name: "Amount",
       fieldName: "amount",
-      minWidth: 80,
+      minWidth: 40,
       maxWidth: 100,
       onRender: (item: TransactionLog) => {
         return item.amount.toLocaleString("en-US", {
@@ -51,7 +51,7 @@ const TransactionList = ({account}: TransactionListProps) => {
       key: "column4",
       name: "Category",
       fieldName: "category",
-      minWidth: 80,
+      minWidth: 35,
       maxWidth: 100,
       onRender: (item: TransactionLog) => {
         return item.categoryId === Constants.TransactionCategory.Deposit
@@ -63,7 +63,7 @@ const TransactionList = ({account}: TransactionListProps) => {
       key: "column5",
       name: "Account",
       fieldName: "accountid",
-      minWidth: 80,
+      minWidth: 30,
       maxWidth: 100,
           
       onRender: (item: TransactionLog) => {
