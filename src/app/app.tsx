@@ -7,17 +7,22 @@ import { Layout } from "./components/layout/layout";
 
 function App() {
   const queryClient = new QueryClient();
+  
+  
   return (
     <QueryClientProvider client={queryClient}>
       <Suspense fallback={<h3>Loading...</h3>}>
         <BrowserRouter>
           <AppStateProvider>
-            <Layout />
+            
+              <Layout />
+   
           </AppStateProvider>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
       </Suspense>
     </QueryClientProvider>
+    
   );
 }
 export default App;

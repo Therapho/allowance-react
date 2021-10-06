@@ -5,7 +5,7 @@ import {
   Stack,
   Text,
 } from "@fluentui/react";
-import headerStyles from "./header.styles";
+import useHeaderStyles from "./useHeaderStyles";
 
 type HeaderProps = {
   onMenuOpen: () => void;
@@ -13,7 +13,9 @@ type HeaderProps = {
   error: string | undefined;
 };
 export const Header = ({ error, onMenuOpen, onCloseError }: HeaderProps) => {
+  const headerStyles = useHeaderStyles();
   return (
+    
     <Stack
       horizontal
       horizontalAlign="space-between"

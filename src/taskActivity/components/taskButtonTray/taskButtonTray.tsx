@@ -1,9 +1,19 @@
 import { PrimaryButton, DefaultButton, Stack } from "@fluentui/react";
 import { Fragment } from "react";
-import { taskButtonTrayStyles } from "./taskButtonTray.styles";
-import { TaskButtonTrayProps } from "./taskButtonTray.props";
+
 import { appButton } from "../../../app/app.styles";
 import Tray from "../../../common/components/tray/tray";
+import { useTaskButtonTrayStyles } from "./taskButtonTray.styles";
+
+type TaskButtonTrayProps = {
+  canEdit: boolean;
+  onSave: () => void;
+  onApprove: () => void;
+  onCancel: () => void;
+  canApprove: boolean;
+  taskWeekValue: number;
+};
+
 export const TaskButtonTray = ({
   canEdit,
   onSave,
@@ -12,6 +22,7 @@ export const TaskButtonTray = ({
   canApprove,
   taskWeekValue,
 }: TaskButtonTrayProps) => {
+  const taskButtonTrayStyles = useTaskButtonTrayStyles();
   return (
     <Tray>
       <Stack

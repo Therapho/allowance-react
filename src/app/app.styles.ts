@@ -1,9 +1,9 @@
 import {
-  DefaultPalette,
   FontSizes,
   mergeStyles,
   mergeStyleSets,
 } from "@fluentui/react";
+
 
 export const appElementLeft = mergeStyles({
   float: "left",
@@ -23,11 +23,6 @@ export const appIcon = mergeStyles({
   marginRight: 5,
 });
 
-export const appPanel = mergeStyles({
-  backgroundColor: DefaultPalette.themeLighterAlt,
-  borderColor: DefaultPalette.themeLighter,
-  borderStyle: "solid",
-});
 
 export const appButton = mergeStyleSets({
   root: {

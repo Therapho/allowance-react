@@ -1,17 +1,18 @@
 import { mergeStyles } from "@fluentui/merge-styles";
-import {
-  DefaultPalette,
-} from "@fluentui/style-utilities";
+import { useTheme } from "@fluentui/react";
 
-export const dateRangeStyles = {
-  arrowButton: mergeStyles({
-    textAlign: "center",
-    height: 12,
-    padding:0,
-    paddingTop:6,
-    color: DefaultPalette.black,
-  }),
-  arrowIcon: mergeStyles({
-     
-      fontSize:12})
+export const useDateRangeStyles = () => {
+  const theme = useTheme();
+  return {
+    arrowButton: mergeStyles({
+      textAlign: "center",
+      height: 12,
+      padding: 0,
+      paddingTop: 6,
+      color: theme.palette.themePrimary,
+    }),
+    arrowIcon: mergeStyles({
+      fontSize: 12,
+    }),
+  };
 };

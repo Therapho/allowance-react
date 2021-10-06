@@ -1,12 +1,13 @@
 import { Icon } from "@fluentui/react";
 import { useRef } from "react";
 import { Task } from "./taskCheckbox.props";
-import { taskCheckboxStyles } from "./taskCheckBox.styles";
+import { useTaskCheckboxStyles } from "./taskCheckBox.styles";
 
 export const TaskCheckBox = (task: Task) => {
 
   const touchStartTime = useRef(performance.now());
-
+  const taskCheckboxStyles = useTaskCheckboxStyles();
+  
   const handleClick = (e: any) => {
     e.preventDefault();
     const newValue = task.taskStatusId === 2 ? 3 : 2;

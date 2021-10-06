@@ -1,5 +1,5 @@
-import { Stack } from "@fluentui/react";
-import { useState } from "react";
+import { mergeStyles, Stack, ThemeProvider } from "@fluentui/react";
+import {  useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";
 import { Home } from "../../../home/home";
@@ -17,6 +17,7 @@ import * as layoutStyles from "./layout.styles"
 import TransactionPage from "../../../transactions/transactionPage";
 import { Menu } from "../menu/menu";
 import TaskWeekListPage from "../../../taskWeekList/taskWeekListPage";
+import { darkTheme, lightTheme } from "../../context/app.themes";
 export const Layout = () => {
   const history = useHistory();
   const { busy, error, clearError } = useAppState();
@@ -33,9 +34,14 @@ export const Layout = () => {
   const handleMenuDismiss = () => {
     setMenuOpen(false);
   };
+  const {selectedTheme} = useAppState();
+  const theme = (selectedTheme === "Light" ? lightTheme :darkTheme);
+  mergeStyles({
+    ":global(a)": { color:theme.palette.themePrimary}
+  })
 
   return (
-    <div>
+    <ThemeProvider theme={theme} applyTo="body">
       <LeftPanel onMenuDismiss={handleMenuDismiss} isOpen={isMenuOpen}>
         <Menu onNavigate={handleNavigate} />
         <LoginLink />
@@ -61,6 +67,6 @@ export const Layout = () => {
       </Stack>
 
       <BusyOverlay busy={busy} />
-    </div>
+    </ThemeProvider>
   );
 };

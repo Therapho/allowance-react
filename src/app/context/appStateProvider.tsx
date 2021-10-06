@@ -7,7 +7,9 @@ export type AppStateType = {
     error:string|undefined,
     setError: (message:string|undefined)=>void
     clearError: ()=>void,
-    isDesktop:boolean
+    isDesktop:boolean,
+    selectedTheme: string,
+    setSelectedTheme: (theme:string) =>void;
   };
   
 const AppState = createContext<AppStateType>(undefined!);
@@ -20,9 +22,16 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
     const [error, setError] = useState<string|undefined>(undefined);
     const isDesktop = useMediaQuery('(min-width: 768px)');
 
+    const storedTheme = window.localStorage.getItem("theme");
+    const initialTheme = storedTheme??"Light";
+    const [selectedTheme, setThemeState] = useState(initialTheme);
+    const setSelectedTheme = (theme:string)=>{
+      setThemeState(theme);
+      window.localStorage.setItem("theme", theme);
+    }
     const clearError = ()=>setError(undefined);
     return (
-      <AppState.Provider value={{ busy, setBusy, error, setError, clearError, isDesktop }}>{children}</AppState.Provider>
+      <AppState.Provider value={{ busy, setBusy, error, setError, clearError, isDesktop, selectedTheme, setSelectedTheme }}>{children}</AppState.Provider>
     );
   }
   export const useAppState = () => useContext(AppState);

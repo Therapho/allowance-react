@@ -1,7 +1,7 @@
 import { addDays } from "@fluentui/date-time-utilities";
 import { Stack, IconButton } from "@fluentui/react";
 import { Link } from "react-router-dom";
-import { dateRangeStyles } from "./dateRange.styles";
+import { useDateRangeStyles } from "./dateRange.styles";
 
 export type DateRangeProps = {
   selectedDate: Date;
@@ -17,6 +17,8 @@ export const DateRange = ({ selectedDate, onSelectDate, accountId }: DateRangePr
   const handleNextWeek = () => {
     onSelectDate(addDays(selectedDate, 7));
   };
+  
+  const dateRangeStyles = useDateRangeStyles();
   return (
     <Stack horizontal horizontalAlign="center">
    
