@@ -11,7 +11,7 @@ function App() {
   
   return (
     <QueryClientProvider client={queryClient}>
-      <Suspense fallback={<h3>Loading...</h3>}>
+      {/* <Suspense fallback={<h3>Loading...</h3>}> */}
         <BrowserRouter>
           <AppStateProvider>
             
@@ -20,7 +20,7 @@ function App() {
           </AppStateProvider>
         </BrowserRouter>
         <ReactQueryDevtools initialIsOpen={false} />
-      </Suspense>
+      {/* </Suspense> */}
     </QueryClientProvider>
     
   );

@@ -5,14 +5,18 @@ import { Account } from "../../../common/stores/account/types/accountType";
 import { useTaskWeekSet } from "../../../common/stores/task/queries/useTaskWeekSet";
 import { TaskWeek } from "../../../common/stores/task/types/taskWeekType";
 import { Constants } from "../../../common/utilities/constants";
+import { useTaskWeekListStyles } from "./taskWeekList.styles";
 
 type TaskWeekListProps = {
   startDate: Date;
   endDate: Date;
   account: Account;
+  width?: number|string|unknown;
 };
-const TaskWeekList = ({ startDate, endDate, account }: TaskWeekListProps) => {
+const TaskWeekList = ({ startDate, endDate, account, width="100%" }: TaskWeekListProps) => {
   const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate, account.id);
+
+  const taskWeekListStyles = useTaskWeekListStyles(width);
 
   const columns: IColumn[] = [
     {
@@ -72,6 +76,7 @@ const TaskWeekList = ({ startDate, endDate, account }: TaskWeekListProps) => {
           selectionMode={SelectionMode.none}
           layoutMode={DetailsListLayoutMode.justified}
           isHeaderVisible={true}
+          styles={taskWeekListStyles}
         ></ShimmeredDetailsList>
       }
     </section>

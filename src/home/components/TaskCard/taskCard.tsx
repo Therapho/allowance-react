@@ -25,11 +25,11 @@ const TaskCard = ({ account }: taskCardProps) => {
   const { data: taskWeekSet } = useTaskWeekSet(startDate, endDate, account.id);
   const columns: IColumn[] = [
     {
-      key: "amount",
-      name: "amount",
-      fieldName: "amount",
-      minWidth: 40,
-      maxWidth: 60,
+      key: "date",
+      name: "date",
+      fieldName: "date",
+      minWidth: 50,
+      maxWidth: 80,
       onRender: (taskWeek: TaskWeek) => (
         <Link to={{ pathname: "/tasks", state: taskWeek }}>
           {taskWeek.weekStartDate.toLocaleDateString()}

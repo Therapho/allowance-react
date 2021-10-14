@@ -63,12 +63,12 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                     if (taskWeek == null)
                     {
 
-                        if (context.UserPrincipal.IsInRole(Constants.PARENT_ROLE))
-                        {
-                            throw new SecurityException($"Invalid attempt by {context.CallingAccount.Name} to create a new task week.");
+                        //if (context.UserPrincipal.IsInRole(Constants.PARENT_ROLE))
+                        //{
+                        //    throw new SecurityException($"Invalid attempt by {context.CallingAccount.Name} to create a new task week.");
 
-                        }
-                        taskWeek = await _taskWeekService.Create(context.CallingAccount.Id, startDate);
+                        //}
+                        taskWeek = await _taskWeekService.Create(context.TargetAccount.Id, startDate);
                         context.CallingAccount.ActiveTaskWeekId = taskWeek.Id;
                         await AccountService.Update(context.CallingAccount);
                     }

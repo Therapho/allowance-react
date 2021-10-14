@@ -1,9 +1,10 @@
 import {
   FontSizes,
+  IShimmerStyleProps,
+  IShimmerStyles,
   mergeStyles,
   mergeStyleSets,
 } from "@fluentui/react";
-
 
 export const appElementLeft = mergeStyles({
   float: "left",
@@ -17,12 +18,10 @@ export const appElementRight = mergeStyles({
   width: "50%",
 });
 
-
 export const appIcon = mergeStyles({
   marginLeft: 5,
   marginRight: 5,
 });
-
 
 export const appButton = mergeStyleSets({
   root: {
@@ -34,3 +33,4 @@ export const appButton = mergeStyleSets({
     },
   },
 });
+

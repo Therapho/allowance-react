@@ -14,11 +14,13 @@ const BalanceCard = ({account}:balanceCardProps) =>{
     return(
       <Card width="100%">
         <Label>Balance</Label>
-        <Shimmer isDataLoaded={(account && !!taskWeek)}>
+        <Shimmer isDataLoaded={!!account}>
         <p>Current: {account?.balance?.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
           })}</p>
+          </Shimmer>
+          <Shimmer isDataLoaded={!!taskWeek}>
         <p>Pending: {taskWeek?.value?.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",

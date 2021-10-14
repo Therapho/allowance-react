@@ -1,4 +1,4 @@
-import { mergeStyles, Stack, ThemeProvider } from "@fluentui/react";
+import { DefaultPalette, IPalette, mergeStyles, Stack, ThemeProvider } from "@fluentui/react";
 import {  useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";
@@ -17,7 +17,7 @@ import * as layoutStyles from "./layout.styles"
 import TransactionPage from "../../../transactions/transactionPage";
 import { Menu } from "../menu/menu";
 import TaskWeekListPage from "../../../taskWeekList/taskWeekListPage";
-import { darkTheme, lightTheme } from "../../context/app.themes";
+import { blueTheme, greenTheme, turquoiseTheme } from "../../context/app.themes";
 export const Layout = () => {
   const history = useHistory();
   const { busy, error, clearError } = useAppState();
@@ -34,8 +34,22 @@ export const Layout = () => {
   const handleMenuDismiss = () => {
     setMenuOpen(false);
   };
-  const {selectedTheme} = useAppState();
-  const theme = (selectedTheme === "Light" ? lightTheme :darkTheme);
+  const {selectedColor, selectedTheme} = useAppState();
+  const findTheme=(selectedColor:string, selectedTheme:string)=>
+  {
+    let colorScheme = {light:{palette:{} as IPalette}, dark:{palette:{} as IPalette}};
+    switch(selectedColor){
+      case "Blue": colorScheme = blueTheme;
+      break;
+      case "Green": colorScheme = greenTheme;
+      break;
+      case "Turquoise" : colorScheme = turquoiseTheme;
+
+    }
+    return selectedTheme === "Light" ? colorScheme.light : colorScheme.dark;
+  }
+  const theme = findTheme(selectedColor, selectedTheme);
+  
   mergeStyles({
     ":global(a)": { color:theme.palette.themePrimary}
   })

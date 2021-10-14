@@ -23,6 +23,7 @@ const ParentTaskWeekListLayout = ({startDate, endDate} : ParentTaskWeekListLayou
               startDate={startDate}
               endDate={endDate}
               account={account}
+              width={"50%"}
             />
           ))}
         </Stack>
