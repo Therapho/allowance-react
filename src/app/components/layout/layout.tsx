@@ -1,4 +1,4 @@
-import { DefaultPalette, IPalette, mergeStyles, Stack, ThemeProvider } from "@fluentui/react";
+import { IPalette, mergeStyles, Stack, ThemeProvider } from "@fluentui/react";
 import {  useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";

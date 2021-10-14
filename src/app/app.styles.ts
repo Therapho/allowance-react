@@ -1,7 +1,5 @@
 import {
   FontSizes,
-  IShimmerStyleProps,
-  IShimmerStyles,
   mergeStyles,
   mergeStyleSets,
 } from "@fluentui/react";

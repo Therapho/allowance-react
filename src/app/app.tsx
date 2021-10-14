@@ -1,7 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
-import { Suspense } from "react";
 import { AppStateProvider } from "./context/appStateProvider";
 import { Layout } from "./components/layout/layout";
 
