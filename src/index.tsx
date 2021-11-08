@@ -4,6 +4,7 @@ import ReactDOM from "react-dom";
 import { getTheme, initializeIcons, mergeStyles } from "@fluentui/react";
 import reportWebVitals from "./reportWebVitals";
 import App from "./app/app";
+import { AppStateProvider } from './app/context/appStateProvider';
 
 const theme = getTheme();
 initializeIcons();
@@ -32,8 +33,10 @@ mergeStyles({
 
 ReactDOM.render(
   
-  <React.StrictMode>         
+  <React.StrictMode> 
+    <AppStateProvider>        
     <App />     
+    </AppStateProvider>
   </React.StrictMode>,
 
   document.getElementById("root")

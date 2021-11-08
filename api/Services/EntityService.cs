@@ -19,6 +19,7 @@ namespace AllowanceFunctions.Services
         }
         public virtual async Task<TEntity> Get(int id)
         {
+            
             TEntity result = default(TEntity);
 
             try
@@ -38,36 +39,6 @@ namespace AllowanceFunctions.Services
             return result;
         }
 
-        //public async Task<int?> CreateOrUpdate(TEntity entity)
-        //{
-        //    try
-        //    {
-        //        await _context.Set<TEntity>().AddAsync(entity);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (Exception exception)
-        //    {
-
-        //        throw new DataException($"Error trying to CreateOrUpdate for {typeof(TEntity).Name}.  {exception.Message}", exception);
-        //    }
-        //    return entity.Id;
-        //}
-
-        //public async Task CreateOrUpdateList(List<TEntity> entityList)
-        //{
-        //    try
-        //    {
-        //        await _context.Set<TEntity>().AddRangeAsync(entityList);
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (Exception exception)
-        //    {
-
-        //        throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}.  {exception.Message}", exception);
-        //    }
-
-
-        //}
         public async Task<int?> Create(TEntity entity, bool saveChanges = true)
         {
             try
@@ -100,6 +71,7 @@ namespace AllowanceFunctions.Services
         }
         public async Task<int?> Update(TEntity entity, bool saveChanges = true)
         {
+
             try
             {
                 _context.Set<TEntity>().Update(entity);
@@ -127,6 +99,20 @@ namespace AllowanceFunctions.Services
             }
 
 
+        }
+        public void Delete(TEntity entity, bool saveChanges = true)
+        {
+            _context.Remove(entity);
+            if (saveChanges) _context.SaveChanges();
+        }
+        public void Remove(TEntity entity)
+        {
+            _context.Entry(entity).State = EntityState.Detached;
+        }
+
+        public void Replace(TEntity oldEntity, TEntity newEntity)
+        {
+            _context.Entry(oldEntity).CurrentValues.SetValues(newEntity);
         }
         public async Task SaveChanges()
         {

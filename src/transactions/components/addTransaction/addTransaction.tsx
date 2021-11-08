@@ -19,7 +19,8 @@ const AddTransaction = ({
 }: AddTransactionProps) => {
   const selectedAccountId = accountId ?? 0;
   const [transaction, setTransaction] = useState<Transaction>({
-    accountId: selectedAccountId,
+    targetAccountId: selectedAccountId,
+    targetFundId:0,
     description: "",
     amount: 0,
     categoryId,

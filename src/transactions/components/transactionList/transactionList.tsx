@@ -6,19 +6,23 @@ import {
 } from "@fluentui/react";
 import { Fragment } from "react";
 import { useChildAccountSet } from "../../../common/stores/account/queries/useChildAccountSet";
-import { Account, findAccountName } from "../../../common/stores/account/types/accountType";
+import {
+  Account,
+  findAccountName,
+} from "../../../common/stores/account/types/accountType";
 import { useTransactionSet } from "../../../common/stores/transaction/queries/useTransactionSet";
 import { TransactionLog } from "../../../common/stores/transaction/types/transactionLog";
 import { Constants } from "../../../common/utilities/constants";
+import { formatCurrency } from "../../../common/utilities/formatCurrency";
 
-type TransactionListProps = { account:Account|undefined}
-const TransactionList = ({account}: TransactionListProps) => {
+type TransactionListProps = { account: Account | undefined };
+const TransactionList = ({ account }: TransactionListProps) => {
   const { data: transactionSet } = useTransactionSet(account?.id);
   const { data: childAccountSet } = useChildAccountSet();
- 
+
   const columns: IColumn[] = [
     {
-      key: "column1",
+      key: "date",
       name: "Date",
       fieldName: "date",
       minWidth: 30,
@@ -28,31 +32,11 @@ const TransactionList = ({account}: TransactionListProps) => {
       },
     },
     {
-      key: "column2",
-      name: "Description",
-      fieldName: "description",
-      minWidth: 100,
-      maxWidth: 300,
-    },
-    {
-      key: "column3",
-      name: "Amount",
-      fieldName: "amount",
-      minWidth: 40,
-      maxWidth: 100,
-      onRender: (item: TransactionLog) => {
-        return item.amount.toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        });
-      },
-    },
-    {
-      key: "column4",
+      key: "category",
       name: "Category",
       fieldName: "category",
       minWidth: 35,
-      maxWidth: 100,
+      maxWidth: 80,
       onRender: (item: TransactionLog) => {
         return item.categoryId === Constants.TransactionCategory.Deposit
           ? "Deposit"
@@ -60,15 +44,55 @@ const TransactionList = ({account}: TransactionListProps) => {
       },
     },
     {
-      key: "column5",
-      name: "Account",
-      fieldName: "accountid",
+      key: "targetfundname",
+      name: "Target Fund",
+      fieldName: "targetFundName",
+      minWidth: 30,
+      maxWidth: 80,
+    },
+    {
+      key: "amount",
+      name: "Amount",
+      fieldName: "amount",
+      minWidth: 40,
+      maxWidth: 80,
+      onRender: (item: TransactionLog) => {
+        return formatCurrency(item.amount);
+      },
+    },
+    {
+      key: "description",
+      name: "Description",
+      fieldName: "description",
+      minWidth: 100,
+      maxWidth: 400,
+    },
+    
+
+   
+    
+
+    
+    {
+      key: "sourcefundname",
+      name: "Source Fund",
+      fieldName: "sourceFundName",
       minWidth: 30,
       maxWidth: 100,
-          
-      onRender: (item: TransactionLog) => {
-        return childAccountSet && findAccountName(childAccountSet, item.accountId);
-      },
+    },
+    {
+      key: "targetaccountname",
+      name: "Target Account",
+      fieldName: "targetAccountName",
+      minWidth: 30,
+      maxWidth: 100,
+    },
+    {
+      key: "callingaccountname",
+      name: "Calling Account",
+      fieldName: "callingAccountName",
+      minWidth: 30,
+      maxWidth: 100,
     },
   ];
   return (

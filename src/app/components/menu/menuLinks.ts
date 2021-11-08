@@ -21,7 +21,12 @@ const menuLinks: INavLinkGroup[] = [
           key: "transactions",
           icon: "PreviewLink",
         },
-       
+        {
+          name: "Funds",
+          url: "/funds",
+          key: "funds",
+          icon: "BullseyeTarget",
+        },
         {
           name: "Settings",
           url: "/settings",

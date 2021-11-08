@@ -1,4 +1,5 @@
 ﻿using AllowanceFunctions.Entities;
+using api.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,9 @@ namespace AllowanceFunctions.Services
 
         public DbSet<TaskWeek> TaskWeekSet { get; set; }
         public DbSet<TransactionLog> TransactionLogSet { get; set; }
+        public DbSet<TransactionLogView> TransactionLogViewSet { get; set; }
 
         internal DbSet<ActivityStatus> ActivityStatusSet { get; set; }
+        internal DbSet<Fund> FundSet { get; set; }
     }
 }

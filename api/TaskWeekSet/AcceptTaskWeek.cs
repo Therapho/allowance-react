@@ -1,12 +1,15 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Entities;
+using api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Security;
 using System.Threading;
@@ -18,13 +21,15 @@ namespace AllowanceFunctions.Api.TaskWeekSet
     {
         private TaskWeekService _taskWeekService;
         private TransactionLogService _transactionLogService;
+        private FundService _fundService;
 
         public AcceptTaskWeek(AccountService accountService, 
-            TaskWeekService taskWeekService, TransactionLogService transactionLogService)
+            TaskWeekService taskWeekService, FundService fundService, TransactionLogService transactionLogService)
             : base(accountService)
         {
             _taskWeekService = taskWeekService;
             _transactionLogService = transactionLogService;
+            _fundService = fundService;
         }
 
         [FunctionName("AcceptTaskWeek")]
@@ -33,46 +38,46 @@ namespace AllowanceFunctions.Api.TaskWeekSet
         {
             
 
-            TaskWeek data = null;
+            TaskWeek taskWeek = null;
 
             try
             {
                 string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-                data = JsonConvert.DeserializeObject<TaskWeek>(requestBody);
-                log.LogTrace($"AcceptTaskWeek function processed a request for taskWeekId:{data.Id}.");
-                
-                var userPrincipal = req.GetUserPrincipal();
+                taskWeek = JsonConvert.DeserializeObject<TaskWeek>(requestBody);
+                log.LogTrace($"AcceptTaskWeek function processed a request for taskWeekId:{taskWeek.Id}.");
+
+                var context = await RequestContext.CreateContext(AccountService, req);
+
                  
-                if (!userPrincipal.IsInRole(Constants.PARENT_ROLE))
+                if (!context.IsParent())
                 {
                     throw new SecurityException("Invalid attempt to accept a taskweek by an invalid user");
                 }
-                await _taskWeekService.Update(data, false);
-                var account = await AccountService.Get(data.AccountId);
-                account.Balance += data.Value;
-                await AccountService.Update(account, false);
 
-                var transaction = new TransactionLog()
+                await _taskWeekService.Update(taskWeek, false);
+                var fundList = await _fundService.GetList(taskWeek.AccountId);
+
+                _fundService.CheckAllocationTotal(fundList);
+
+                foreach (var fund in fundList)
                 {
-                    AccountId = account.Id,
-                    Amount = data.Value,
-                    CategoryId = (int)Constants.TransactionCategory.Deposit,
-                    Date = DateTime.Now,
-                    Description = "Weekly allowance deposit."
+                    var allocationAmount = taskWeek.Value * fund.Allocation.GetValueOrDefault() / 100;
 
 
-                };
-                await _transactionLogService.Create(transaction, false);
-                await _transactionLogService.SaveChanges();
+                    var description = $"Weekly allowance deposit ({fund.Allocation}%)";
+                    var transaction = new Transaction(description, (int)Constants.TransactionCategory.Deposit,
+                                                      allocationAmount, fund.Id, taskWeek.AccountId);
+                    await _fundService.ProcessTransaction(transaction, context.CallingAccount.Id);
+                }
 
             }
             catch (Exception exception)
             {
 
-                return new BadRequestObjectResult($"Error trying to execute PutTaskWeek.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to update task week (AcceptTaskWeek).  {exception.Message}");
             }
-            return new OkObjectResult(data.Id);
+            return new OkObjectResult(taskWeek.Id);
         }
-
+       
     }
 }

@@ -8,7 +8,7 @@ export const cardStyles = mergeStyleSets({
     padding: 10,
     margin: 10,
     minWidth: 300,
-    height: 150,
+    ninHeight: 150,
     position: "relative"
   },
   contentBottomRight : mergeStyles({
@@ -16,5 +16,11 @@ export const cardStyles = mergeStyleSets({
     textAlign: "right", 
     position:"absolute",
     bottom:5
+  }),
+  contentTopRight : mergeStyles({
+    right: 5,
+    textAlign: "right", 
+    position:"absolute",
+    top:5
   })
 });

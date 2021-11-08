@@ -1,4 +1,5 @@
 ﻿using AllowanceFunctions.Services;
+using api.Services;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
@@ -32,6 +33,7 @@ namespace AllowanceFunctions
                 .AddTransient<TaskActivityService>()
                 .AddTransient<AccountService>()
                 .AddTransient<TransactionLogService>()
+                .AddTransient<FundService>()
                 .AddSingleton(cache);
 
         }

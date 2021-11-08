@@ -14,8 +14,11 @@ namespace AllowanceFunctions.Entities
         public string Description { get; set; }
         public int CategoryId { get; set; }
         public decimal Amount { get; set; }
-        public int AccountId { get; set; }
-        public Guid UserIdentifier { get; set; }
-
+        public int? CallingAccountId { get; set; }
+        public int TargetAccountId { get; set; }
+        public int? SourceFundId { get; set; }
+        public int? TargetFundId { get; set; }
     }
+
+    
 }

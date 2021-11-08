@@ -14,19 +14,11 @@ type transactionCardProps = {
 const TransactionCard = ({ account }: transactionCardProps) => {
   const columns: IColumn[] = [
     {
-      key: "amount",
-      name: "amount",
-      fieldName: "amount",
-      minWidth: 40,
-      maxWidth: 60,
-      onRender: (row: TransactionLog) => formatCurrency(row.amount),
-    },
-    {
       key: "date",
       name: "date",
       fieldName: "date",
       minWidth: 40,
-      maxWidth: 60,
+      maxWidth: 80,
       onRender: (row: TransactionLog) =>
         new Date(row.date).toLocaleDateString(),
     },
@@ -42,16 +34,30 @@ const TransactionCard = ({ account }: transactionCardProps) => {
           : "Withdrawn",
     },
     {
+      key: "targetfundname",
+      name: "Target Fund",
+      fieldName: "targetFundName",
+      minWidth: 40,
+      maxWidth: 60
+    },
+    {
+      key: "amount",
+      name: "amount",
+      fieldName: "amount",
+      minWidth: 40,
+      maxWidth: 50,
+      onRender: (row: TransactionLog) => formatCurrency(row.amount),
+    },
+   
+   
+    {
       key: "description",
       name: "description",
       fieldName: "description",
       minWidth: 80,
-      maxWidth: 100,
-      onRender: (row: TransactionLog) =>
-        row.description.length > 100
-          ? row.description.substr(0, 100) + "..."
-          : row.description,
+      maxWidth: 200
     },
+   
   ];
 
  

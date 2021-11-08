@@ -9,10 +9,9 @@ import useHeaderStyles from "./useHeaderStyles";
 
 type HeaderProps = {
   onMenuOpen: () => void;
-  onCloseError: () => void;
-  error: string | undefined;
+
 };
-export const Header = ({ error, onMenuOpen, onCloseError }: HeaderProps) => {
+export const Header = ({ onMenuOpen }: HeaderProps) => {
   const headerStyles = useHeaderStyles();
   return (
     
@@ -31,18 +30,7 @@ export const Header = ({ error, onMenuOpen, onCloseError }: HeaderProps) => {
 
         <Text className={headerStyles.headerText}>Allowance</Text>
       </Stack.Item>
-      <Stack.Item align="end" styles={headerStyles.stackItemStyles} >
-        {error && (
-          <MessageBar
-            messageBarType={MessageBarType.error}
-            isMultiline={false}
-            onDismiss={onCloseError}
-            dismissButtonAriaLabel="Close"
-          >
-            {error}
-          </MessageBar>
-        )}
-      </Stack.Item>
+      
     </Stack>
     
   );

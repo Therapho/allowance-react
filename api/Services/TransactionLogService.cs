@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using AllowanceFunctions.Common;
+using api.Entities;
 
 namespace AllowanceFunctions.Services
 {
@@ -12,22 +14,51 @@ namespace AllowanceFunctions.Services
     {
         public TransactionLogService(DatabaseContext databaseContext): base(databaseContext) { }
 
-        public async Task<List<TransactionLog>> GetAll(int take = 20, int skip = 0)
+        public async Task<List<TransactionLogView>> GetAll(int take = 20, int skip = 0)
         {
-            var query = from transactionLog in _context.TransactionLogSet
-                        orderby transactionLog.Date descending
-                        select transactionLog;
-            var transactionLogList = await query.Skip(skip).Take(take).ToListAsync();
-            return transactionLogList;
+            var query = from transactionLogView in _context.TransactionLogViewSet
+                        orderby transactionLogView.Date descending
+                        select transactionLogView;
+            var transactionLogViewList = await query.Skip(skip).Take(take).ToListAsync();
+            return transactionLogViewList;
         }
-        public async Task<List<TransactionLog>> GetByAccountId(int accountId, int take = 20, int skip =0)
+        public async Task<List<TransactionLogView>> GetByAccountId(int accountId, int take = 20, int skip =0)
         {
-            var query = from transactionLog in _context.TransactionLogSet
-                        where transactionLog.AccountId == accountId
-                        orderby transactionLog.Date descending
-                        select transactionLog;
-            var transactionLogList = await query.Skip(skip).Take(take).ToListAsync();
-            return transactionLogList;
+            var query = from transactionLogView in _context.TransactionLogViewSet
+                        where transactionLogView.TargetAccountId == accountId
+                        orderby transactionLogView.Date descending
+                        select transactionLogView;
+            var transactionLogViewList = await query.Skip(skip).Take(take).ToListAsync();
+            return transactionLogViewList;
+        }
+        public async Task LogTransferWithdrawal(Transaction transaction, int callingAccountId)
+        {
+            var transactionLog = new TransactionLog()
+            {
+                CallingAccountId = callingAccountId,
+                TargetAccountId = transaction.TargetAccountId,
+                SourceFundId = transaction.SourceFundId,
+                TargetFundId = transaction.TargetFundId,
+                Amount = transaction.Amount,
+                Date = DateTime.Now,
+                CategoryId = (int)Constants.TransactionCategory.Withdraw,
+                Description = $"Withdraw for transfer: {transaction.Description}"
+            };
+            await Create(transactionLog, false);
+        }
+        public async Task LogTransaction(Transaction transaction, int callingAccountId)
+        {
+            var transactionLog = new TransactionLog()
+            {
+                TargetAccountId = transaction.TargetAccountId,
+                CallingAccountId = callingAccountId,
+                Amount = transaction.Amount,
+                Date = DateTime.Now,
+                CategoryId = transaction.CategoryId,
+                Description = transaction.Description,
+                TargetFundId = transaction.TargetFundId
+            };
+            await Create(transactionLog);
         }
     }
 }

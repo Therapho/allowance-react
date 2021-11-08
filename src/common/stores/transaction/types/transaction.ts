@@ -2,7 +2,9 @@ export type Transaction = {
   description: string;
   amount: number;
   categoryId: number;
-  accountId: number;
+  targetAccountId: number;
+  targetFundId: number;
+  sourceFundId?: number;
 };
 
 export type TransactionSet = Transaction[];

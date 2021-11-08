@@ -1,4 +1,4 @@
-import { IPalette, mergeStyles, Stack, ThemeProvider } from "@fluentui/react";
+import { IPalette, mergeStyles, MessageBar, MessageBarType, Stack, ThemeProvider } from "@fluentui/react";
 import {  useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";
@@ -9,18 +9,20 @@ import { LoginLink } from "../../../login/components/loginLink/loginLink";
 import { Settings } from "../../../settings/settings";
 import { TaskPage } from "../../../taskActivity/taskActivityPage";
 import { useAppState } from "../../context/appStateProvider";
-import BusyOverlay from "../busyOverlay/busyOverlay";
 import { Header } from "../header/header";
 import { LeftPanel } from "../leftPanel/leftPanel";
 
-import * as layoutStyles from "./layout.styles"
+import LayoutStyles, * as layoutStyles from "./layout.styles"
 import TransactionPage from "../../../transactions/transactionPage";
 import { Menu } from "../menu/menu";
 import TaskWeekListPage from "../../../taskWeekList/taskWeekListPage";
 import { blueTheme, greenTheme, turquoiseTheme } from "../../context/app.themes";
+import FundsPage from "../../../funds/fundsPage";
+import BusyOverlay from "../busyOverlay/busyOverlay";
+
+
 export const Layout = () => {
   const history = useHistory();
-  const { busy, error, clearError } = useAppState();
 
   const { data: profile } = useProfile();
   const handleNavigate = (url: string) => {
@@ -34,7 +36,7 @@ export const Layout = () => {
   const handleMenuDismiss = () => {
     setMenuOpen(false);
   };
-  const {selectedColor, selectedTheme} = useAppState();
+  const {selectedColor, selectedTheme, error, setError, busy} = useAppState();
   const findTheme=(selectedColor:string, selectedTheme:string)=>
   {
     let colorScheme = {light:{palette:{} as IPalette}, dark:{palette:{} as IPalette}};
@@ -60,11 +62,10 @@ export const Layout = () => {
         <Menu onNavigate={handleNavigate} />
         <LoginLink />
       </LeftPanel>
-      <Stack styles={layoutStyles.stackFillStyles}>
+      <Stack styles={LayoutStyles.stack}>
         <Header
           onMenuOpen={handleMenuToggle}
-          error={error}
-          onCloseError={clearError}
+        
         />
         {profile ? (
           <Switch>
@@ -74,6 +75,7 @@ export const Layout = () => {
             <Route path="/logincomplete" component={LoginCompletePage} />
             <Route path="/transactions" component={TransactionPage}/>
             <Route path="/taskweeklist" component={TaskWeekListPage}/>
+            <Route path="/funds" component={FundsPage}/>
           </Switch>
         ) : (
           <Login />
@@ -81,6 +83,17 @@ export const Layout = () => {
       </Stack>
 
       <BusyOverlay busy={busy} />
+      
+        {error && (
+          <MessageBar className={LayoutStyles.messageBar}
+            messageBarType={MessageBarType.error}
+            isMultiline={false}
+            onDismiss={()=>setError("")}
+            dismissButtonAriaLabel="Close"
+          >
+            {error}
+          </MessageBar>
+        )}
     </ThemeProvider>
   );
 };

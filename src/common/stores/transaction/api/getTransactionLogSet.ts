@@ -1,9 +1,9 @@
 import apiClient from "../../apiClient";
-import { TransactionLogSet } from "../types/transactionLog";
+import { TransactionLogViewSet } from "../types/transactionLogView";
 export const getTransactionLogSet = async (accountId?: number) => {
   const params = { params: { accountId: accountId } };
   return await (
-    await apiClient.get<TransactionLogSet>(
+    await apiClient.get<TransactionLogViewSet>(
       "/api/transactionlogset",
       accountId ? params : undefined
     )

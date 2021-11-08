@@ -59,7 +59,7 @@ const AddTransactionForm = ({
       ? "Please enter a description"
       : undefined;
   const accountSelectionError = () =>
-    transaction.accountId === 0 ? "Please select an account" : undefined;
+    transaction.targetAccountId === 0 ? "Please select an account" : undefined;
   const handleSave = () => {
     setShouldValidate(true);
     if (

@@ -16,7 +16,7 @@ const TransactionPage = () => {
   const [panelOpen, setPanelOpen] = useState(false);
   const [categoryId, setCategoryId] = useState(0);
 
-  const nandleDeposit = () => {
+  const handleDeposit = () => {
     setCategoryId(Constants.TransactionCategory.Deposit);
     setPanelOpen(true);
   };
@@ -34,7 +34,7 @@ const TransactionPage = () => {
       <AppTitle>Transactions</AppTitle>
       {checkIfParent(profile) && (
         <Fragment>
-          <DefaultButton text="Deposit" onClick={nandleDeposit} />
+          <DefaultButton text="Deposit" onClick={handleDeposit} />
           <DefaultButton text="Withdraw" onClick={handleWithdrawal} />
           <TransactionPanel
             accountId={account?account.id:undefined}

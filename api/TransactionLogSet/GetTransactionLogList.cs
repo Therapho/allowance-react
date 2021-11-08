@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -25,7 +26,7 @@ namespace AllowanceFunctions.Api.TransactionLogSet
         public async Task<IActionResult> Run(
             [HttpTrigger(Constants.AUTHORIZATION_LEVEL, "get", Route = "transactionlogset")] HttpRequest request, ILogger log)
         {
-            List<TransactionLog> result = null;
+            List<TransactionLogView> result = null;
             try
             {
                 var context = await CreateContext(request);

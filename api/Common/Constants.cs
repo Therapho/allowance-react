@@ -14,7 +14,7 @@ namespace AllowanceFunctions.Common
         public const string PARENT_ROLE = "parent";
         public const string ADMIN_ROLE = "admin";
 
-        public enum TransactionCategory { Deposit=1, Withdraw=2};
+        public enum TransactionCategory { Deposit=1, Withdraw=2, Transfer=3};
 
     }
 }
