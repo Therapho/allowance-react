@@ -1,4 +1,3 @@
-import axios from "axios";
 import apiClient from "../../apiClient";
 import { FundSet } from "../types/fund";
 

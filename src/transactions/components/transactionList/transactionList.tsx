@@ -5,11 +5,7 @@ import {
   SelectionMode,
 } from "@fluentui/react";
 import { Fragment } from "react";
-import { useChildAccountSet } from "../../../common/stores/account/queries/useChildAccountSet";
-import {
-  Account,
-  findAccountName,
-} from "../../../common/stores/account/types/accountType";
+import { Account } from "../../../common/stores/account/types/accountType";
 import { useTransactionSet } from "../../../common/stores/transaction/queries/useTransactionSet";
 import { TransactionLog } from "../../../common/stores/transaction/types/transactionLog";
 import { Constants } from "../../../common/utilities/constants";
@@ -18,7 +14,6 @@ import { formatCurrency } from "../../../common/utilities/formatCurrency";
 type TransactionListProps = { account: Account | undefined };
 const TransactionList = ({ account }: TransactionListProps) => {
   const { data: transactionSet } = useTransactionSet(account?.id);
-  const { data: childAccountSet } = useChildAccountSet();
 
   const columns: IColumn[] = [
     {
@@ -67,12 +62,7 @@ const TransactionList = ({ account }: TransactionListProps) => {
       minWidth: 100,
       maxWidth: 400,
     },
-    
 
-   
-    
-
-    
     {
       key: "sourcefundname",
       name: "Source Fund",

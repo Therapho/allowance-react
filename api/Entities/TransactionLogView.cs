@@ -21,7 +21,8 @@ namespace api.Entities
         public string TargetFundName { get; set; }
         public string SourceFundName { get; set; }
         public string CallingAccountName { get; set; }
-        public string TargetAccountName { get; set; }
+        public string TargetAccountName { get; set; }        
+        public decimal PreviousAmount {get;set;}
     }
 
 }

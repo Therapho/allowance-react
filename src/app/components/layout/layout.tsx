@@ -12,7 +12,7 @@ import { useAppState } from "../../context/appStateProvider";
 import { Header } from "../header/header";
 import { LeftPanel } from "../leftPanel/leftPanel";
 
-import LayoutStyles, * as layoutStyles from "./layout.styles"
+import LayoutStyles from "./layout.styles"
 import TransactionPage from "../../../transactions/transactionPage";
 import { Menu } from "../menu/menu";
 import TaskWeekListPage from "../../../taskWeekList/taskWeekListPage";

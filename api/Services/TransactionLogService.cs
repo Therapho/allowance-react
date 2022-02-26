@@ -46,7 +46,7 @@ namespace AllowanceFunctions.Services
             };
             await Create(transactionLog, false);
         }
-        public async Task LogTransaction(Transaction transaction, int callingAccountId)
+        public async Task LogTransaction(Transaction transaction, decimal previousBalance, int callingAccountId)
         {
             var transactionLog = new TransactionLog()
             {
@@ -56,7 +56,8 @@ namespace AllowanceFunctions.Services
                 Date = DateTime.Now,
                 CategoryId = transaction.CategoryId,
                 Description = transaction.Description,
-                TargetFundId = transaction.TargetFundId
+                TargetFundId = transaction.TargetFundId,
+                PreviousAmount = previousBalance
             };
             await Create(transactionLog);
         }

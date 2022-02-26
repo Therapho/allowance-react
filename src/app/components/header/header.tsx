@@ -1,20 +1,12 @@
-import {
-  IconButton,
-  MessageBar,
-  MessageBarType,
-  Stack,
-  Text,
-} from "@fluentui/react";
+import { IconButton, Stack, Text } from "@fluentui/react";
 import useHeaderStyles from "./useHeaderStyles";
 
 type HeaderProps = {
   onMenuOpen: () => void;
-
 };
 export const Header = ({ onMenuOpen }: HeaderProps) => {
   const headerStyles = useHeaderStyles();
   return (
-    
     <Stack
       horizontal
       horizontalAlign="space-between"
@@ -30,8 +22,6 @@ export const Header = ({ onMenuOpen }: HeaderProps) => {
 
         <Text className={headerStyles.headerText}>Allowance</Text>
       </Stack.Item>
-      
     </Stack>
-    
   );
 };

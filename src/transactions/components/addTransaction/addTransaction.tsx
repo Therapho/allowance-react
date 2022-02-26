@@ -1,6 +1,7 @@
 import { Fragment, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useChildAccountSet } from "../../../common/stores/account/queries/useChildAccountSet";
+import fundKeys from "../../../common/stores/fund/queries/fundKeys";
 import transactionKeys from "../../../common/stores/transaction/queries/transactionKeys";
 import usePutTransaction from "../../../common/stores/transaction/queries/useUpdateBalance";
 import { Transaction } from "../../../common/stores/transaction/types/transaction";
@@ -30,6 +31,7 @@ const AddTransaction = ({
 
   const { mutate: putTransaction } = usePutTransaction(() => {
     queryClient.invalidateQueries(transactionKeys.transactionLogSet(accountId));
+    queryClient.invalidateQueries(fundKeys.all);
     handleClose();
   });
   const queryClient = useQueryClient();

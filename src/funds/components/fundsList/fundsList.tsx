@@ -1,12 +1,10 @@
 import {
   DefaultButton,
   IconButton,
-  Label,
   Panel,
   PrimaryButton,
   Shimmer,
   Stack,
-  StackItem,
   TextField,
 } from "@fluentui/react";
 import { useState } from "react";
@@ -14,7 +12,6 @@ import { useQueryClient } from "react-query";
 import { appButton } from "../../../app/app.styles";
 import Card from "../../../common/components/card/card";
 import { cardStyles } from "../../../common/components/card/card.styles";
-import ConfirmDialog from "../../../common/components/confirmDialog/confirmDialog";
 import ConfirmIconButton from "../../../common/components/confirmIconButton/confirmIconButton";
 import { Account } from "../../../common/stores/account/types/accountType";
 import fundKeys from "../../../common/stores/fund/queries/fundKeys";
@@ -66,7 +63,7 @@ const FundsList = ({ selectedAccount }: FundsListProps) => {
   };
   const { mutate: setFundAllocation } = useSetFundAllocation();
   const handleUpdateAllocation = () => {
-    if (fundSet && totalAllocation == 100) setFundAllocation(fundSet);
+    if (fundSet && totalAllocation === 100) setFundAllocation(fundSet);
   };
   const handleEditFund = (fund: Fund) => {
     setFormMode("Edit");
@@ -132,13 +129,14 @@ const FundsList = ({ selectedAccount }: FundsListProps) => {
               iconProps={{ iconName: "Edit" }}
               onClick={() => handleEditFund(fund)}
             />
-            {!fund.locked && fund.balance == 0 &&
-            <ConfirmIconButton
-              icon="Delete"
-              dialogTitle="Delete Fund"
-              dialogMessage="Are you sure?"
-              onConfirm={() => handleDeleteFund(fund)}
-            />}
+            {!fund.locked && fund.balance === 0 && (
+              <ConfirmIconButton
+                icon="Delete"
+                dialogTitle="Delete Fund"
+                dialogMessage="Are you sure?"
+                onConfirm={() => handleDeleteFund(fund)}
+              />
+            )}
           </div>
         </Card>
       ))}
@@ -148,7 +146,7 @@ const FundsList = ({ selectedAccount }: FundsListProps) => {
       <DefaultButton
         styles={appButton}
         onClick={handleUpdateAllocation}
-        disabled={totalAllocation != 100}
+        disabled={totalAllocation !== 100}
       >
         Update Allocation
       </DefaultButton>
@@ -178,7 +176,6 @@ const FundsList = ({ selectedAccount }: FundsListProps) => {
           }
         })()}
       </Panel>
-     
     </Shimmer>
   );
 };

@@ -1,4 +1,4 @@
-import { IconButton, PrimaryButton } from "@fluentui/react";
+import { IconButton } from "@fluentui/react";
 import { Fragment, useState } from "react";
 import ConfirmDialog from "../confirmDialog/confirmDialog";
 

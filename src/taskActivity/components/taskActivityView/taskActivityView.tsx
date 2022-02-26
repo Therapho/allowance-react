@@ -13,6 +13,10 @@ import processStatusChange from "../../utilities/processStatusChange";
 import { TaskButtonTray } from "../taskButtonTray/taskButtonTray";
 import { Task } from "../taskCheckBox/taskCheckbox.props";
 import TaskGroupList from "../taskGroupList/taskGroupList";
+import fundKeys from "../../../common/stores/fund/queries/fundKeys";
+import transactionKeys from "../../../common/stores/transaction/queries/transactionKeys";
+import { accountKeys } from "../../../common/stores/account/queries/accountKeys";
+import { addDays } from "@fluentui/react";
 
 export type taskActivityViewProps = {
   selectedDate: Date;
@@ -31,7 +35,8 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
 
   const taskWeekId = taskWeek?.id!;
   const canEdit = taskWeek?.statusId === Constants.Status.Open;
-
+  const today = new Date();
+  const canApprove = isParent && today > addDays(selectedDate, 7 );
 
   ///////////////////////////// Load Data
   const { data: taskActivitySet } = useTaskActivitySet(
@@ -66,7 +71,8 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
 
   //////////////////////////// Save Data
   const { mutate: saveTaskActivityList } = useTaskActivityListMutation(()=>{
-    queryClient.invalidateQueries(taskKeys.all)
+    queryClient.invalidateQueries(taskKeys.all);
+    
   });
   const { mutate: putTaskWeek } = usePutTaskWeek(goHome);
   const handleSave = () => {
@@ -75,7 +81,12 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   };
 
   ///////////////////////////// Approve
-  const { mutate: acceptTaskWeek } = useAcceptTaskWeek(goHome);
+  const { mutate: acceptTaskWeek } = useAcceptTaskWeek(()=>{
+    queryClient.invalidateQueries(fundKeys.all);
+    queryClient.invalidateQueries(transactionKeys.all);
+    queryClient.invalidateQueries(accountKeys.all);
+    goHome();
+  });
   const handleApprove = () => acceptTaskWeek(taskWeek!);
   
   return (
@@ -86,7 +97,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
       canEdit={canEdit}
       onSave={handleSave}
       onApprove={handleApprove}
-      canApprove={isParent}
+      canApprove={canApprove}
       onCancel={goHome}
       taskWeekValue={taskWeek?.value!}
     />

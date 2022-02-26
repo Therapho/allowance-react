@@ -1,5 +1,4 @@
-import { DefaultButton, Dialog, DialogFooter, DialogType, IModalProps, PrimaryButton } from "@fluentui/react";
-import { useMemo, useState } from "react";
+import { DefaultButton, Dialog, DialogFooter, DialogType, PrimaryButton } from "@fluentui/react";
 
 type ConfirmDialogProps ={
     title:string,
