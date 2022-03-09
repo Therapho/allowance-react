@@ -1,10 +1,7 @@
 import { Stack } from "@fluentui/react";
 import { Fragment } from "react";
 import { useChildAccountSet } from "../../../common/stores/account/queries/useChildAccountSet";
-import BalanceCard from "../BalanceCard/balanceCard";
 import { Dashboard } from "../Dashboard/dashboard";
-import TaskCard from "../TaskCard/taskCard";
-import TransactionCard from "../TransactionCard/transactionCard";
 import { parentDashBoardStyles } from "./parentDashboard.styles";
 
 export const ParentDashBoard = () => {

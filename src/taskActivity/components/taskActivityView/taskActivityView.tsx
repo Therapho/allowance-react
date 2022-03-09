@@ -28,13 +28,11 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   const history = useHistory();
   const goHome = () => history.push("/");
   const { data: profile } = useProfile();
-  const isParent = checkIfParent(profile);
   
   const { data: taskWeek } = useTaskWeek(selectedDate, accountId);  
 
   const taskWeekId = taskWeek?.id!;
   const canEdit = taskWeek?.statusId === Constants.Status.Open;
-  const today = new Date();
   const canApprove = true;//isParent && today > addDays(selectedDate, 7 );
 
   ///////////////////////////// Load Data

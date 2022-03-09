@@ -1,5 +1,4 @@
 import { Stack } from "@fluentui/react";
-import { useAccount } from "../../../common/stores/account/queries/useAccount";
 import { Account } from "../../../common/stores/account/types/accountType";
 import { useFundSet } from "../../../common/stores/fund/queries/useFundSet";
 import BalanceCard from "../BalanceCard/balanceCard";
