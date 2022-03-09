@@ -9,6 +9,7 @@
     [CallingAccountId] INT              NULL,
     [SourceFundId]     INT              NULL,
     [TargetFundId]     INT              NULL,
+    [PreviousAmount] MONEY NULL, 
     PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_TransactionLog_ToAccount_Calling] FOREIGN KEY ([CallingAccountId]) REFERENCES [dbo].[Accounts] ([Id]),
     CONSTRAINT [FK_TransactionLog_ToAccounts_Target] FOREIGN KEY ([TargetAccountId]) REFERENCES [dbo].[Accounts] ([Id]),

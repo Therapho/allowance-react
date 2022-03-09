@@ -20,14 +20,16 @@ namespace AllowanceFunctions.Api.TaskWeekSet
     public class AcceptTaskWeek : Function
     {
         private TaskWeekService _taskWeekService;
+        private TaskActivityService _taskActivityService;
         private TransactionLogService _transactionLogService;
         private FundService _fundService;
 
         public AcceptTaskWeek(AccountService accountService, 
-            TaskWeekService taskWeekService, FundService fundService, TransactionLogService transactionLogService)
+            TaskWeekService taskWeekService, FundService fundService, TaskActivityService taskActivityService, TransactionLogService transactionLogService)
             : base(accountService)
         {
             _taskWeekService = taskWeekService;
+            _taskActivityService = taskActivityService;
             _transactionLogService = transactionLogService;
             _fundService = fundService;
         }
@@ -53,6 +55,11 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                 {
                     throw new SecurityException("Invalid attempt to accept a taskweek by an invalid user");
                 }
+
+                var taskActivityList = await _taskActivityService.GetList(taskWeek.AccountId, taskWeek.Id);
+                var value = await _taskActivityService.RecalculateValue(taskWeek);
+                if (value != taskWeek.Value) log.LogTrace($"Task week value out of sync.  stored: {taskWeek.Value}, actual: {value}");
+                taskWeek.Value = value;
 
                 await _taskWeekService.Update(taskWeek, false);
                 var fundList = await _fundService.GetList(taskWeek.AccountId);

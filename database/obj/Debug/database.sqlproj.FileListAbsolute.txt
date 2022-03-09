@@ -1,0 +1,6 @@
+C:\code\allowance-app\database\bin\Debug\database.dacpac
+C:\code\allowance-app\database\bin\Debug\database.dll
+C:\code\allowance-app\database\bin\Debug\database.pdb
+C:\code\allowance-app\database\obj\Debug\database.sqlproj.AssemblyReference.cache
+C:\code\allowance-app\database\obj\Debug\database.dll
+C:\code\allowance-app\database\obj\Debug\database.pdb

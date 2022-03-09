@@ -87,5 +87,26 @@ namespace AllowanceFunctions.Services
 
             return taskActivityList;
         }
+        public async Task<Decimal> RecalculateValue(TaskWeek taskWeek)
+        {
+            var taskActivityList = await GetList(taskWeek.AccountId, taskWeek.Id);
+            var taskDefinitionList = await _taskDefinitonService.GetList();
+
+            decimal value = 0;
+            foreach (var taskActivity in taskActivityList)
+            {                
+                var taskDefinition = taskDefinitionList.Find(d => d.Id == taskActivity.TaskDefinitionId);
+                value += taskActivity.MondayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+                value += taskActivity.TuesdayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+                value += taskActivity.WednesdayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+                value += taskActivity.ThursdayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+                value += taskActivity.FridayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+                value += taskActivity.SaturdayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+                value += taskActivity.SundayStatusId == (int)Constants.ActivityStatus.Complete ? taskDefinition.Value : 0;
+
+
+            }
+            return value;
+        }
     }
 }

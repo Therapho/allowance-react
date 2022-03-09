@@ -7,6 +7,7 @@ export type TransactionLog = {
   targetAccountId: number;
   targetFundId?:number;
   sourceFundId?:number;
+  previousAmount?:number;
 };
 
 export type TransactionLogSet = TransactionLog[];

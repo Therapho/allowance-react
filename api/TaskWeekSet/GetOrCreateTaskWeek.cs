@@ -69,8 +69,8 @@ namespace AllowanceFunctions.Api.TaskWeekSet
 
                         //}
                         taskWeek = await _taskWeekService.Create(context.TargetAccount.Id, startDate);
-                        context.CallingAccount.ActiveTaskWeekId = taskWeek.Id;
-                        await AccountService.Update(context.CallingAccount);
+                        context.TargetAccount.ActiveTaskWeekId = taskWeek.Id;
+                        await AccountService.Update(context.TargetAccount);
                     }
                     else
                     {

@@ -21,7 +21,7 @@ const TransactionList = ({ account }: TransactionListProps) => {
       name: "Date",
       fieldName: "date",
       minWidth: 30,
-      maxWidth: 100,
+      maxWidth: 70,
       onRender: (item: TransactionLog) => {
         return item.date.toLocaleDateString();
       },
@@ -31,12 +31,19 @@ const TransactionList = ({ account }: TransactionListProps) => {
       name: "Category",
       fieldName: "category",
       minWidth: 35,
-      maxWidth: 80,
+      maxWidth: 70,
       onRender: (item: TransactionLog) => {
         return item.categoryId === Constants.TransactionCategory.Deposit
           ? "Deposit"
           : "Withdrawal";
       },
+    },
+    {
+      key: "sourcefundname",
+      name: "Source Fund",
+      fieldName: "sourceFundName",
+      minWidth: 30,
+      maxWidth: 100,
     },
     {
       key: "targetfundname",
@@ -46,30 +53,28 @@ const TransactionList = ({ account }: TransactionListProps) => {
       maxWidth: 80,
     },
     {
+      key: "previousbalance",
+      name: "Previous",
+      fieldName: "previousamount",
+      minWidth: 40,
+      maxWidth: 70,
+      onRender: (item: TransactionLog) => {
+        return formatCurrency(item.previousAmount);
+      },
+    },
+    {
       key: "amount",
       name: "Amount",
       fieldName: "amount",
       minWidth: 40,
-      maxWidth: 80,
+      maxWidth: 70,
       onRender: (item: TransactionLog) => {
         return formatCurrency(item.amount);
       },
     },
-    {
-      key: "description",
-      name: "Description",
-      fieldName: "description",
-      minWidth: 100,
-      maxWidth: 400,
-    },
+   
 
-    {
-      key: "sourcefundname",
-      name: "Source Fund",
-      fieldName: "sourceFundName",
-      minWidth: 30,
-      maxWidth: 100,
-    },
+  
     {
       key: "targetaccountname",
       name: "Target Account",
@@ -83,6 +88,14 @@ const TransactionList = ({ account }: TransactionListProps) => {
       fieldName: "callingAccountName",
       minWidth: 30,
       maxWidth: 100,
+    },
+     
+    {
+      key: "description",
+      name: "Description",
+      fieldName: "description",
+      minWidth: 100,
+      maxWidth: 400,
     },
   ];
   return (

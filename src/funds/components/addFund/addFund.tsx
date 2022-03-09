@@ -28,6 +28,7 @@ const AddFund = ({
   const queryClient = useQueryClient();
   const handleSave = () => {
     postFund(newFund);
+    queryClient.invalidateQueries(fundKeys.all);
   };
   return (
     <FundForm

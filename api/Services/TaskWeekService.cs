@@ -1,17 +1,19 @@
-﻿using AllowanceFunctions.Entities;
+﻿using AllowanceFunctions.Common;
+using AllowanceFunctions.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Data;
-using AllowanceFunctions.Common;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AllowanceFunctions.Services
 {
     public class TaskWeekService : EntityService<TaskWeek>
     {
+        private TaskActivityService _taskActivityService;
+        private TaskDefinitionService _taskDefinitionService;
+
         public TaskWeekService(DatabaseContext context) : base(context) { }
 
         public async Task<TaskWeek> Get(int accountId, DateTime dateStart)
@@ -55,6 +57,9 @@ namespace AllowanceFunctions.Services
                         select taskWeek;
             return await query.Take(10).ToListAsync();
         }
+
+    
+
         public async Task<List<TaskWeek>> GetListByRange(DateTime? dateStart, DateTime? dateEnd, int accountId)
         {
             var query = from taskWeek in _context.TaskWeekSet

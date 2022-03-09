@@ -64,7 +64,7 @@ const TransactionCard = ({ account }: transactionCardProps) => {
   const { data: transactionSet } = useTransactionSet(account.id);
 
   return (
-    <Card width="100%">
+    <Card>
       <Label>Recent Transactions</Label>
       <ShimmeredDetailsList items={transactionSet?.slice(0,4) ||[]}
           columns={columns}

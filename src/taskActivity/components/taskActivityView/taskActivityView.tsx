@@ -16,7 +16,6 @@ import TaskGroupList from "../taskGroupList/taskGroupList";
 import fundKeys from "../../../common/stores/fund/queries/fundKeys";
 import transactionKeys from "../../../common/stores/transaction/queries/transactionKeys";
 import { accountKeys } from "../../../common/stores/account/queries/accountKeys";
-import { addDays } from "@fluentui/react";
 
 export type taskActivityViewProps = {
   selectedDate: Date;
@@ -36,7 +35,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   const taskWeekId = taskWeek?.id!;
   const canEdit = taskWeek?.statusId === Constants.Status.Open;
   const today = new Date();
-  const canApprove = isParent && today > addDays(selectedDate, 7 );
+  const canApprove = true;//isParent && today > addDays(selectedDate, 7 );
 
   ///////////////////////////// Load Data
   const { data: taskActivitySet } = useTaskActivitySet(

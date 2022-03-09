@@ -54,7 +54,7 @@ const TaskCard = ({ account }: taskCardProps) => {
     },
   ];
   return (
-    <Card width="100%">
+    <Card>
       <Label>Tasks</Label>
 
       <ShimmeredDetailsList

@@ -22,6 +22,7 @@ const EditFund = ({
   const queryClient = useQueryClient();
   const handleSave = () => {
     putFund(editFund);
+    
   };
   return (
     <FundForm

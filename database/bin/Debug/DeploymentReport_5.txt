@@ -1,0 +1,37 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       The column [dbo].[TransactionLog].[AccountId] is being dropped, data loss could occur.
+       The column [dbo].[TransactionLog].[TargetAccountId] on table [dbo].[TransactionLog] must be added, but the column has no
+         default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this
+         issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of
+         smart-defaults as a deployment option.
+
+** User actions
+     Drop
+       [dbo].[FK_TransactionLog_ToAccounts] (Foreign Key)
+     Alter
+       [dbo].[TaskActivities] (Table)
+       [dbo].[TransactionLog] (Table)
+     Create
+       [dbo].[Funds] (Table)
+       Default Constraint: unnamed constraint on [dbo].[Funds] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Funds] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Funds] (Default Constraint)
+       [dbo].[FK_Goal_Account] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToAccount_Calling] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToAccounts_Target] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToFund_Source] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToFund_Target] (Foreign Key)
+       [dbo].[TransactionLogView] (View)
+
+** Supporting actions
+
+The column [dbo].[TransactionLog].[AccountId] is being dropped, data loss could occur.
+The column [dbo].[TransactionLog].[TargetAccountId] on table [dbo].[TransactionLog] must be added, but the column has no default value and does not allow NULL values. If the table contains data, the ALTER script will not work. To avoid this issue you must either: add a default value to the column, mark it as allowing NULL values, or enable the generation of smart-defaults as a deployment option.
+

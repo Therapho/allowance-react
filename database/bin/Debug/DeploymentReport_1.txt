@@ -1,0 +1,61 @@
+﻿** Highlights
+     Tables that will be rebuilt
+       None
+     Clustered indexes that will be dropped
+       None
+     Clustered indexes that will be created
+       None
+     Possible data issues
+       None
+
+** User actions
+     Create
+       [dbo].[Accounts] (Table)
+       [dbo].[ActivityStatus] (Table)
+       [dbo].[Funds] (Table)
+       [dbo].[Roles] (Table)
+       [dbo].[Status] (Table)
+       [dbo].[TaskActivities] (Table)
+       [dbo].[TaskDefinitions] (Table)
+       [dbo].[TaskGroups] (Table)
+       [dbo].[TaskWeeks] (Table)
+       [dbo].[TransactionCategories] (Table)
+       [dbo].[TransactionLog] (Table)
+       Default Constraint: unnamed constraint on [dbo].[Accounts] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Funds] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Funds] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[Funds] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskActivities] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TaskGroups] (Default Constraint)
+       Default Constraint: unnamed constraint on [dbo].[TransactionLog] (Default Constraint)
+       [dbo].[FK_Accounts_ToRoles] (Foreign Key)
+       [dbo].[FK_Goal_Account] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToAccount (Id)] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Friday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Monday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Saturday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Sunday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Thursday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Tuesday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToActivityStatus_Wednesday] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToTaskDefinitions (Id)] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToTaskGroups] (Foreign Key)
+       [dbo].[FK_TaskActivities_ToTaskWeeks] (Foreign Key)
+       [dbo].[FK_TaskDefinition_ToTaskGroups] (Foreign Key)
+       [dbo].[FK_TaskDefinitions_ToAccount] (Foreign Key)
+       [dbo].[FK_TaskWeeks_ToAccount] (Foreign Key)
+       [dbo].[FK_TaskWeeks_ToStatus] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToAccount_Calling] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToAccounts_Target] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToFund_Source] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToFund_Target] (Foreign Key)
+       [dbo].[FK_TransactionLog_ToTransactionCategory] (Foreign Key)
+       [dbo].[TransactionLogView] (View)
+
+** Supporting actions
