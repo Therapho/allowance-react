@@ -24,6 +24,10 @@ const TransactionPage = () => {
     setCategoryId(Constants.TransactionCategory.Withdrawal);
     setPanelOpen(true);
   };
+  const handleTransfer = () => {
+    setCategoryId(Constants.TransactionCategory.Transfer);
+    setPanelOpen(true);
+  };
   const handleClosePanel = () => {
     setCategoryId(0);
     setPanelOpen(false);
@@ -36,6 +40,7 @@ const TransactionPage = () => {
         <Fragment>
           <DefaultButton text="Deposit" onClick={handleDeposit} />
           <DefaultButton text="Withdraw" onClick={handleWithdrawal} />
+          <DefaultButton text="Transfer" onClick={handleTransfer} />
           <TransactionPanel
             accountId={account?account.id:undefined}
             categoryId={categoryId}

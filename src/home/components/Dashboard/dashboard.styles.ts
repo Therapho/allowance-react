@@ -7,7 +7,7 @@ export const dashBoardStyles = {
   } as IStackTokens,
   stackStyles:{
     root: {
-        margin: 10,
+        margin: 20,
         "@media only screen and (max-width: 768px)":{
             margin:10
         }

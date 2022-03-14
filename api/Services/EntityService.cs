@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Data;
+using api.Common;
 
 namespace AllowanceFunctions.Services
 {
@@ -64,7 +65,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
 
-                throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}.  {exception.Message}", exception);
+                throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}. \n {Utility.ParseError(exception)}", exception);
             }
 
 

@@ -46,7 +46,7 @@ namespace AllowanceFunctions.Services
             };
             await Create(transactionLog, false);
         }
-        public async Task LogTransaction(Transaction transaction, decimal previousBalance, int callingAccountId)
+        public async Task LogDeposit(Transaction transaction, decimal previousBalance, int callingAccountId)
         {
             var transactionLog = new TransactionLog()
             {
@@ -57,7 +57,24 @@ namespace AllowanceFunctions.Services
                 CategoryId = transaction.CategoryId,
                 Description = transaction.Description,
                 TargetFundId = transaction.TargetFundId,
-                PreviousAmount = previousBalance
+                PreviousAmount = previousBalance,
+                NewAmount = previousBalance + transaction.Amount
+            };
+            await Create(transactionLog);
+        }
+        public async Task LogWithdrawal(Transaction transaction, decimal previousBalance, int callingAccountId)
+        {
+            var transactionLog = new TransactionLog()
+            {
+                TargetAccountId = transaction.TargetAccountId,
+                CallingAccountId = callingAccountId,
+                Amount = transaction.Amount,
+                Date = DateTime.Now,
+                CategoryId = transaction.CategoryId,
+                Description = transaction.Description,
+                SourceFundId = transaction.SourceFundId,
+                PreviousAmount = previousBalance,
+                NewAmount = previousBalance + transaction.Amount
             };
             await Create(transactionLog);
         }

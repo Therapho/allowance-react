@@ -13,7 +13,7 @@ export const Dashboard = ({account}:dashboardProps) => {
   const { data: fundSet } = useFundSet(account.id);
 
   return (
-    <section>
+
       
         <Stack
           horizontalAlign="center"
@@ -28,6 +28,6 @@ export const Dashboard = ({account}:dashboardProps) => {
           <TransactionCard account={account} />
         </Stack>
       
-    </section>
+
   );
 };

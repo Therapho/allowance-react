@@ -15,10 +15,8 @@ const TransactionPanel = ({
   panelOpen,
   onClosePanel:handleClose,
 }: TransactionPanelProps) => {
-  const typeLabel =
-    categoryId === Constants.TransactionCategory.Deposit
-      ? "Deposit"
-      : "Withdraw";
+
+  const typeLabel = Constants.TransactionLabels[categoryId-1];
 
   return (
     <Panel

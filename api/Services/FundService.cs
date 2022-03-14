@@ -68,17 +68,20 @@ namespace api.Services
             switch ((Constants.TransactionCategory)transaction.CategoryId)
             {
                 case Constants.TransactionCategory.Deposit:
-                    previousBalance = await Deposit(transaction, callingAccountId);                   
+                    previousBalance = await Deposit(transaction, callingAccountId);
+                    await _transactionLogService.LogDeposit(transaction, previousBalance, callingAccountId);
                     break;
                 case Constants.TransactionCategory.Withdraw:
                     previousBalance = await Withdraw(transaction, callingAccountId);
+                    await _transactionLogService.LogWithdrawal(transaction, previousBalance, callingAccountId);
                     break;
                 case Constants.TransactionCategory.Transfer:
-                    previousBalance = await Transfer(transaction, callingAccountId);
-                    await _transactionLogService.LogTransferWithdrawal(transaction, callingAccountId);
+                    previousBalance = await Withdraw(transaction, callingAccountId);
+                    await _transactionLogService.LogWithdrawal(transaction, previousBalance, callingAccountId);
+                    previousBalance = await Deposit(transaction, callingAccountId);
+                    await _transactionLogService.LogDeposit(transaction, previousBalance, callingAccountId);
                     break;
             }
-            await _transactionLogService.LogTransaction(transaction, previousBalance,  callingAccountId);
         }
         private async Task<decimal> Deposit(Transaction transaction, int callingAccountId)
         {
@@ -90,12 +93,12 @@ namespace api.Services
         }
         private async Task<decimal> Withdraw(Transaction transaction, int callingAccountId)
         {
-            var targetFund = await Get(transaction.TargetFundId);
-            var previousBalance = targetFund.Balance;
-            if (targetFund.Balance < transaction.Amount)
+            var sourceFund = await Get(transaction.SourceFundId.GetValueOrDefault());
+            var previousBalance = sourceFund.Balance;
+            if (sourceFund.Balance < transaction.Amount)
                 throw new InvalidOperationException("Insufficient funds");
-            targetFund.Balance -= transaction.Amount;
-            await Update(targetFund, false);
+            sourceFund.Balance -= transaction.Amount;
+            await Update(sourceFund, false);
             return previousBalance;
         }
         private async Task<decimal> Transfer(Transaction transaction, int callingAccountId)

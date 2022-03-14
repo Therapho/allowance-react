@@ -52,7 +52,7 @@ namespace AllowanceFunctions.Api.AccountSet
                 }
                 return new OkObjectResult(true);
             }
-            throw new SecurityException("Invalid attempt to access a record by an invalid user");
+            throw new SecurityException("Invalid attempt to access a record by an unauthorized user");
         }
     }
 }

@@ -19,6 +19,7 @@ namespace AllowanceFunctions.Entities
         public int? SourceFundId { get; set; }
         public int? TargetFundId { get; set; }
         public decimal? PreviousAmount {get;set;}
+        public decimal? NewAmount { get; set; }
     }
 
     
