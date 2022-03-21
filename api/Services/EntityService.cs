@@ -34,7 +34,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
 
-                throw new DataException($"Error trying to Get {typeof(TEntity).Name} with id: {id}.  {exception.Message}", exception);
+                throw new DataException($"Error trying to Get {typeof(TEntity).Name} with id: {id}.", exception);
             }
 
             return result;
@@ -50,7 +50,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
 
-                throw new DataException($"Error trying to CreateOrUpdate for {typeof(TEntity).Name}.  {exception.Message}", exception);
+                throw new DataException($"Error trying to CreateOrUpdate for {typeof(TEntity).Name}.", exception);
             }
             return entity.Id;
         }
@@ -65,7 +65,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
 
-                throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}. \n {Utility.ParseError(exception)}", exception);
+                throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}.", exception);
             }
 
 
@@ -81,7 +81,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
 
-                throw new DataException($"Error trying to CreateOrUpdate for {typeof(TEntity).Name}.  {exception.Message}", exception);
+                throw new DataException($"Error trying to CreateOrUpdate for {typeof(TEntity).Name}.", exception);
             }
             return entity.Id;
         }
@@ -96,7 +96,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
 
-                throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}.  {exception.Message}", exception);
+                throw new DataException($"Error trying to CreateOrUpdateList for {typeof(TEntity).Name}.", exception);
             }
 
 

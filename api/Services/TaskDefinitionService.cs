@@ -27,7 +27,7 @@ namespace AllowanceFunctions.Services
             }
             catch (Exception exception)
             {
-                throw new DataException($"Error trying to retrieve a list of TaskDefinitions.  {exception.Message}", exception);
+                throw new DataException($"Error trying to retrieve a list of TaskDefinitions.", exception);
             }
             return result;
         }

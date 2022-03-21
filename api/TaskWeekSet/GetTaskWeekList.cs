@@ -76,7 +76,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             catch (Exception exception)
             {
 
-                return new BadRequestObjectResult($"Error trying to execute GetTaskWeekList.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetTaskWeekList.  {Utility.ParseError(exception)}");
             }
             return new OkObjectResult(result);
         }

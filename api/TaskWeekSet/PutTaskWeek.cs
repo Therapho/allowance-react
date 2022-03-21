@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -56,7 +57,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             catch (Exception exception)
             {
 
-                return new BadRequestObjectResult($"Error trying to execute PutTaskWeek.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute PutTaskWeek.  {Utility.ParseError(exception)}");
             }
             return new OkObjectResult( taskWeek.Id);
         }

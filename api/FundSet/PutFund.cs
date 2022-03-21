@@ -1,5 +1,6 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Services;
+using api.Common;
 using api.Entities;
 using api.Services;
 using Microsoft.AspNetCore.Http;
@@ -59,7 +60,7 @@ namespace api.FundSet
             }
             catch (Exception exception)
             {
-                return new BadRequestObjectResult($"Error trying to execute PutFund.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute PutFund.  {Utility.ParseError(exception)}");
             }
             return new OkObjectResult(newFund.Id);
         }

@@ -1,6 +1,7 @@
 using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -52,7 +53,7 @@ namespace AllowanceFunctions.Api.AccountSet
             catch (Exception exception)
             {
 
-                return new BadRequestObjectResult($"Error trying to execute GetAccount.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetAccount.  {Utility.ParseError(exception) }");
             }
 
 

@@ -36,7 +36,7 @@ namespace api.Services
             catch (Exception exception)
             {
                 throw new DataException(
-                    $"Error trying to retrieve a list of Funds with accountId: {accountId},  {exception.Message}",
+                    $"Error trying to retrieve a list of Funds with accountId: {accountId}",
                     exception);
             }
             return result;
@@ -57,7 +57,7 @@ namespace api.Services
             catch (Exception exception)
             {
                 throw new DataException(
-                    $"Error trying to retrieve a list of Funds with accountId: {accountId},  {exception.Message}",
+                    $"Error trying to retrieve a list of Funds with accountId: {accountId}",
                     exception);
             }
             return result;

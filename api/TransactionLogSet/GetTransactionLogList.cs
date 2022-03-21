@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using api.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -54,7 +55,7 @@ namespace AllowanceFunctions.Api.TransactionLogSet
             catch (Exception exception)
             {
 
-                return new BadRequestObjectResult($"Error trying to execute GetTransactionLogList.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetTransactionLogList.  {Utility.ParseError(exception)}");
             }
             return new OkObjectResult(result);
         }

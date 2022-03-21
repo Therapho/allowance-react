@@ -1,7 +1,9 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
@@ -49,10 +51,10 @@ namespace AllowanceFunctions.Api.TaskActivitySet
             catch (Exception exception)
             {
 
-                log.LogError($"Exception {exception.Message} occurred");
+                log.LogError($"{Utility.ParseError(exception)}");
                 throw;
             }
-
+            return;
         }
     }
 }

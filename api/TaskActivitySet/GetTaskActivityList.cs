@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -41,7 +42,7 @@ namespace AllowanceFunctions.Api.TaskActivitySet
             catch (Exception exception)
             {
                
-                return new BadRequestObjectResult($"Error trying to execute GetActivityList with TaskWeekId:{taskWeekId} and user:{userPrincipal.UserDetails}.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetActivityList with TaskWeekId:{taskWeekId} and user:{userPrincipal.UserDetails}.  {Utility.ParseError(exception)}");
             }
             
             return new OkObjectResult( result);

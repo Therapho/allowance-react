@@ -36,7 +36,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
                 throw new DataException(
-                    $"Error trying to retrieve a list of TaskActivitys with accountId: {accountId}, taskWeekId: {taskWeekId}.  {exception.Message}", 
+                    $"Error trying to retrieve a list of TaskActivitys with accountId: {accountId}, taskWeekId: {taskWeekId}.", 
                     exception);
             }
             return result;

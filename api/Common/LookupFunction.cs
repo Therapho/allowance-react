@@ -1,4 +1,5 @@
 ﻿using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -35,7 +36,7 @@ namespace AllowanceFunctions.Common
             catch (Exception exception)
             {
 
-                return new BadRequestObjectResult($"Error trying to execute Get{typeof(TEntity).Name }.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute Get{typeof(TEntity).Name }.  {Utility.ParseError(exception)}");
             }
 
 

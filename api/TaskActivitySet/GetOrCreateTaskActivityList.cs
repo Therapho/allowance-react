@@ -83,7 +83,7 @@ namespace AllowanceFunctions.Api.TaskActivitySet
             }
             catch (Exception exception)
             {
-                return new BadRequestObjectResult(new BadRequestErrorMessageResult(exception.Message));
+                return new BadRequestObjectResult(new BadRequestErrorMessageResult(Utility.ParseError(exception)));
             }
             return new OkObjectResult(taskActivityList);
         }

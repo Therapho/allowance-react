@@ -13,6 +13,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using api.Common;
 
 namespace AllowanceFunctions.Api.TaskDefinitionSet
 {
@@ -40,7 +41,7 @@ namespace AllowanceFunctions.Api.TaskDefinitionSet
             catch (Exception exception)
             {
                
-                return new BadRequestObjectResult($"Error trying to execute GetTaskDefinitionList.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetTaskDefinitionList.  {Utility.ParseError(exception)}");
             }
             
             return new OkObjectResult(result);

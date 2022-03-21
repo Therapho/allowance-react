@@ -11,8 +11,6 @@ namespace AllowanceFunctions.Services
 {
     public class TaskWeekService : EntityService<TaskWeek>
     {
-        private TaskActivityService _taskActivityService;
-        private TaskDefinitionService _taskDefinitionService;
 
         public TaskWeekService(DatabaseContext context) : base(context) { }
 
@@ -30,7 +28,7 @@ namespace AllowanceFunctions.Services
             catch (Exception exception)
             {
                 throw new DataException(
-                    $"Error trying to retrieve a taskweek with accountId: {accountId}, dateStart: {dateStart}.  {exception.Message}", 
+                    $"Error trying to retrieve a taskweek with accountId: {accountId}, dateStart: {dateStart}.", 
                     exception);
             }
             return result;

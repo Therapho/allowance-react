@@ -86,7 +86,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
 
             catch (Exception exception)
             {
-                return new BadRequestObjectResult(new BadRequestErrorMessageResult(exception.Message));
+                return new BadRequestObjectResult(Utility.ParseError(exception));
             }
             return new OkObjectResult(taskWeek);
         }

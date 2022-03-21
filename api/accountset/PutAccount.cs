@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -19,7 +20,7 @@ namespace AllowanceFunctions.Api.AccountSet
     public class PutAccount : Function
     {
 
-        public PutAccount(AccountService accountService) : base(accountService){}
+        public PutAccount(AccountService accountService) : base(accountService) { }
 
         [FunctionName("PutAccount")]
         public async Task<IActionResult> Run(
@@ -31,21 +32,25 @@ namespace AllowanceFunctions.Api.AccountSet
             var data = JsonConvert.DeserializeObject<Account>(requestBody);
             var userPrincipal = req.GetUserPrincipal();
 
-            if (userPrincipal.IsInRole(Constants.PARENT_ROLE))
+            try
             {
-                try
+                if (userPrincipal.IsInRole(Constants.PARENT_ROLE))
                 {
+
                     await AccountService.Update(data);
                 }
-                catch (Exception exception)
+                else
                 {
-
-                    return new BadRequestObjectResult($"Error trying to execute PutAccount.  {exception.Message}");
+                    throw new SecurityException("Invalid attempt to access a record by an invalid user");
                 }
-                return new OkObjectResult(data.Id);
             }
-            throw new SecurityException("Invalid attempt to access a record by an invalid user");
-        }
+            catch (Exception exception)
+            {
 
+                return new BadRequestObjectResult($"Error trying to execute PutAccount.  {Utility.ParseError(exception)}");
+            }
+            return new OkObjectResult(data.Id);
+        }
     }
+
 }

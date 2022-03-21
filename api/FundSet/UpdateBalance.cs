@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using api.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,21 +39,25 @@ namespace AllowanceFunctions.Api.AccountSet
             var transaction = JsonConvert.DeserializeObject<Transaction>(requestBody);
             var context = await RequestContext.CreateContext(AccountService, request);
 
-            // Parents can deposit and withdraw, children can only transfer.  
-            if (context.IsParent() || transaction.CategoryId == (int)Constants.TransactionCategory.Transfer)
+            try
             {
-                try
+                // Parents can deposit and withdraw, children can only transfer.  
+                if (context.IsParent() || transaction.CategoryId == (int)Constants.TransactionCategory.Transfer)
                 {
+
                     log.LogTrace($"UpdateBalance function processed a request from user:{context.UserPrincipal.UserDetails}.");
                     await _fundService.ProcessTransaction(transaction, transaction.TargetAccountId);
                 }
-                catch (Exception exception)
-                {
-                    return new BadRequestObjectResult($"Error trying to execute UpdateBalance.  {exception.Message}");
+                else
+                { 
+                    throw new SecurityException("Invalid attempt to access a record by an unauthorized user");
                 }
-                return new OkObjectResult(true);
             }
-            throw new SecurityException("Invalid attempt to access a record by an unauthorized user");
+            catch (Exception exception)
+            {
+                return new BadRequestObjectResult($"Error trying to execute UpdateBalance.  {Utility.ParseError(exception)}");
+            }
+            return new OkObjectResult(true);
         }
     }
 }

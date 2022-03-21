@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using api.Entities;
 using api.Services;
 using Microsoft.AspNetCore.Http;
@@ -80,8 +81,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             }
             catch (Exception exception)
             {
-
-                return new BadRequestObjectResult($"Error trying to update task week (AcceptTaskWeek).  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to update task week (AcceptTaskWeek).  {Utility.ParseError(exception)}");
             }
             return new OkObjectResult(taskWeek.Id);
         }

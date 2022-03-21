@@ -1,6 +1,7 @@
 ﻿using AllowanceFunctions.Common;
 using AllowanceFunctions.Entities;
 using AllowanceFunctions.Services;
+using api.Common;
 using api.Entities;
 using api.Services;
 using Microsoft.AspNetCore.Http;
@@ -43,7 +44,7 @@ namespace AllowanceFunctions.Api.FundSet
             catch (Exception exception)
             {
                
-                return new BadRequestObjectResult($"Error trying to execute GetFundList with account:{context.TargetAccount.Id} and user:{context.UserPrincipal.UserDetails}.  {exception.Message}");
+                return new BadRequestObjectResult($"Error trying to execute GetFundList with account:{context.TargetAccount.Id} and user:{context.UserPrincipal.UserDetails}.  {Utility.ParseError(exception)}");
             }
             
             return new OkObjectResult( result);
