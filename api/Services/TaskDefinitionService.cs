@@ -17,6 +17,7 @@ namespace AllowanceFunctions.Services
         public async Task<List<TaskDefinition>> GetList()
         {
             var query = from taskDefinition in _context.TaskDefinitionSet
+                        where taskDefinition.Active == true
                         orderby taskDefinition.Sequence
                         select taskDefinition;
 

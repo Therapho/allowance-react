@@ -11,6 +11,7 @@ namespace AllowanceFunctions.Entities
         public decimal Value { get; set; }
         public int Sequence { get; set; }
         public int? AccountId { get; set; }
+        public bool Active { get; set; }
 
     }
 
