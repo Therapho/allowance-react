@@ -12,12 +12,16 @@ const TaskGroupList = ({ taskGroupSet, taskActivitySet, onStatusChange}:TaskGrou
       };
     return(
         <Fragment>
-        {(taskGroupSet?.map((group:Lookup, index:number)=>(
+        {(taskGroupSet?.map((group:Lookup, index:number)=>{ 
+            var tasks = groupTasks(group.id);
+            if(tasks.length > 0) return(
             
             <div className={taskGroupListStyles.groupBox} key={group.id}>
-                <TaskGroup taskActivityList={groupTasks(group.id)} onStatusChange={onStatusChange}/>
+                
+                <TaskGroup taskActivityList={tasks} onStatusChange={onStatusChange}/>
             </div>
-        )))}
+        )
+        else return (<Fragment/>) }))}
         </Fragment>
     );    
 }

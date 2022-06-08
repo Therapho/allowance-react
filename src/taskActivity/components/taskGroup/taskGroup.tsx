@@ -14,7 +14,7 @@ const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
   const {isDesktop} = useAppState();
   const columns = taskGroupColumns(taskDefinitionSet!,isDesktop, onStatusChange);
   console.log(isDesktop)
-
+  
   return (
     <ShimmeredDetailsList
       items={taskActivityList || []}
@@ -24,7 +24,7 @@ const TaskGroup = ({ taskActivityList, onStatusChange }: TaskGroupProps) => {
       enableShimmer={!taskActivityList}
       selectionMode={SelectionMode.none}
       layoutMode={DetailsListLayoutMode.fixedColumns}
-      isHeaderVisible={true}
+      isHeaderVisible={false}
       className={TaskGroupStyles.list}/>
   )
   

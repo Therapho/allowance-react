@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { useQueryClient } from "react-query";
 import { useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";
@@ -32,7 +32,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   const isParent = checkIfParent(profile);
   
   const { data: taskWeek } = useTaskWeek(selectedDate, accountId);  
-
+  var [taskWeekValue,setTaskWeekValue] = useState(taskWeek?.value);
   const taskWeekId = taskWeek?.id!;
   const canEdit = taskWeek?.statusId === Constants.Status.Open;
   const today = new Date();
@@ -53,20 +53,17 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
 
   const handleStatusChange = (task: Task) => {
     if (!canEdit) return;
-    const [newTaskActivityList, newTaskWeek] = processStatusChange(
+    const [newTaskActivityList, valueChange] = processStatusChange(
       taskActivitySet!,
-      task,
-      taskWeek!,
+      task,      
       taskDefinitionSet!
     );
+    setTaskWeekValue(taskWeekValue! + valueChange);
     queryClient.setQueryData<TaskActivitySet>(
       taskKeys.activitySet(selectedDate),
       newTaskActivityList
     );
-    queryClient.setQueryData<TaskWeek>(
-      taskKeys.week(selectedDate),
-      newTaskWeek
-    );
+    
   };
 
   //////////////////////////// Save Data
@@ -74,10 +71,16 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
     queryClient.invalidateQueries(taskKeys.all);
     
   });
-  const { mutate: putTaskWeek } = usePutTaskWeek(goHome);
+  const { mutate: putTaskWeek } = usePutTaskWeek(()=>
+  {queryClient.invalidateQueries(taskKeys.all);
+  goHome();});
   const handleSave = () => {
     saveTaskActivityList(taskActivitySet!);
-    putTaskWeek(taskWeek!);
+    var newTaskWeek : TaskWeek = {...taskWeek!};
+    newTaskWeek!.value = taskWeekValue!;
+    
+    putTaskWeek(newTaskWeek!);
+    
   };
 
   ///////////////////////////// Approve
@@ -99,7 +102,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
       onApprove={handleApprove}
       canApprove={canApprove}
       onCancel={goHome}
-      taskWeekValue={taskWeek?.value!}
+      taskWeekValue={taskWeekValue!}
     />
     </Fragment>
   );
