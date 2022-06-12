@@ -3,7 +3,8 @@ import { Fragment } from "react";
 
 import { appButton } from "../../../app/app.styles";
 import Tray from "../../../common/components/tray/tray";
-import { useTaskButtonTrayStyles } from "./taskButtonTray.styles";
+import { TaskDefinitionSet } from "../../../common/stores/task/types/taskDefinition";
+import { useTaskButtonTrayStyles } from "./useTaskButtonTray.styles";
 
 type TaskButtonTrayProps = {
   canEdit: boolean;
@@ -12,6 +13,7 @@ type TaskButtonTrayProps = {
   onCancel: () => void;
   canApprove: boolean;
   taskWeekValue: number;
+  taskDefinitionSet: TaskDefinitionSet;
 };
 
 export const TaskButtonTray = ({
@@ -21,8 +23,21 @@ export const TaskButtonTray = ({
   onCancel,
   canApprove,
   taskWeekValue,
+  taskDefinitionSet
 }: TaskButtonTrayProps) => {
   const taskButtonTrayStyles = useTaskButtonTrayStyles();
+  var totalDailyValue = 0;
+  for(var taskDefinition of taskDefinitionSet){
+    totalDailyValue += taskDefinition.value
+  }
+  var thisDay = new Date().getDay();
+  if(thisDay === 0) thisDay = 7;
+  var totalCurrentMaximumValue = totalDailyValue * thisDay;
+  var totalWeeklyValue = totalDailyValue * 5;
+  var weekStatusStyle = taskButtonTrayStyles.redStatus;
+  if(taskWeekValue >= totalCurrentMaximumValue *.75) weekStatusStyle = taskButtonTrayStyles.yellowStatus;
+  if(taskWeekValue >= totalWeeklyValue *.75) weekStatusStyle = taskButtonTrayStyles.greenStatus;
+
   return (
     <Tray>
       <Stack
@@ -47,13 +62,14 @@ export const TaskButtonTray = ({
             Cancel
           </DefaultButton>
         </Stack.Item>
-        <Stack.Item align="center">
+        <Stack.Item align="center" style={weekStatusStyle}>
           Total:{" "}
           {taskWeekValue?.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
           })}
-        </Stack.Item>
+          : {totalCurrentMaximumValue} :  {totalWeeklyValue} : {thisDay}
+        </Stack.Item>        
       </Stack>
     </Tray>
   );

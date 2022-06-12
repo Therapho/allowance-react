@@ -33,6 +33,8 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   
   const { data: taskWeek } = useTaskWeek(selectedDate, accountId);  
   var [taskWeekValue,setTaskWeekValue] = useState(taskWeek?.value);
+
+
   const taskWeekId = taskWeek?.id!;
   const canEdit = taskWeek?.statusId === Constants.Status.Open;
   const today = new Date();
@@ -103,6 +105,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
       canApprove={canApprove}
       onCancel={goHome}
       taskWeekValue={taskWeekValue!}
+      taskDefinitionSet={taskDefinitionSet!}
     />
     </Fragment>
   );
