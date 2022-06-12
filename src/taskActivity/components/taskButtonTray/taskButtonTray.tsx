@@ -68,7 +68,6 @@ export const TaskButtonTray = ({
             style: "currency",
             currency: "USD",
           })}
-          : {totalCurrentMaximumValue} :  {totalWeeklyValue} : {thisDay}
         </Stack.Item>        
       </Stack>
     </Tray>
