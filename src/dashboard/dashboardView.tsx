@@ -5,8 +5,6 @@ import dateUtilities from "../common/utilities/dateUtilities";
 import TaskActivityView from "../taskActivity/components/taskActivityView/taskActivityView";
 import { parentDashBoardStyles } from "../home/components/parentDashboard/parentDashboard.styles";
 import { useTaskContext } from "../taskActivity/context/tasksContext";
-import BalanceCard from "../home/components/BalanceCard/balanceCard";
-import { useFundSet } from "../common/stores/fund/queries/useFundSet";
 import BalanceView from "./balanceView";
 
 export const DashboardView = () =>{

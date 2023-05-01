@@ -3,7 +3,6 @@ import { Fragment, useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";
 import { Home } from "../../../home/home";
-import { Login } from "../../../login/components/login/login";
 import { LoginCompletePage } from "../../../login/loginCompletePage";
 import { LoginLink } from "../../../login/components/loginLink/loginLink";
 import { Settings } from "../../../settings/settings";
