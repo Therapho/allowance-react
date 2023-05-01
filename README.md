@@ -2,10 +2,6 @@
 
 swa start http://localhost:3000 --api ./api
 
-Carlos : 1e69238c36b3408a9df923bf5d901a32
-Sebastian: 3bf578351de74cec9add86d6932e5b38
-Alexandra: 56a765fb8afe4b4da8fb6774737ece5d
-Debbie: 059b2f48-45ba-44cd-aaf9-c0c9d38b49ab
 
 
 This is a [Create React App](https://github.com/facebook/create-react-app) based repo that comes with Fluent UI pre-installed!
