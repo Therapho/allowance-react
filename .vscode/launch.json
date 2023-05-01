@@ -1,14 +1,20 @@
 {
   "version": "0.2.0",
   "configurations": [
-
-
- 
+    
     {
-      "name": "Attach to .NET Functions",
+      "name": ".NET Core Attach",
       "type": "coreclr",
-      "request": "attach",
-      "processId": "${command:azureFunctions.pickProcess}"
-    }
+      "request": "attach"
+    },
+  {
+    "name": "Launch Edge",
+    "request": "launch",
+    "type": "msedge",
+    "url": "http://localhost:4280",
+    "webRoot": "${workspaceFolder}"
+  }
+
+
   ]
 }

@@ -1,5 +1,5 @@
 import { IPalette, mergeStyles, MessageBar, MessageBarType, Stack, ThemeProvider } from "@fluentui/react";
-import {  useState } from "react";
+import { Fragment, useState } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { useProfile } from "../../../common/stores/profile/queries/useProfile";
 import { Home } from "../../../home/home";
@@ -19,6 +19,7 @@ import TaskWeekListPage from "../../../taskWeekList/taskWeekListPage";
 import { blueTheme, greenTheme, turquoiseTheme } from "../../context/app.themes";
 import FundsPage from "../../../funds/fundsPage";
 import BusyOverlay from "../busyOverlay/busyOverlay";
+import DashboardPage from "../../../dashboard/dashboardPage";
 
 
 export const Layout = () => {
@@ -36,24 +37,23 @@ export const Layout = () => {
   const handleMenuDismiss = () => {
     setMenuOpen(false);
   };
-  const {selectedColor, selectedTheme, error, setError, busy} = useAppState();
-  const findTheme=(selectedColor:string, selectedTheme:string)=>
-  {
-    let colorScheme = {light:{palette:{} as IPalette}, dark:{palette:{} as IPalette}};
-    switch(selectedColor){
+  const { selectedColor, selectedTheme, error, setError, busy } = useAppState();
+  const findTheme = (selectedColor: string, selectedTheme: string) => {
+    let colorScheme = { light: { palette: {} as IPalette }, dark: { palette: {} as IPalette } };
+    switch (selectedColor) {
       case "Blue": colorScheme = blueTheme;
-      break;
+        break;
       case "Green": colorScheme = greenTheme;
-      break;
-      case "Turquoise" : colorScheme = turquoiseTheme;
+        break;
+      case "Turquoise": colorScheme = turquoiseTheme;
 
     }
     return selectedTheme === "Light" ? colorScheme.light : colorScheme.dark;
   }
   const theme = findTheme(selectedColor, selectedTheme);
-  
+
   mergeStyles({
-    ":global(a)": { color:theme.palette.themePrimary}
+    ":global(a)": { color: theme.palette.themePrimary }
   })
 
   return (
@@ -65,7 +65,7 @@ export const Layout = () => {
       <Stack styles={LayoutStyles.stack}>
         <Header
           onMenuOpen={handleMenuToggle}
-        
+
         />
         {profile ? (
           <Switch>
@@ -73,27 +73,33 @@ export const Layout = () => {
             <Route path="/tasks" component={TaskPage} />
             <Route path="/settings" component={Settings} />
             <Route path="/logincomplete" component={LoginCompletePage} />
-            <Route path="/transactions" component={TransactionPage}/>
-            <Route path="/taskweeklist" component={TaskWeekListPage}/>
-            <Route path="/funds" component={FundsPage}/>
+            <Route path="/transactions" component={TransactionPage} />
+            <Route path="/taskweeklist" component={TaskWeekListPage} />
+            <Route path="/funds" component={FundsPage} />
+            <Route path="/dashboard" component={DashboardPage} />
           </Switch>
         ) : (
-          <Login />
+          <Fragment>
+            <Route path="/dashboard" component={DashboardPage} />
+            <LoginLink />
+          </Fragment>
+
+
         )}
       </Stack>
 
       <BusyOverlay busy={busy} />
-      
-        {error && (
-          <MessageBar className={LayoutStyles.messageBar}
-            messageBarType={MessageBarType.error}
-            isMultiline={false}
-            onDismiss={()=>setError("")}
-            dismissButtonAriaLabel="Close"
-          >
-            {error}
-          </MessageBar>
-        )}
+
+      {error && (
+        <MessageBar className={LayoutStyles.messageBar}
+          messageBarType={MessageBarType.error}
+          isMultiline={false}
+          onDismiss={() => setError("")}
+          dismissButtonAriaLabel="Close"
+        >
+          {error}
+        </MessageBar>
+      )}
     </ThemeProvider>
   );
 };

@@ -14,12 +14,20 @@ namespace AllowanceFunctions.Common
 
         public UserPrincipal UserPrincipal { get; set; }
 
+        public string UserDetails 
+        { 
+            get
+            {
+                return UserPrincipal != null ? UserPrincipal.UserDetails : "Anonymous User";
+            } 
+        }
+
         public static async Task<RequestContext> CreateContext(AccountService accountService, HttpRequest request)
         {
         
 
             var userPrincipal = request.GetUserPrincipal();
-            var callingAccount = await accountService.GetByUser(userPrincipal.UserId);
+            var callingAccount = userPrincipal !=null ? await accountService.GetByUser(userPrincipal.UserId) : null;
 
             int targetAccountId;
             Account targetAccount;
@@ -31,8 +39,8 @@ namespace AllowanceFunctions.Common
             }
             else
             {
-                targetAccountId = callingAccount.Id;
-                targetAccount = callingAccount;
+                targetAccountId = callingAccount != null ? callingAccount.Id : 0;
+                targetAccount = null;
             }
             return new RequestContext(callingAccount, targetAccount, userPrincipal);
         }
@@ -41,7 +49,7 @@ namespace AllowanceFunctions.Common
            CallingAccount = callingAccount;
            TargetAccount = targetAccount;
            UserPrincipal  = userPrincipal;
-
+            
         }
 
         public bool IsAuthorizedToAccess()

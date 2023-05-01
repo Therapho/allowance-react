@@ -34,7 +34,7 @@ namespace AllowanceFunctions.Api.FundSet
             var context = await RequestContext.CreateContext(AccountService, req);
 
             
-            log.LogTrace($"GetFundList function processed a request for accountid={context.TargetAccount.Id}. by user {context.UserPrincipal.UserDetails}");
+            log.LogTrace($"GetFundList function processed a request for accountid={context.TargetAccount.Id}. by user {context.UserDetails}");
             
             List<Fund> result = null;
             try
@@ -44,7 +44,7 @@ namespace AllowanceFunctions.Api.FundSet
             catch (Exception exception)
             {
                
-                return new BadRequestObjectResult($"Error trying to execute GetFundList with account:{context.TargetAccount.Id} and user:{context.UserPrincipal.UserDetails}.  {Utility.ParseError(exception)}");
+                return new BadRequestObjectResult($"Error trying to execute GetFundList with account:{context.TargetAccount.Id} and user:{context.UserDetails}.  {Utility.ParseError(exception)}");
             }
             
             return new OkObjectResult( result);

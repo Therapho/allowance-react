@@ -5,6 +5,6 @@ export const taskGroupListStyles = mergeStyleSets({
   groupBox: {
     boxShadow: Depths.depth16,
     padding: 10,
-    margin: 10,
+    margin: 5,
   },
 });

@@ -3,7 +3,8 @@ import { IStackStyles, IStackTokens } from "@fluentui/react";
 
 export const dashBoardStyles = {
   stackTokens:{
-    childrenGap: 55,
+    childrenGap: 10,
+    
   } as IStackTokens,
   stackStyles:{
     root: {

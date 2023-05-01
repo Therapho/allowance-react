@@ -8,6 +8,7 @@ import { TaskWeek } from "../common/stores/task/types/taskWeekType";
 import dateUtilities from "../common/utilities/dateUtilities";
 import DateRange from "./components/dateRange/dateRange";
 import TaskActivityView from "./components/taskActivityView/taskActivityView";
+import { TasksProvider } from "./context/tasksContext";
 
 export const TaskPage = () => {
   const location = useLocation<TaskWeek>();
@@ -34,14 +35,14 @@ export const TaskPage = () => {
       <AppTitle>Task Activity </AppTitle>
 
       {accountId && (
-        <Fragment>
+        <TasksProvider>
           <DateRange
             selectedDate={selectedDate}
             onSelectDate={setSelectedDate}
             accountId={accountId}
           />
           <TaskActivityView selectedDate={selectedDate} accountId={accountId} />
-        </Fragment>
+        </TasksProvider>
       )}
     </main>
   );

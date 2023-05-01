@@ -6,9 +6,9 @@ export const cardStyles = mergeStyleSets({
   card: {
     boxShadow: Depths.depth16,
     padding: 10,
-    margin: 10,
+    margin: 5,
     minWidth: 380,
-    width:"30%",
+ 
     minHeight: 150,
     position: "relative"
   },

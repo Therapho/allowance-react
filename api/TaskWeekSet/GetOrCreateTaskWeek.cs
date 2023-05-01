@@ -38,13 +38,11 @@ namespace AllowanceFunctions.Api.TaskWeekSet
             var context = await CreateContext(request);
 
             var startDate = request.Query.GetRequiredValue<DateTime>("weekstartdate").StartOfDay();
-            
-            
-
-            log.LogTrace($"GetTaskActivityListByDay function processed a request for user={context.UserPrincipal.UserDetails}, startDate={startDate}.");
+       
+            log.LogTrace($"GetTaskActivityListByDay function processed a request for user={context.UserDetails}, startDate={startDate}.");
 
             TaskWeek taskWeek = null;
-
+            var targetAccountId = request.Query.GetRequiredValue<int>("accountId");
             try
 
             {
@@ -52,10 +50,10 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                 {
                     var taskWeekId = request.Query.GetValue<int>("taskweekid");
                     taskWeek = await _taskWeekService.Get(taskWeekId);
-                    if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
-                    {
-                        throw new SecurityException("Invalid attempt to access a record by an invalid user");
-                    }
+                    // if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
+                    // {
+                    //     throw new SecurityException("Invalid attempt to access a record by an invalid user");
+                    // }
                 }
                 else
                 {
@@ -72,13 +70,7 @@ namespace AllowanceFunctions.Api.TaskWeekSet
                         context.TargetAccount.ActiveTaskWeekId = taskWeek.Id;
                         await AccountService.Update(context.TargetAccount);
                     }
-                    else
-                    {
-                        if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
-                        {
-                            throw new SecurityException("Invalid attempt to access a record by an invalid user");
-                        }
-                    }
+                   
                 }
               
 

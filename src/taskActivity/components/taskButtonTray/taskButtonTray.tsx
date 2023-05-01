@@ -5,9 +5,9 @@ import { appButton } from "../../../app/app.styles";
 import Tray from "../../../common/components/tray/tray";
 import { TaskDefinitionSet } from "../../../common/stores/task/types/taskDefinition";
 import { useTaskButtonTrayStyles } from "./useTaskButtonTray.styles";
+import { useTaskContext } from "../../context/tasksContext";
 
 type TaskButtonTrayProps = {
-  canEdit: boolean;
   onSave: () => void;
   onApprove: () => void;
   onCancel: () => void;
@@ -17,7 +17,7 @@ type TaskButtonTrayProps = {
 };
 
 export const TaskButtonTray = ({
-  canEdit,
+  
   onSave,
   onApprove,
   onCancel,
@@ -27,6 +27,8 @@ export const TaskButtonTray = ({
 }: TaskButtonTrayProps) => {
   const taskButtonTrayStyles = useTaskButtonTrayStyles();
   var totalDailyValue = 0;
+  const {canEdit} = useTaskContext();
+
   for(var taskDefinition of taskDefinitionSet){
     totalDailyValue += taskDefinition.value
   }

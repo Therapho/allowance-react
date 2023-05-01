@@ -2,14 +2,17 @@ import { Icon } from "@fluentui/react";
 import { useRef } from "react";
 import { Task } from "./taskCheckbox.props";
 import { useTaskCheckboxStyles } from "./taskCheckBox.styles";
+import { useTaskContext } from "../../context/tasksContext";
 
 export const TaskCheckBox = (task: Task) => {
 
   const touchStartTime = useRef(performance.now());
   const taskCheckboxStyles = useTaskCheckboxStyles();
+  const {canEdit} = useTaskContext();
   
   const handleClick = (e: any) => {
     e.preventDefault();
+    if(!canEdit)return;
     const newValue = task.taskStatusId === 2 ? 3 : 2;
     const newTask = { ...task, taskStatusId: newValue };
     console.log(newTask.taskActivityId);
@@ -18,17 +21,20 @@ export const TaskCheckBox = (task: Task) => {
 
   const handleRightClick = (e: any) => {
     e.preventDefault();
+    if(!canEdit)return;
     const newValue = 1;
     const newTask = { ...task, taskStatusId: newValue };
     task.onStatusChange(newTask);
   };
   const handleTouchStart = (e: any) => {
     e.preventDefault();
+    if(!canEdit)return;
     let now = performance.now();
     touchStartTime.current = now;
     
   };
   const handleTouchEnd = (e: any) => {
+    if(!canEdit)return;
     let now = performance.now();
     if (touchStartTime.current + 300 < now ) handleRightClick(e);
     else handleClick(e);

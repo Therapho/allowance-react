@@ -1,11 +1,29 @@
 {
-    "routes":[
+    "routes":
+    [
+        { 
+            "route": "/api/*",
+            "methods": ["GET"],
+            "allowedRoles": ["anonymous"] 
+        },    
+        {
+            "route": "/dashboard/*",
+            "allowedRoles": ["anonymous"]
+        },
+        {
+            "route": "/.auth/*",
+            "allowedRoles": ["anonymous"]
+        },
         {
             "route": "/api/*",
             "allowedRoles": ["authenticated"]
+        },     
+        {
+            "route":"/.auth/login/aad"
         }
     ]  , 
-    "navigationFallback": {
+    "navigationFallback": 
+    {
         "rewrite": "/"
-      }
+    }
 }

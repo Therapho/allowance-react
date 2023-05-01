@@ -47,7 +47,7 @@ namespace AllowanceFunctions.Api.TaskActivitySet
             
             List<TaskActivity> taskActivityList = null;
             
-            log.LogTrace($"GetTaskActivityListByDay function processed a request by userIdentifier={context.UserPrincipal.UserDetails}.");
+            log.LogTrace($"GetTaskActivityListByDay function processed a request by userIdentifier={context.UserDetails}.");
 
             try
 
@@ -58,22 +58,23 @@ namespace AllowanceFunctions.Api.TaskActivitySet
                 {
 
                     taskWeek = await _taskWeekService.Get(taskWeekId);
-                    if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
-                    {
+                    // if (!context.UserPrincipal.IsAuthorizedToAccess(context.CallingAccount.Id, taskWeek.AccountId))
+                    // {
                         
-                        var targetAccount = await AccountService.Get(taskWeekId);
-                        throw new SecurityException($"Unauthorized access of taskweek for  {targetAccount.Name} by {context.CallingAccount.Name}");
-                    }
+                    //     var targetAccount = await AccountService.Get(taskWeekId);
+                    //     throw new SecurityException($"Unauthorized access of taskweek for  {targetAccount.Name} by {context.CallingAccount.Name}");
+                    // }
                 }
                 else
                 {
                     var startDate = request.Query.GetRequiredValue<DateTime>("weekstartdate").StartOfDay();
-                    if (!context.IsParent())
-                    { taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate); }
-                    else
-                    {
-                        throw new SecurityException("Invalid attempt by parent to retrieve or create a taskweek by date");
-                    }
+                    taskWeek = await _taskWeekService.Get(context.TargetAccount.Id, startDate);
+                    // if (!context.IsParent())
+                    // { taskWeek = await _taskWeekService.Get(context.CallingAccount.Id, startDate); }
+                    // else
+                    // {
+                    //     throw new SecurityException("Invalid attempt by parent to retrieve or create a taskweek by date");
+                    // }
 
 
                 }

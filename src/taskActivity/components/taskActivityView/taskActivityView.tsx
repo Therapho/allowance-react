@@ -17,6 +17,7 @@ import fundKeys from "../../../common/stores/fund/queries/fundKeys";
 import transactionKeys from "../../../common/stores/transaction/queries/transactionKeys";
 import { accountKeys } from "../../../common/stores/account/queries/accountKeys";
 import { addDays } from "@fluentui/react";
+import { useTaskContext } from "../../context/tasksContext";
 
 export type taskActivityViewProps = {
   selectedDate: Date;
@@ -36,7 +37,10 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
 
 
   const taskWeekId = taskWeek?.id!;
-  const canEdit = taskWeek?.statusId === Constants.Status.Open;
+  const {canEdit, setCanEdit} = useTaskContext();
+  
+  const loggedIn = profile != null;
+  setCanEdit(taskWeek?.statusId === Constants.Status.Open && loggedIn);
   const today = new Date();
   const canApprove = isParent && today > addDays(selectedDate, 7 );
 
@@ -97,16 +101,16 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   return (
     <Fragment>
       <TaskGroupList taskGroupSet={taskGroupSet!} taskActivitySet={taskActivitySet!} onStatusChange={handleStatusChange}/>
-    
-    <TaskButtonTray
-      canEdit={canEdit}
+   
+   {loggedIn && (
+    <TaskButtonTray      
       onSave={handleSave}
       onApprove={handleApprove}
       canApprove={canApprove}
       onCancel={goHome}
       taskWeekValue={taskWeekValue!}
       taskDefinitionSet={taskDefinitionSet!}
-    />
+    />)}
     </Fragment>
   );
 };

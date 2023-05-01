@@ -44,11 +44,14 @@ namespace AllowanceFunctions.Common
     
          public static UserPrincipal GetUserPrincipal(this HttpRequest request)
         {
-            var header = request.Headers["x-ms-client-principal"];
-            var valueBytes = System.Convert.FromBase64String(header);
-            var decoded = System.Text.Encoding.UTF8.GetString(valueBytes);
-            var principal = JsonConvert.DeserializeObject<UserPrincipal>(decoded);
-            
+            UserPrincipal principal = null;
+            if(request.Headers.ContainsKey("x-ms-client-principal"))
+            {
+                var header = request.Headers["x-ms-client-principal"];
+                var valueBytes = System.Convert.FromBase64String(header);
+                var decoded = System.Text.Encoding.UTF8.GetString(valueBytes);
+                 principal = JsonConvert.DeserializeObject<UserPrincipal>(decoded);
+            }
             return principal;
         }
        

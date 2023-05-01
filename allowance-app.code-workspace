@@ -6,17 +6,5 @@
 	],
 	"settings": {
 		"debug.internalConsoleOptions": "neverOpen"
-	},
-	"launch": {
-		"version": "0.2.0",
-		"configurations": [
-			{
-				"name": "Launch Chrome",
-				"request": "launch",
-				"type": "pwa-chrome",
-				"url": "http://localhost:4280",
-				"webRoot": "${workspaceFolder}"
-			}
-		]
 	}
 }
