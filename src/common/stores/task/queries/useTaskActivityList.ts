@@ -10,6 +10,6 @@ export const useTaskActivitySet = (
   return useQuery(
     taskKeys.activitySet(weekstartdate),
     () => getOrCreateTaskActivitySet(weekstartdate, taskWeekId),
-    { enabled: enabled, cacheTime: 600000, staleTime: 300000 }
+    { enabled: enabled, cacheTime: 600000, staleTime: 300000, refetchInterval: 3600000 }
   );
 };
