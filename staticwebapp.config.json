@@ -14,9 +14,6 @@
         {
             "route": "/api/*",
             "allowedRoles": ["authenticated"]
-        },     
-        {
-            "route":"/.auth/login/aad"
         }
     ]  , 
     "navigationFallback": 
