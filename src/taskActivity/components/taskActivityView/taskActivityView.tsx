@@ -47,7 +47,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
   ///////////////////////////// Load Data
   const { data: taskActivitySet } = useTaskActivitySet(
     selectedDate,
-    taskWeekId,
+    taskWeek,
     taskWeekId > 0
   );
 
@@ -66,7 +66,7 @@ const TaskActivityView = ({ selectedDate,  accountId}: taskActivityViewProps) =>
     );
     setTaskWeekValue(taskWeekValue! + valueChange);
     queryClient.setQueryData<TaskActivitySet>(
-      taskKeys.activitySet(selectedDate),
+      taskKeys.activitySet(selectedDate, accountId),
       newTaskActivityList
     );
     

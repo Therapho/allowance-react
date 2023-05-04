@@ -29,18 +29,18 @@ namespace AllowanceFunctions.Common
             var userPrincipal = request.GetUserPrincipal();
             var callingAccount = userPrincipal !=null ? await accountService.GetByUser(userPrincipal.UserId) : null;
 
-            int targetAccountId;
+       
             Account targetAccount;
 
             if (request.Query.ContainsKey("accountId"))
             {
-                targetAccountId = request.Query.GetValue<int>("accountId");
+                
+                int targetAccountId = request.Query.GetValue<int>("accountId");
                 targetAccount = await accountService.Get(targetAccountId);
             }
             else
             {
-                targetAccountId = callingAccount != null ? callingAccount.Id : 0;
-                targetAccount = null;
+                targetAccount = callingAccount;
             }
             return new RequestContext(callingAccount, targetAccount, userPrincipal);
         }
