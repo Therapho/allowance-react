@@ -16,7 +16,7 @@ using System.Security;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AllowanceFunctions.Api.AccountSet
+namespace AllowanceFunctions.Api.FundSet
 {
     public class UpdateBalance : Function
     {

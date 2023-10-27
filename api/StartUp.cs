@@ -17,7 +17,7 @@ namespace AllowanceFunctions
 
             // application insights
             string aiConnectionString = Environment.GetEnvironmentVariable("APPINSIGHTS_CONNECTIONSTRING");
-            services.AddApplicationInsightsTelemetry(aiConnectionString);
+            //services.AddApplicationInsightsTelemetry(aiConnectionString);
 
             // sql connection
             string sqlConnectionString = Environment.GetEnvironmentVariable("SQLConnectionString");
